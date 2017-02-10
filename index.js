@@ -13,6 +13,22 @@ app.get('/', function(request, response) {
   response.render('pages/index');
 });
 
+app.get('/index3', function(request, response) {
+  response.render('pages/index3');
+});
+
+app.get('/3m', function(request, response) {
+  response.render('pages/3m');
+});
+
+app.get('/mapei', function(request, response) {
+  response.render('pages/mapei');
+});
+
+app.get('/sika', function(request, response) {
+  response.render('pages/sika');
+});
+
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });

@@ -1,7 +1,7 @@
 {
   "name": "node-js-getting-started",
   "version": "0.2.5",
-  "description": "A sample Node.js app using Express 4",
+  "description": "Ail",
   "engines": {
     "node": "5.9.1"
   },
@@ -10,8 +10,13 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "ejs": "2.4.1",
-    "express": "4.13.3"
+    "express": "4.13.3",
+    "body-parser": "*",
+    "ejs": "^2.4.2",
+    "morgan": "*",
+	"neo4j-driver": "*",
+	 "validator": "*",
+	  "reload": "*"
   },
   "repository": {
     "type": "git",

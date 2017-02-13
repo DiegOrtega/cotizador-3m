@@ -26,21 +26,25 @@ var driver = neo4j.driver(graphenedbURL, neo4j.auth.basic(graphenedbUser, graphe
 
 var driver = neo4j.driver('bolt://localhost', neo4j.auth.basic('neo4j', 'Sistemas'));
 
-
 var session = driver.session();
+
+var total_nodos;
 
 app.get('/', function(request, response) {
 	session
 		.run('MATCH (n) RETURN count(n) LIMIT 1000')
 		.then(function(result){
 			  	result.records.forEach(function(record){
-			  	console.log(record);
-				});
-	    })
+			  	console.log(record._fields[[0]].low);
+				total_nodos = record._fields[[0]].low; 
+				}); 
+				response.render('pages/index',{
+					desplegar: total_nodos
+				});    
+		})
 		.catch(function(err){
 		console.log(err);
-		})
-  response.render('pages/index');
+		})	
 });
 
 app.get('/index3', function(request, response) {
@@ -63,4 +67,5 @@ app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
 
+module.exports = app;
 

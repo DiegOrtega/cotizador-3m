@@ -9,6 +9,7 @@
 	</head>
 	<body>
 		<center>
+			
 			<form method="post" action="resources/contacto.php"><!--primer parte //DATOS DE CLIENTE//-->
 				<fieldset>
 					<legend>Primer paso: INGRESA A TU CONTACTO</legend>
@@ -22,21 +23,24 @@
 					</p>
 				</fieldset>
 			</form><!--Terminan datos de cliente-->
+			
 			<form method="post" action="resources/cotizar.php"><!--segunda parte //BUSCADOR-->
 				<fieldset>
-					<legend>Segundo paso: BUSCA EL PRODUCTO Y AGREGALO A LA COTIZACI&Oacute;N CUANDO TERMINES</legend>
+					<legend>
+						Segundo paso: BUSCA EL PRODUCTO Y AGREGALO A LA COTIZACI&Oacute;N CUANDO TERMINES
+					</legend>
 					<p>
 						<input type="text" placeholder="&nbsp;Stock" size="25" nombre="stock">&ensp;
 						<input type="text" placeholder="&nbsp;Descripci&oacute;n del producto" size="110" nombre="desc">
 						<br/>
-						<div id="cotiza">
-							&nbsp;
+						<div id="cotiza"> &nbsp;
 						</div>
 						<br/>
 						<input type="button" value="Buscar">&emsp;<input type="submit" value="Agregar todo">
 					</p>
 				</fieldset>
 			</form><!--Termina buscador-->
+		
 			<form method="post" action="resources/vendedor.php"><!--Última parte //DATOS DE VENDEDOR Y TIEMPO ENTREGA//-->
 				<fieldset>
 					<legend>Tercer paso: INGRESA TUS DATOS DE VENDEDOR Y TIEMPO DE ENTREGA</legend>

@@ -19,10 +19,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended:false}));
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 // Conexión con base de datos remota
-var graphenedbURL = process.env.GRAPHENEDB_MAROON_BOLT_URL;
-var graphenedbUser = process.env.GRAPHENEDB_MAROON_BOLT_USER;
-var graphenedbPass = process.env.GRAPHENEDB_MAROON_BOLT_PASSWORD;
+var graphenedbURL = process.env.GRAPHENEDB_BOLT_URL;
+var graphenedbUser = process.env.GRAPHENEDB_BOLT_USER;
+var graphenedbPass = process.env.GRAPHENEDB_BOLT_PASSWORD;
 
 //Protocolo de conexión para servidor cloud heroku
 var driver = neo4j.driver(graphenedbURL, neo4j.auth.basic(graphenedbUser, graphenedbPass));
@@ -51,7 +52,9 @@ app.get('/3m', function(request, response) {
 					telefono: telefono,
 					mail: mail,
 					productos: productoArray
-				});    
+				});
+		
+		session.close();
 		})
 		.catch(function(err){
 		console.log(err);
@@ -138,6 +141,8 @@ app.post('/busqueda/add', function(req, res){
 				productos: productoArray
 			});
 			productoArray = [];
+		
+		session.close();
 		})
 		.catch(function(err){
 		console.log(err);

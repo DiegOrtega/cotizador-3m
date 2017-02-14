@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended:false}));
 app.use(express.static(path.join(__dirname, 'public')));
 
- Conexión con base de datos remota
+// Conexión con base de datos remota
 var graphenedbURL = process.env.GRAPHENEDB_MAROON_BOLT_URL;
 var graphenedbUser = process.env.GRAPHENEDB_MAROON_BOLT_USER;
 var graphenedbPass = process.env.GRAPHENEDB_MAROON_BOLT_PASSWORD;

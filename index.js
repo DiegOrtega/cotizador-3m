@@ -30,7 +30,7 @@ var session = driver.session();
 
 var total_nodos;
 
-app.get('/', function(request, response) {
+app.get('/3m', function(request, response) {
 	session
 		.run('MATCH (n) RETURN count(n) LIMIT 1000')
 		.then(function(result){
@@ -38,13 +38,17 @@ app.get('/', function(request, response) {
 			  	console.log(record._fields[[0]].low);
 				total_nodos = record._fields[[0]].low; 
 				}); 
-				response.render('pages/index',{
+				response.render('pages/3m',{
 					desplegar: total_nodos
 				});    
 		})
 		.catch(function(err){
 		console.log(err);
 		})	
+});
+
+app.get('/', function(request, response){
+	response.render('/pages/index3')
 });
 
 app.get('/index3', function(request, response) {

@@ -1,9 +1,6 @@
-<?php
-?>
 <html>
 	<head>
 		<title>Cotizador 3M&#174;</title>
-		<link href="stylesheets/3mstyle.css" rel="stylesheet" type="text/css"/>
 		<META http-equiv="Pragma" content="no-cache"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	</head>
@@ -12,33 +9,52 @@
 		<br/>
 		<center>
 			
-			<form method="post" action="resources/contacto.php"><!--primer parte //DATOS DE CLIENTE//-->
+			<form method="post" action="/contacto/add"><!--primer parte //DATOS DE CLIENTE//-->
 				<fieldset>
-					<legend>Primer paso: INGRESA A TU CONTACTO</legend>
+					<legend>Primer paso: INGRESA A TU CLIENTE</legend>
 					<p>
-						<input type="text" placeholder="&nbsp;Nombre de contacto" size="35" name="nombre">&ensp;
-						<input type="text" placeholder="&nbsp;Empresa" size="50" name="empresa">&ensp;
-						<input type="text" placeholder="&nbsp;Tel&eacute;fono" name="tel">&ensp;
-						<input type="email" placeholder="&nbsp;E-Mail" name="mail">
+						<input type="text" placeholder="&nbsp;Nombre de contacto" size="35" name="contacto_nombre">&ensp;
+						<input type="text" placeholder="&nbsp;Empresa" size="50" name="contacto_empresa">&ensp;
+						<input type="text" placeholder="&nbsp;Tel&eacute;fono" name="contacto_tel">&ensp;
+						<input type="email" placeholder="&nbsp;E-Mail" name="contacto_mail">
 						<br/>
 						<input type="submit" value="Ingresar datos">
+						<div>
+						<% if (nombre != null) { %>
+							<p> Cliente: <%=nombre%>, Empresa: <%=empresa%>, Teléfono: <%=telefono%>, Mail: <%=mail%> </p>
+						<% } %>
+						</div>
 					</p>
 				</fieldset>
 			</form><!--Terminan datos de cliente-->
 			
-			<form method="post" action="resources/cotizar.php"><!--segunda parte //BUSCADOR-->
+		
+			
+			<form method="post" action="/busqueda/add"><!--segunda parte //BUSCADOR-->
 				<fieldset>
 					<legend>
 						Segundo paso: BUSCA EL PRODUCTO Y AGREGALO A LA COTIZACI&Oacute;N CUANDO TERMINES
 					</legend>
 					<p>
-						<input type="text" placeholder="&nbsp;Stock" size="25" nombre="stock">&ensp;
-						<input type="text" placeholder="&nbsp;Descripci&oacute;n del producto" size="110" nombre="desc">
+						<input type="text" placeholder="&nbsp;Stock" size="25" name="stock">&ensp;
+						<input type="text" placeholder="Palabra Clave: modelo, upc, código o descripción" size="50" name="desc">
 						<br/>
 						<div id="cotiza"> &nbsp;
+							<% if(productos != []) { %>
+								<ul>
+								<% productos.forEach(function(producto){ %>
+
+									<dt><%=producto.nombre%></dt>
+									<dd>- Stock: <%=producto.stock%></dd>
+									<dd>- Modelo: <%=producto.modelo%></dd>
+									<br/>
+									
+								<%}) %>
+								</ul>
+							<%} %>				
 						</div>
 						<br/>
-						<input type="button" value="Buscar">&emsp;<input type="submit" value="Agregar todo">
+						<input type="submit" value="Buscar">&emsp;<input type="submit" value="Agregar todo">
 					</p>
 				</fieldset>
 			</form><!--Termina buscador-->
@@ -70,3 +86,5 @@
 		</center>
 	</body>
 </html>
+
+<link href="/stylesheets/3mstyle.css" rel="stylesheet" type="text/css"/>

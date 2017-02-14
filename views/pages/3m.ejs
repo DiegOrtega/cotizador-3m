@@ -39,22 +39,31 @@
 						<input type="text" placeholder="&nbsp;Stock" size="25" name="stock">&ensp;
 						<input type="text" placeholder="Palabra Clave: modelo, upc, código o descripción" size="50" name="desc">
 						<br/>
-						<div id="cotiza"> &nbsp;
+						
+						<div id="cotiza">
 							<% if(productos != []) { %>
 								<ul>
 								<% productos.forEach(function(producto){ %>
-
+									<button name="agregar" type="submit">
 									<dt><%=producto.nombre%></dt>
 									<dd>- Stock: <%=producto.stock%></dd>
 									<dd>- Modelo: <%=producto.modelo%></dd>
 									<br/>
-									
+									</button>
 								<%}) %>
 								</ul>
 							<%} %>				
 						</div>
+					
 						<br/>
+					
 						<input type="submit" value="Buscar">&emsp;<input type="submit" value="Agregar todo">
+					
+						<br/>
+					
+						<div id="cotiza">
+						<p>Productos Agregados</p>
+						</div>
 					</p>
 				</fieldset>
 			</form><!--Termina buscador-->

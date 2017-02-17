@@ -12,7 +12,7 @@
 			<form method="post" action="/contacto/add"><!--primer parte //DATOS DE CLIENTE//-->
 				<fieldset>
 					<legend>Primer paso: INGRESA A TU CLIENTE</legend>
-					<p>
+					
 						<input type="text" placeholder="&nbsp;Nombre de contacto" size="35" name="contacto_nombre">&ensp;
 						<input type="text" placeholder="&nbsp;Empresa" size="50" name="contacto_empresa">&ensp;
 						<input type="text" placeholder="&nbsp;Tel&eacute;fono" name="contacto_tel">&ensp;
@@ -24,32 +24,41 @@
 							<p> Cliente: <%=nombre%>, Empresa: <%=empresa%>, Teléfono: <%=telefono%>, Mail: <%=mail%> </p>
 						<% } %>
 						</div>
-					</p>
+					
 				</fieldset>
 			</form><!--Terminan datos de cliente-->
 			
 		
 			
-			<form method="post" action="/busqueda/add"><!--segunda parte //BUSCADOR-->
+			<!--segunda parte //BUSCADOR-->
 				<fieldset>
 					<legend>
 						Segundo paso: BUSCA EL PRODUCTO Y AGREGALO A LA COTIZACI&Oacute;N CUANDO TERMINES
 					</legend>
-					<p>
+					
+
+					<form method="post" action="/busqueda/add" id="form1">	
 						<input type="text" placeholder="&nbsp;Stock" size="25" name="stock">&ensp;
 						<input type="text" placeholder="Palabra Clave: modelo, upc, código o descripción" size="50" name="desc">
 						<br/>
-						
+					</form>	
+					
+					<button type="submit" form="form1">Buscar</button><br/>
+					<button type="submit" form="form1">Agregar todo</button>
+					
 						<div id="cotiza">
+							<p>Búsqueda</p>
 							<% if(productos != []) { %>
 								<ul>
 								<% productos.forEach(function(producto){ %>
-									<button name="agregar" type="submit">
-									<dt><%=producto.nombre%></dt>
-									<dd>- Stock: <%=producto.stock%></dd>
-									<dd>- Modelo: <%=producto.modelo%></dd>
+									<form method="post" action="/carrito/add">
+									<button name="agregar" type="submit" value="<%=producto.id_db%>">
+										<dt><%=producto.nombre%></dt>
+										<dd>- Stock: <%=producto.stock%></dd>
+										<dd>- Modelo: <%=producto.modelo%></dd>
 									<br/>
 									</button>
+									</form>	
 								<%}) %>
 								</ul>
 							<%} %>				
@@ -57,41 +66,55 @@
 					
 						<br/>
 					
-						<input type="submit" value="Buscar">&emsp;<input type="submit" value="Agregar todo">
-					
-						<br/>
-					
 						<div id="cotiza">
-						<p>Productos Agregados</p>
+						<p>Productos Agregados a Cotización</p>
+							
+						<% prod_agregados.forEach(function(producto2){ %>
+						<br/>
+							<div class="caja">
+								<form method="post" action="/eliminacion/add">
+									<dt><%=producto2.nombre%></dt>
+									<dd>- Stock: <%=producto2.stock%></dd>
+									<dd>- Modelo: <%=producto2.modelo%></dd>	
+									<dd>- Tiempo de entrega: <%= producto2.tiempo_entrega %></dd>
+									<button name="eliminar" type="submit" value="<%=producto2.id%>">Eliminar producto</button>
+								</form>	
+							</div>	
+						<% }) %>
 						</div>
-					</p>
+					
+					
 				</fieldset>
-			</form><!--Termina buscador-->
+			<!--Termina buscador-->
 		
-			<form method="post" action="resources/vendedor.php"><!--Última parte //DATOS DE VENDEDOR Y TIEMPO ENTREGA//-->
+			<form method="post" action="/datos/add"><!--Última parte //DATOS DE VENDEDOR Y TIEMPO ENTREGA//-->
 				<fieldset>
 					<legend>Tercer paso: INGRESA TUS DATOS DE VENDEDOR Y TIEMPO DE ENTREGA</legend>
-					<p>
-						<input type="text" placeholder="&nbsp;Nombre de vendedor" size="35">&ensp;
-						<input type="text" placeholder="&nbsp;No. Vend." size="7">&ensp;
-						<input type="text" placeholder="&nbsp;No. Cot." size="7">&ensp;
-						<input type="text" placeholder="&nbsp;Descuento" size="8">&ensp;
-						<input type="text" placeholder="&nbsp;Extensi&oacute;n" size="10">&ensp;
-						<input type="email" placeholder="&nbsp;E-Mail de vendedor">&ensp;
-						<input type="text" placeholder="Tiempo de entrega">
+				
+						<input type="text" placeholder="&nbsp;Nombre de vendedor" size="35" name="vendedor">&ensp;
+						<input type="text" placeholder="&nbsp;No. Vend." size="7" name="num_vendedor">&ensp;
+						<input type="text" placeholder="&nbsp;No. Cot." size="7" name="num_cot">&ensp;
+						<input type="text" placeholder="&nbsp;Descuento" size="8" name="descuento">&ensp;
+						<input type="text" placeholder="&nbsp;Extensi&oacute;n" size="10" name="extension">&ensp;
+						<input type="email" placeholder="&nbsp;E-Mail de vendedor" name="email">&ensp;
+						<input type="text" placeholder="Tiempo de entrega" name="tiempo_entrega">
 						<br/>
 						<input type="submit" value="Ingresar datos">
-					</p>
+						<% if(vendedor != null){ %>
+							<p>Vendedor: <%=vendedor%>, # vendedor: <%=num_vendedor%>, # cotización: <%=num_cot%>, Descuento: <%=descuento%>, Extension: <%=extension%>, email de vendedor: <%=email_vendedor%>, Tiempo de entrega: <%=tiempo_entrega%></p>
+						<% } %>
+						
 				</fieldset>
 			</form><!--Terminan datos de vendedor-->
-			<form method="post" action="resources/pdf.php" target="_blank"><!--Generador de PDF //TODO LO GUARDADO EN EL VECTOR SE IMPRIME EN EL PDF//-->
+			
+			 <form method="post" action="/download"> <!--Generador de PDF //TODO LO GUARDADO EN EL VECTOR SE IMPRIME EN EL PDF//-->
 				<fieldset>
 					<legend>&Uacute;ltimo paso: GENERA Y GUARDA TU PDF</legend>
 					<p>
-						<input type="submit" value="Crear PDF">
+						<button type="submit">Crear PDF</button>
 					</p>
 				</fieldset>
-			</form>
+			 </form> 
 		</center>
 	</body>
 </html>

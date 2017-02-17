@@ -1,0 +1,30 @@
+<html>
+<head>
+</head>
+<body>
+	<p> Cliente: <%=nombre%>, Empresa: <%=empresa%>, Teléfono: <%=telefono%>, Mail: <%=mail%> </p>
+	
+	<br/>
+	
+	<div id="cotiza">
+	<p>Productos Agregados a Cotización</p>
+
+	<% prod_agregados.forEach(function(producto2){ %>
+	<br/>
+		<div class="caja">
+			<form method="post" action="/eliminacion/add">
+				<dt><%=producto2.nombre%></dt>
+				<dd>- Stock: <%=producto2.stock%></dd>
+				<dd>- Modelo: <%=producto2.modelo%></dd>	
+				<dd>- Tiempo de entrega: <%= producto2.tiempo_entrega %></dd>
+			</form>	
+		</div>	
+	<% }) %>
+	</div>
+	
+	<br/>
+	
+	<p>Vendedor: <%=vendedor%>, # vendedor: <%=num_vendedor%>, # cotización: <%=num_cot%>, Descuento: <%=descuento%>, Extension: <%=extension%>, email de vendedor: <%=email_vendedor%>, Tiempo de entrega: <%=tiempo_entrega%></p>
+
+</body>
+</html>

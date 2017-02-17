@@ -52,3 +52,7 @@ input[type=text]:focus, input[type=email]:focus
 	border-color:#dc0023;
 	background-color:#F5A9A9;
 }
+
+.caja{
+ border: dashed; 	
+}

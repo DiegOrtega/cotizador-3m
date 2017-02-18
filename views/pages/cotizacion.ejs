@@ -1,8 +1,43 @@
+<!DOCTYPE html>
 <html>
 <head>
+	<title>Cotizador 3M&#174;</title>
+	<META http-equiv="Pragma" content="no-cache"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	
+	<style>
+	table, th, td {
+		border: 1px solid black;
+		border-collapse: collapse;
+	}
+	th, td {
+		padding: 15px;
+	}
+	.celda{
+		text-align: center;		
+	}	
+	</style>
+	
 </head>
+	
 <body>
-	<p> Cliente: <%=nombre%>, Empresa: <%=empresa%>, Teléfono: <%=telefono%>, Mail: <%=mail%> </p>
+	<table class="tabla">
+		<tr class="columna">
+			<th colspan="4">Datos del Cliente</th>
+		</tr>
+		<tr class="columna">
+			<th class="celda">Nombre</th>
+			<th class="celda">Empresa</th>
+			<th class="celda">Teléfono</th>
+			<th class="celda">Mail</th>
+		</tr>
+		<tr class="columna">
+			<th class="celda"><%=nombre%></th>
+			<th class="celda"><%=empresa%></th>
+			<th class="celda"><%=telefono%></th>
+			<th class="celda"><%=mail%> </th>
+		</tr> 
+	</table>
 	
 	<br/>
 	
@@ -28,3 +63,5 @@
 
 </body>
 </html>
+
+<link href="/stylesheets/3mstyle.css" rel="stylesheet" type="text/css"/>

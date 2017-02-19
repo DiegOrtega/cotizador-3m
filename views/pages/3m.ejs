@@ -1,122 +1,262 @@
 <html>
+    
 	<head>
 		<title>Cotizador 3M&#174;</title>
 		<META http-equiv="Pragma" content="no-cache"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        
+        <% include ../partials/header.ejs %>
+        
 	</head>
+    
 	<body>
-		<h2 style="margin: 0 auto;"> Productos en la Base de Datos: <%=desplegar%> </h2>
-		<br/>
-		<center>
-			
-			<form method="post" action="/contacto/add"><!--primer parte //DATOS DE CLIENTE//-->
-				<fieldset>
-					<legend>Primer paso: INGRESA A TU CLIENTE</legend>
-					
-						<input type="text" placeholder="&nbsp;Nombre de contacto" size="35" name="contacto_nombre">&ensp;
-						<input type="text" placeholder="&nbsp;Empresa" size="50" name="contacto_empresa">&ensp;
-						<input type="text" placeholder="&nbsp;Tel&eacute;fono" name="contacto_tel">&ensp;
-						<input type="email" placeholder="&nbsp;E-Mail" name="contacto_mail">
-						<br/>
-						<input type="submit" value="Ingresar datos">
-						<div>
-						<% if (nombre != null) { %>
-							<p> Cliente: <%=nombre%>, Empresa: <%=empresa%>, Teléfono: <%=telefono%>, Mail: <%=mail%> </p>
-						<% } %>
-						</div>
-					
-				</fieldset>
-			</form><!--Terminan datos de cliente-->
-			
-		
-			
-			<!--segunda parte //BUSCADOR-->
-				<fieldset>
-					<legend>
-						Segundo paso: BUSCA EL PRODUCTO Y AGREGALO A LA COTIZACI&Oacute;N CUANDO TERMINES
-					</legend>
-					
-
-					<form method="post" action="/busqueda/add" id="form1">	
-						<input type="text" placeholder="&nbsp;Stock" size="25" name="stock">&ensp;
-						<input type="text" placeholder="Palabra Clave: modelo, upc, código o descripción" size="50" name="desc">
-						<br/>
-					</form>	
-					
-					<button type="submit" form="form1">Buscar</button><br/>
-					<button type="submit" form="form1">Agregar todo</button>
-					
-						<div id="cotiza">
-							<p>Búsqueda</p>
-							<% if(productos != []) { %>
-								<ul>
-								<% productos.forEach(function(producto){ %>
-									<form method="post" action="/carrito/add">
-									<button name="agregar" type="submit" value="<%=producto.id_db%>">
-										<dt><%=producto.nombre%></dt>
-										<dd>- Stock: <%=producto.stock%></dd>
-										<dd>- Modelo: <%=producto.modelo%></dd>
-									<br/>
-									</button>
-									</form>	
-								<%}) %>
-								</ul>
-							<%} %>				
-						</div>
-					
-						<br/>
-					
-						<div id="cotiza">
-						<p>Productos Agregados a Cotización</p>
-							
-						<% prod_agregados.forEach(function(producto2){ %>
-						<br/>
-							<div class="caja">
-								<form method="post" action="/eliminacion/add">
-									<dt><%=producto2.nombre%></dt>
-									<dd>- Stock: <%=producto2.stock%></dd>
-									<dd>- Modelo: <%=producto2.modelo%></dd>	
-									<dd>- Tiempo de entrega: <%= producto2.tiempo_entrega %></dd>
-									<button name="eliminar" type="submit" value="<%=producto2.id%>">Eliminar producto</button>
-								</form>	
-							</div>	
-						<% }) %>
-						</div>
-					
-					
-				</fieldset>
-			<!--Termina buscador-->
-		
-			<form method="post" action="/datos/add"><!--Última parte //DATOS DE VENDEDOR Y TIEMPO ENTREGA//-->
-				<fieldset>
-					<legend>Tercer paso: INGRESA TUS DATOS DE VENDEDOR Y TIEMPO DE ENTREGA</legend>
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 col-md-12">
+                    <h1 class="centro">Cotizador AIL</h1>
+                </div>
+            </div>
+        </div>
+        
+		<h3> Productos en la Base de Datos: <%=desplegar%> </h3>
 				
-						<input type="text" placeholder="&nbsp;Nombre de vendedor" size="35" name="vendedor">&ensp;
-						<input type="text" placeholder="&nbsp;No. Vend." size="7" name="num_vendedor">&ensp;
-						<input type="text" placeholder="&nbsp;No. Cot." size="7" name="num_cot">&ensp;
-						<input type="text" placeholder="&nbsp;Descuento" size="8" name="descuento">&ensp;
-						<input type="text" placeholder="&nbsp;Extensi&oacute;n" size="10" name="extension">&ensp;
-						<input type="email" placeholder="&nbsp;E-Mail de vendedor" name="email">&ensp;
-						<input type="text" placeholder="Tiempo de entrega" name="tiempo_entrega">
-						<br/>
-						<input type="submit" value="Ingresar datos">
-						<% if(vendedor != null){ %>
-							<p>Vendedor: <%=vendedor%>, # vendedor: <%=num_vendedor%>, # cotización: <%=num_cot%>, Descuento: <%=descuento%>, Extension: <%=extension%>, email de vendedor: <%=email_vendedor%>, Tiempo de entrega: <%=tiempo_entrega%></p>
-						<% } %>
-						
-				</fieldset>
-			</form><!--Terminan datos de vendedor-->
-			
-			 <form method="post" action="/download"> <!--Generador de PDF //TODO LO GUARDADO EN EL VECTOR SE IMPRIME EN EL PDF//-->
-				<fieldset>
-					<legend>&Uacute;ltimo paso: GENERA Y GUARDA TU PDF</legend>
-					<p>
-						<button type="submit" target="_blank">Crear PDF</button>
-					</p>
-				</fieldset>
-			 </form> 
-		</center>
+        <hr>
+        			
+                <div class="container">
+                    <div class="row">
+                        
+                        <div class="col-lg-12">
+                            <h3 class="centro">Primer paso: INGRESA A TU CLIENTE</h3>
+                            <hr>
+                        </div>
+                        
+                        <div class="col-lg-12">
+                            <form method="post" id="form_usuario" action="/contacto/add"><!--primer parte //DATOS DE CLIENTE//-->
+                            <input type="text" placeholder="&nbsp;Nombre de contacto" size="35" name="contacto_nombre">&ensp;
+                            <input type="text" placeholder="&nbsp;Empresa" size="50" name="contacto_empresa">&ensp;
+                            <input type="text" placeholder="&nbsp;Tel&eacute;fono" name="contacto_tel">&ensp;
+                            <input type="email" placeholder="&nbsp;E-Mail" name="contacto_mail">
+                            </form>    
+                        </div>  
+                        
+                        <div style="margin:5px"></div>
+                        <br/>
+                        <hr>    
+                        
+                        <div class="col-lg-12">
+                            <Button class="boton3m" form="form_usuario" type="submit">Ingresar datos</Button>
+                        </div>           
+                    
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-lg-12 contenedorDatos">
+                                    <h4>Datos de cliente ingresados:</h4>
+                                    <% if (nombre != null) { %>
+                                        <table class="centro">
+                                        <tr>
+                                            <th>Cliente</th>
+                                            <th>Empresa</th>
+                                            <th>Teléfono</th>
+                                            <th>Mail</th>
+                                        </tr>
+                                        <tr>
+                                            <th> <%=nombre%> </th>
+                                            <th><%=empresa%></th>
+                                            <th><%=telefono%></th>
+                                            <th><%=mail%></th>
+                                        </tr>    
+                                        </table>  
+                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
+						 
+                    </div>
+                </div>
+		
+			<hr>
+        
+			<!--segunda parte //BUSCADOR-->
+				<div class="container">
+                    <div class="row">
+                        
+                        <h3 class="centro">Segundo paso: BUSCA EL PRODUCTO Y AGREGALO A LA COTIZACI&Oacute;N CUANDO TERMINES</h3>
+                        
+                        <hr>
+
+                        <form method="post" action="/busqueda/add" id="form1">	
+                            <input type="text" placeholder="&nbsp;Stock" size="25" name="stock">&ensp;
+                            <input type="text" placeholder="Palabra Clave: modelo, upc, código o descripción" size="50" name="desc">
+                            <br/>
+                        </form>	
+
+                        <button class="boton3m" type="submit" form="form1">Buscar</button>    
+                        </div>
+                </div>
+        
+				
+                <div class="container">
+                        <row class="row">            
+                            <% if(productos != []) { %>
+
+
+                                        <div class="col-lg-12 contenedorDatos">
+                                            <h4>Búsqueda:</h4>
+
+                                            <ul class="centro">
+                                            <% productos.forEach(function(producto){ %>
+                                                <div id="col-lg-12 centro">
+                                                <form method="post" action="/carrito/add">
+                                                <button class="boton3m2" name="agregar" type="submit" value="<%=producto.id_db%>">
+                                                    <li><%=producto.nombre%></li>
+                                                    <ul>
+                                                    <li>Stock: <%=producto.stock%></li>
+                                                    <li>Modelo: <%=producto.modelo%></li>
+                                                    </ul>
+                                                <br/>
+                                                </button>
+                                                </form>	
+                                                </div>    
+                                            <%}) %>
+                                            </ul>
+                                    </div> 
+                            <%} else{
+                                
+                            } %>	
+                            
+               <div class="clearfix col-lg-12"></div>
+                  
+                            
+                <div class="col-lg-12 centro" >
+                     <button class="boton3m centro" type="submit" form="form1">Agregar todo</button>            
+                </div>            
+               
+                 
+				 </row>
+                </div>
+        
+				<hr>
+        
+                <div class=" centro">
+                    <h4>Productos Agregados a Cotización</h4>
+                </div>
+        
+               
+        <div class="container">
+            <div class="row">
+                
+                    <% if(prod_agregados != []){ %>
+
+                    <div class="col-lg-12 contenedorDatos">
+                    <ul class="centro">
+                        
+                        <% prod_agregados.forEach(function(producto2){ %>
+                        
+                        <div class="col-lg-12 centro">
+                            <dd><%=producto2.nombre%></dd>
+                            <dr class="col-lg-12 centro">
+                                <dd>Stock: <%=producto2.stock%></dd>
+                                <dd>Modelo: <%=producto2.modelo%></dd>	
+                                <dd>Tiempo de entrega: <%= producto2.tiempo_entrega %></dd>
+                            </dr>  
+                        </div>
+                        
+                        <hr>
+                        <br/>
+                        
+                        
+                        <form method="post" action="/eliminacion/add"> 
+                            <button class="boton3m2" name="eliminar" type="submit" value="<%=producto2.id%>">Eliminar producto</button>
+                        </form>
+        
+                        <hr>                
+                        <% }) %>
+                    </ul>
+                </div>    
+                <% } %>
+            </div>     
+        </div>
+					
+        <br/>
+        <hr>
+        <div class="clearfix"></div>
+        
+		<div class="container">
+            <div class="row">
+            
+            <h3 class="centro">Tercer paso: INGRESA TUS DATOS DE VENDEDOR Y TIEMPO DE ENTREGA</h3>
+                
+        <hr>
+				
+        <form method="post" action="/datos/add">
+            <input type="text" placeholder="&nbsp;Nombre de vendedor" size="35" name="vendedor">&ensp;
+            <input type="text" placeholder="&nbsp;No. Vend." size="7" name="num_vendedor">&ensp;
+            <input type="text" placeholder="&nbsp;No. Cot." size="7" name="num_cot">&ensp;
+            <input type="text" placeholder="&nbsp;Descuento" size="8" name="descuento">&ensp;
+            <input type="text" placeholder="&nbsp;Extensi&oacute;n" size="10" name="extension">&ensp;
+            <input type="email" placeholder="&nbsp;E-Mail de vendedor" name="email">&ensp;
+            <input type="text" placeholder="Tiempo de entrega" name="tiempo_entrega">
+            <div class="clearfix"></div>
+            <input class="boton3m" type="submit" value="Ingresar datos">
+        </form>  
+            
+        </div>		  
+
+        <hr>
+    
+		<div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12 contenedorDatos">
+                    <h4>Datos ingresados del vendedor</h4>
+                    <% if (vendedor != null) { %>
+                        <table class="centro">
+                        <tr>
+                            <th>Vendedor</th>
+                            <th># vendedor</th>
+                            <th> # cotización</th>
+                            <th>Descuento</th>
+                            <th>Extension</th>
+                            <th>email de vendedor</th>
+                            <th>Tiempo de entrega</th>
+                        </tr>
+                        <tr>
+                            <th><%=vendedor%></th>
+                            <th><%=num_vendedor%></th>
+                            <th><%=num_cot%></th>
+                            <th><%=descuento%></th>
+                            <th><%=extension%></th>
+                            <th><%=email_vendedor%></th>
+                            <th><%=tiempo_entrega%></th>
+                        </tr>    
+                        </table>  
+                    <% } %>
+                </div>
+            </div>
+        </div>	
+            
+        <hr>    
+
+        <div class="container">
+            <div class="row">
+                <h3 class="centro">&Uacute;ltimo paso: GENERA Y GUARDA TU PDF</h3>
+                
+                <hr>
+                
+                <div class="col-lg-12 centro">
+                <form method="post" action="/download">
+                    <button class="boton3m" type="submit">Crear PDF</button>
+                </form>
+                </div>
+                
+                <div class="centro">
+                <a href="/pdfprevio" target="_blank"><h4>Vista previa</h4></a>
+                </div>
+                
+            </div>
+        </div>    
+        	
 	</body>
 </html>
 
-<link href="/stylesheets/3mstyle.css" rel="stylesheet" type="text/css"/>
+ <% include ../partials/3m_refs.ejs %>

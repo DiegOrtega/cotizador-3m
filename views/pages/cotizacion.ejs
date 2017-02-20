@@ -4,19 +4,7 @@
 	<title>Cotizador 3M&#174;</title>
 	<META http-equiv="Pragma" content="no-cache"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-	
-	<style>
-	table, th, td {
-		border: 1px solid black;
-		border-collapse: collapse;
-	}
-	th, td {
-		padding: 15px;
-	}
-	.celda{
-		text-align: center;		
-	}	
-	</style>
+	<% include ../partials/header.ejs %>
 	
 </head>
 	
@@ -24,51 +12,150 @@
     
     <div class="container">
         <div class="row">
-            <table class="tabla">
-                <tr class="columna">
-                    <th colspan="4">Datos del Cliente</th>
-                </tr>
-                <tr class="columna">
-                    <th class="celda">Nombre</th>
-                    <th class="celda">Empresa</th>
-                    <th class="celda">Teléfono</th>
-                    <th class="celda">Mail</th>
-                </tr>
-                <tr class="columna">
-                    <th class="celda"><%=nombre%></th>
-                    <th class="celda"><%=empresa%></th>
-                    <th class="celda"><%=telefono%></th>
-                    <th class="celda"><%=mail%> </th>
-                </tr> 
+            <table class="table table-striped">
+                <thead class="thead-default">
+					<tr>
+						<th colspan="4" class="celda-centro" >Datos del Cliente</th>
+					</tr>
+                </thead>
+				<tbody>
+					<tr class="">
+						<th class="">Nombre</th>
+						<th class="">Empresa</th>
+						<th class="">Teléfono</th>
+						<th class="">Mail</th>
+					</tr>
+					<tr class="">
+						<td class=""><%=nombre%></td>
+						<td class=""><%=empresa%></td>
+						<td class=""><%=telefono%></td>
+						<td class=""><%=mail%> </td>
+					</tr>
+				</tbody>
+			</table>
+			<table class="table table-striped">
+				
+				<thead class="thead-default">
+					<tr class="">
+						<th colspan="7" class="celda-centro" >Productos Agregados a Cotización</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="">
+						<th>
+							Cantidad
+						</th>
+						<th class="">
+							Producto
+						</th>
+						<th class="">
+							# Stock
+						</th>
+						<th class="">
+							# Modelo
+						</th>
+						<th>
+							Medida
+						</th>
+						<th>
+							Precio Lista MXN
+						</th>
+						<th class="">
+							Tiempo de entrega
+						</th>
+					</tr>
+					<% prod_agregados.forEach(function(producto2){ %>
+						<tr class="">
+							<td>
+							<!-- Cantidad --> 
+							</td>
+							<td class="">
+								<%=producto2.nombre%>
+							</td>
+							<td class="">
+								<%=producto2.stock%>
+							</td>
+							<td class="">
+								<%=producto2.modelo%>
+							</td>
+							<td>
+								<%= producto2.unidad_medida %>
+							</td>
+							<td>
+								<%= producto2.precio_lista_unidad_mxn %>
+							</td>
+							<td class="">
+								<%= producto2.tiempo_entrega %>
+							</td>
+						</tr>		
+					<% }) %>
+				</tbody>
+			</table>
+			
+				<br/>
+			
+				<table class="table table-striped">
+					<thead class="thead-default">
+						<tr>
+							<th colspan="7" class="celda-centro">
+								Datos del vendedor
+							</th>
+						</tr>
+					</thead>	
+						<tr class="">
+							<th class="">
+								Vendedor
+							</th>
+							<th class="">
+								# vendedor
+							</th>
+							<th class="">
+								# cotización
+							</th>
+							<th class="">
+								Descuento
+							</th>
+							<th class="">
+								Extension
+							</th>
+							<th class="">
+								Email de vendedor
+							</th>
+							<th class="">
+								 Tiempo de entrega
+							</th>
+						</tr>
+				<tbody>	
+					<tr class="">
+						<td class="">
+							<%=vendedor%>
+						</td>
+						<td class="">
+							<%=num_vendedor%>	
+						</td>
+						<td class="">
+							<%=num_cot%>
+						</td>
+						<td class="">
+							<%=descuento%>
+						</td>
+						<td class="">
+							<%=extension%>	
+						</td>
+						<td class="">
+							<%=email_vendedor%>
+						</td>
+						<td class="">
+							<%=tiempo_entrega%>
+						</td>
+					</tr>
+				</tbody>
             </table>
         </div> 
     </div>
-	
-	
-	<br/>
-	
-	<div id="cotiza">
-	<p>Productos Agregados a Cotización</p>
-
-	<% prod_agregados.forEach(function(producto2){ %>
-	<br/>
-		<div class="caja">
-			<form method="post" action="/eliminacion/add">
-				<dt><%=producto2.nombre%></dt>
-				<dd>- Stock: <%=producto2.stock%></dd>
-				<dd>- Modelo: <%=producto2.modelo%></dd>	
-				<dd>- Tiempo de entrega: <%= producto2.tiempo_entrega %></dd>
-			</form>	
-		</div>	
-	<% }) %>
-	</div>
-	
-	<br/>
-	
-	<p>Vendedor: <%=vendedor%>, # vendedor: <%=num_vendedor%>, # cotización: <%=num_cot%>, Descuento: <%=descuento%>, Extension: <%=extension%>, email de vendedor: <%=email_vendedor%>, Tiempo de entrega: <%=tiempo_entrega%></p>
 
 </body>
 </html>
 
-<link href="/stylesheets/3mstyle.css" rel="stylesheet" type="text/css"/>
+ <% include ../partials/3m_refs.ejs %>
 <link href="/stylesheets/bootstrap.css" rel="stylesheet" type="text/css"/>

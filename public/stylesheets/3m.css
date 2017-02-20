@@ -34,22 +34,9 @@
     color: #772E25
 }
 
-	table, th, td {
-		border: 1px solid black;
-		border-collapse: collapse;
-	}
-	th, td {
-		padding: 15px;
-	}
-	.celda{
+	.celda-centro{
 		text-align: center;		
 	}	
-table {
-    border-collapse:separate;
-    border:solid black 1px;
-    border-radius:6px;
-    -moz-border-radius:6px;
-}
 
 .boton3m2 {
 	background-color:#197278;

@@ -43,7 +43,7 @@ var driver = neo4j.driver(graphenedbURL, neo4j.auth.basic(graphenedbUser, graphe
 
 var session = driver.session();
 
-var total_nodos, nombre = null, empresa, telefono, mail, productoArray = [], productoArray2 = [], vendedor = null, num_vendedor, num_cot, descuento, extension, email_vendedor, tiempo_entrega;
+var total_nodos, nombre = null, empresa, telefono, mail, productoArray = [], productoArray2 = [], vendedor = null, num_vendedor, num_cot, descuento, extension, email_vendedor, tiempo_entrega, check;
 
 app.get('/', function(request, response){
 	response.render('pages/index3')
@@ -158,7 +158,7 @@ app.post('/busqueda/add', function(req, res){
 					venta_caja: record._fields[0].properties.VENTA_CAJA
 				});	
 			});
-		    console.log(productoArray);
+		    console.log("tamaño de respuesta de busqueda = " + productoArray.length);
 			res.render('pages/3m', {
 				desplegar: total_nodos,
 				nombre: nombre,
@@ -186,7 +186,12 @@ app.post('/busqueda/add', function(req, res){
 
 app.post('/carrito/add', function(req, res){
 	var carrito = req.body.agregar;
-	console.log("carrito = "+ carrito);
+	
+	if(check == carrito){
+		productoArray2.splice(productoArray2.length - 1, 1);	
+	};
+	
+	check = carrito;
 	
 	session	
 		.run("MATCH (n {ID: {carrito}}) RETURN n", {carrito: carrito})
@@ -230,7 +235,9 @@ app.post('/carrito/add', function(req, res){
 					venta_caja: record._fields[0].properties.VENTA_CAJA
 				});	
 			});
-		console.log(productoArray2);
+		
+		
+		console.log("productos dentro de carrito = " + productoArray2.length);
 		
 		res.render('pages/3m', {
 			desplegar: total_nodos,
@@ -248,9 +255,8 @@ app.post('/carrito/add', function(req, res){
 			email_vendedor: email_vendedor,
 		    tiempo_entrega: tiempo_entrega
 		});
-        
-        productoArray2 = [];
-        
+       
+		
 		})
 		.catch(function(err){
 		console.log(err);

@@ -58,7 +58,13 @@
 							Medida
 						</th>
 						<th>
+							Precio Lista USD
+						</th>
+						<th>
 							Precio Lista MXN
+						</th>
+						<th>
+							Descuento
 						</th>
 						<th class="">
 							Tiempo de entrega
@@ -67,7 +73,7 @@
 					<% prod_agregados.forEach(function(producto2){ %>
 						<tr class="">
 							<td>
-							<!-- Cantidad --> 
+							<%= cantidad%>
 							</td>
 							<td class="">
 								<%=producto2.nombre%>
@@ -82,7 +88,13 @@
 								<%= producto2.unidad_medida %>
 							</td>
 							<td>
+								<%= producto2.precio_lista_unidad_usd %>
+							</td>
+							<td>
 								<%= producto2.precio_lista_unidad_mxn %>
+							</td>
+							<td>
+								<%= producto2.descuento %> %
 							</td>
 							<td class="">
 								<%= producto2.tiempo_entrega %>
@@ -137,7 +149,7 @@
 							<%=num_cot%>
 						</td>
 						<td class="">
-							<%=descuento%>
+						
 						</td>
 						<td class="">
 							<%=extension%>	

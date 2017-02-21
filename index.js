@@ -43,7 +43,7 @@ var driver = neo4j.driver(graphenedbURL, neo4j.auth.basic(graphenedbUser, graphe
 
 var session = driver.session();
 
-var total_nodos, nombre = null, empresa, telefono, mail, productoArray = [], productoArray2 = [], vendedor = null, num_vendedor, num_cot, descuento, extension, email_vendedor, tiempo_entrega, check;
+var total_nodos, nombre = null, empresa, telefono, mail, productoArray = [], productoArray2 = [], vendedor = null, num_vendedor, num_cot, descuento, extension, email_vendedor, tiempo_entrega, check, tipo_cambio=20, cantidad=1;
 
 app.get('/', function(request, response){
 	response.render('pages/index3')
@@ -68,10 +68,11 @@ app.get('/3m', function(req, res) {
 					vendedor: vendedor,
 					num_vendedor: num_vendedor,
 					num_cot: num_cot,
-					descuento: descuento,
 					extension: extension,
 					email_vendedor: email_vendedor,
-					tiempo_entrega: tiempo_entrega
+					tiempo_entrega: tiempo_entrega,
+					tipo_cambio: tipo_cambio,
+					cantidad: cantidad
 				});
 		
 		})
@@ -99,10 +100,11 @@ app.post('/contacto/add', function(req, res){
 			vendedor: vendedor,
 			num_vendedor: num_vendedor,
 			num_cot: num_cot,
-		    descuento: descuento,
 			extension: extension,
 			email_vendedor: email_vendedor,
-		    tiempo_entrega: tiempo_entrega
+		    tiempo_entrega: tiempo_entrega,
+			tipo_cambio: tipo_cambio,
+			cantidad: cantidad
 		});
 });
 
@@ -170,10 +172,11 @@ app.post('/busqueda/add', function(req, res){
 				vendedor: vendedor,
 				num_vendedor: num_vendedor,
 				num_cot: num_cot,
-				descuento: descuento,
 				extension: extension,
 				email_vendedor: email_vendedor,
-				tiempo_entrega: tiempo_entrega
+				tiempo_entrega: tiempo_entrega,
+				tipo_cambio: tipo_cambio,
+				cantidad: cantidad
 			});
 			productoArray = [];
 		
@@ -250,10 +253,11 @@ app.post('/carrito/add', function(req, res){
 			vendedor: vendedor,
 			num_vendedor: num_vendedor,
 			num_cot: num_cot,
-		    descuento: descuento,
 			extension: extension,
 			email_vendedor: email_vendedor,
-		    tiempo_entrega: tiempo_entrega
+		    tiempo_entrega: tiempo_entrega,
+			tipo_cambio: tipo_cambio,
+			cantidad: cantidad
 		});
        
 		
@@ -290,10 +294,11 @@ app.post('/eliminacion/add', function(req, res){
 			vendedor: vendedor,
 			num_vendedor: num_vendedor,
 			num_cot: num_cot,
-		    descuento: descuento,
 			extension: extension,
 			email_vendedor: email_vendedor,
-		    tiempo_entrega: tiempo_entrega
+		    tiempo_entrega: tiempo_entrega,
+			tipo_cambio: tipo_cambio,
+			cantidad: cantidad
 		});
 });
 
@@ -301,7 +306,6 @@ app.post('/datos/add', function(req, res){
 	vendedor = req.body.vendedor;
 	num_vendedor = req.body.num_vendedor;
 	num_cot = req.body.num_cot;
-	descuento = req.body.descuento;
 	extension = req.body.extension;
 	email_vendedor = req.body.email;
 	tiempo_entrega = req.body.tiempo_entrega;
@@ -317,10 +321,11 @@ app.post('/datos/add', function(req, res){
 			vendedor: vendedor,
 			num_vendedor: num_vendedor,
 			num_cot: num_cot,
-		    descuento: descuento,
 			extension: extension,
 			email_vendedor: email_vendedor,
-		    tiempo_entrega: tiempo_entrega
+		    tiempo_entrega: tiempo_entrega,
+			tipo_cambio: tipo_cambio,
+			cantidad: cantidad
 		});
 });
 
@@ -337,7 +342,6 @@ app.post('/download', function(req, res){
 			vendedor: vendedor,
 			num_vendedor: num_vendedor,
 			num_cot: num_cot,
-		    descuento: descuento,
 			extension: extension,
 			email_vendedor: email_vendedor,
 		    tiempo_entrega: tiempo_entrega
@@ -356,6 +360,33 @@ app.post('/download', function(req, res){
 });
 
 app.get('/pdfprevio', function(req, res){
+	
+		productoArray2.forEach(function(producto2){
+				var mxn = producto2.precio_lista_unidad_mxn;
+				var usd = producto2.precio_lista_unidad_usd;
+				var n = usd.indexOf('$');
+			
+				console.log("mxn: " + mxn);
+				console.log("usd: " + usd);
+				console.log('$:' + n);
+
+				if( mxn != undefined){ 
+
+					console.log("precio: " + mxn);
+
+			 	}else if(n != -1){
+
+					var mxn2 = usd.substring(n+1, usd.length);
+					
+					console.log("transf = " + mxn2);
+					
+					var cambio_mxn = parseFloat(mxn2);
+					
+					producto2.precio_lista_unidad_mxn = cambio_mxn*tipo_cambio;
+
+				 }; 
+		});
+	
    res.render('pages/cotizacion',{
             desplegar: total_nodos,
 			nombre: nombre,
@@ -367,11 +398,100 @@ app.get('/pdfprevio', function(req, res){
 			vendedor: vendedor,
 			num_vendedor: num_vendedor,
 			num_cot: num_cot,
-		    descuento: descuento,
 			extension: extension,
 			email_vendedor: email_vendedor,
-		    tiempo_entrega: tiempo_entrega
+		    tiempo_entrega: tiempo_entrega,
+			tipo_cambio: tipo_cambio,
+			cantidad: cantidad
    }); 
+});
+
+app.post('/tipo_cambio/add', function(req, res){
+	tipo_cambio = req.body.tipo_cambio;
+	
+	res.render('pages/3m', {
+			desplegar: total_nodos,
+			nombre: nombre,
+			empresa: empresa,
+			telefono: telefono,
+			mail: mail,
+			productos: productoArray,
+			prod_agregados: productoArray2,
+			vendedor: vendedor,
+			num_vendedor: num_vendedor,
+			num_cot: num_cot,
+			extension: extension,
+			email_vendedor: email_vendedor,
+		    tiempo_entrega: tiempo_entrega,
+			tipo_cambio: tipo_cambio,
+			cantidad: cantidad
+		});
+	
+});
+
+app.post('/cantidad/add', function(req, res){
+	
+	cantidad = req.body.cantidad;
+	
+	res.render('pages/3m', {
+			desplegar: total_nodos,
+			nombre: nombre,
+			empresa: empresa,
+			telefono: telefono,
+			mail: mail,
+			productos: productoArray,
+			prod_agregados: productoArray2,
+			vendedor: vendedor,
+			num_vendedor: num_vendedor,
+			num_cot: num_cot,
+			extension: extension,
+			email_vendedor: email_vendedor,
+		    tiempo_entrega: tiempo_entrega,
+			tipo_cambio: tipo_cambio,
+			cantidad: cantidad
+		});
+	
+});
+
+app.post('/descuento/add', function(req, res){
+	
+	descuento = req.body.descuento;
+	var index = req.body.index;
+	
+	console.log("index: " + index);
+	
+	//console.log(productoArray2[1]);
+	
+	//index = parseInt(index);
+	
+	productoArray2.forEach(function(producto2, i){
+		if(index == i){	
+			console.log("i: " + i );
+			console.log("descuento: " + descuento);
+			producto2.descuento = descuento;
+		}
+	});
+	
+	descuento = 0;
+	
+	res.render('pages/3m', {
+			desplegar: total_nodos,
+			nombre: nombre,
+			empresa: empresa,
+			telefono: telefono,
+			mail: mail,
+			productos: productoArray,
+			prod_agregados: productoArray2,
+			vendedor: vendedor,
+			num_vendedor: num_vendedor,
+			num_cot: num_cot,
+			extension: extension,
+			email_vendedor: email_vendedor,
+		    tiempo_entrega: tiempo_entrega,
+			tipo_cambio: tipo_cambio,
+			cantidad: cantidad
+		});
+	
 });
 
 app.get('/mapei', function(request, response) {

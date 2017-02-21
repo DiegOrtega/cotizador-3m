@@ -19,7 +19,20 @@
             </div>
         </div>
         
-		<h3> Productos en la Base de Datos: <%=desplegar%> </h3>
+		<div class="container">
+			<div class="row">
+				<h3 class="col-lg-6- col-md-6"> Productos en la Base de Datos: <%=desplegar%> </h3>
+			
+				<div class="col-lg-6 col-md-6">
+					<h4 style="text-align: right">Tipo de cambio:</h4>
+					<form style="text-align: right" id="tipo_cambio" method="post" action="/tipo_cambio/add">
+						<input id="timpo_cambio" type="text" placeholder="<%= tipo_cambio %>" size="10" name="tipo_cambio">
+						<button class="boton3m3" form="tipo_cambio" type="submit">Ingresar</button>
+					</form>
+				</div>
+			</div>
+		</div>
+		
 				
         <hr>
         			
@@ -53,18 +66,20 @@
                                 <div class="col-lg-12 contenedorDatos">
                                     <h4>Datos de cliente ingresados:</h4>
                                     <% if (nombre != null) { %>
-                                        <table class="centro">
+                                        <table class="table table-striped">
+                                        <thead class="thead-default">
+											<tr>
+												<th>Cliente</th>
+												<th>Empresa</th>
+												<th>Teléfono</th>
+												<th>Mail</th>
+                                        	</tr>
+										</thead>
                                         <tr>
-                                            <th>Cliente</th>
-                                            <th>Empresa</th>
-                                            <th>Teléfono</th>
-                                            <th>Mail</th>
-                                        </tr>
-                                        <tr>
-                                            <th> <%=nombre%> </th>
-                                            <th><%=empresa%></th>
-                                            <th><%=telefono%></th>
-                                            <th><%=mail%></th>
+                                            <td> <%=nombre%> </td>
+                                            <td><%=empresa%></td>
+                                            <td><%=telefono%></td>
+                                            <td><%=mail%></td>
                                         </tr>    
                                         </table>  
                                     <% } %>
@@ -151,7 +166,7 @@
                     <div class="col-lg-12 contenedorDatos">
                     <ul class="centro">
                         
-                        <% prod_agregados.forEach(function(producto2){ %>
+                        <% prod_agregados.forEach(function(producto2, index){ %>
                         
                         <div class="col-lg-12 centro">
                             <dd><%=producto2.nombre%></dd>
@@ -164,14 +179,21 @@
                         
                         <hr>
                         <br/>
-                        
-                        
+						<form method="post" id="descuento" action="/descuento/add">
+							<input type="text" placeholder="<%= producto2.descuento %>" size="5" name="descuento">
+							<button class="boton3m3" type="submit" form="descuento" name="index" value="<%= index %>" >Descuento</button>
+						</form>
+                        <br/>
+                        <form method="post" action="/cantidad/add">
+							<input type="text" placeholder="<%= cantidad %>" size="5" name="cantidad">
+							<button class="boton3m3" type="submit">Cantidad</button>
+						</form>
+                        <br/>
                         <form method="post" action="/eliminacion/add"> 
                             <button class="boton3m2" name="eliminar" type="submit" value="<%=producto2.id%>">Eliminar producto</button>
                         </form>
-        
                         <hr>                
-                        <% }) %>
+                        <% }); %>
                     </ul>
                 </div>    
                 <% } %>
@@ -193,7 +215,7 @@
             <input type="text" placeholder="&nbsp;Nombre de vendedor" size="35" name="vendedor">&ensp;
             <input type="text" placeholder="&nbsp;No. Vend." size="7" name="num_vendedor">&ensp;
             <input type="text" placeholder="&nbsp;No. Cot." size="7" name="num_cot">&ensp;
-            <input type="text" placeholder="&nbsp;Descuento" size="8" name="descuento">&ensp;
+            <!-- <input type="text" placeholder="&nbsp;Descuento" size="8" name="descuento">&ensp; -->
             <input type="text" placeholder="&nbsp;Extensi&oacute;n" size="10" name="extension">&ensp;
             <input type="email" placeholder="&nbsp;E-Mail de vendedor" name="email">&ensp;
             <input type="text" placeholder="Tiempo de entrega" name="tiempo_entrega">
@@ -210,7 +232,7 @@
                 <div class="col-lg-12 contenedorDatos">
                     <h4>Datos ingresados del vendedor</h4>
                     <% if (vendedor != null) { %>
-                        <table class="centro">
+                        <table class="table table-striped">
                         <tr>
                             <th>Vendedor</th>
                             <th># vendedor</th>
@@ -221,13 +243,13 @@
                             <th>Tiempo de entrega</th>
                         </tr>
                         <tr>
-                            <th><%=vendedor%></th>
-                            <th><%=num_vendedor%></th>
-                            <th><%=num_cot%></th>
-                            <th><%=descuento%></th>
-                            <th><%=extension%></th>
-                            <th><%=email_vendedor%></th>
-                            <th><%=tiempo_entrega%></th>
+                            <td><%=vendedor%></td>
+                            <td><%=num_vendedor%></td>
+                            <td><%=num_cot%></td>
+                            <td><%=descuento%></td>
+                            <td><%=extension%></td>
+                            <td><%=email_vendedor%></td>
+                            <td><%=tiempo_entrega%></td>
                         </tr>    
                         </table>  
                     <% } %>

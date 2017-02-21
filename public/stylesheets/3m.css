@@ -25,6 +25,7 @@
 	position:relative;
 	top:1px;
 }
+
 .contenedorDatos {
     background-color: #EDDDD4;
     min-height: 100px;
@@ -65,3 +66,25 @@
     margin: 10px; 
 }
 
+.boton3m3{
+	background-color:#c76845;
+	-moz-border-radius:20px;
+	-webkit-border-radius:20px;
+	border-radius:28px;
+	border:1px solid #85726c;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:10px;
+	padding:10px 15px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #b04b27;
+}
+.boton3m3:hover {
+	background-color:#db5314;
+}
+.boton3m3:active {
+	position:relative;
+	top:1px;
+}

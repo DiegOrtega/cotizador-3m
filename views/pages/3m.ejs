@@ -179,14 +179,14 @@
                         
                         <hr>
                         <br/>
-						<form method="post" id="descuento" action="/descuento/add">
+						<form method="post" id="<%= index %>" action="/descuento/add">
 							<input type="text" placeholder="<%= producto2.descuento %>" size="5" name="descuento">
-							<button class="boton3m3" type="submit" form="descuento" name="index" value="<%= index %>" >Descuento</button>
+							<button class="boton3m3" type="submit" form="<%= index %>" name="index" value="<%= index %>" >Descuento</button>
 						</form>
                         <br/>
-                        <form method="post" action="/cantidad/add">
-							<input type="text" placeholder="<%= cantidad %>" size="5" name="cantidad">
-							<button class="boton3m3" type="submit">Cantidad</button>
+                        <form method="post" action="/cantidad/add" id="<%= index %>2">
+							<input type="text" placeholder="<%= producto2.cantidad %>" size="5" name="cantidad">
+							<button class="boton3m3" type="submit" form="<%= index %>2" name="index" value="<%=index%>">Cantidad</button>
 						</form>
                         <br/>
                         <form method="post" action="/eliminacion/add"> 

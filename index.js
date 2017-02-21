@@ -235,7 +235,8 @@ app.post('/carrito/add', function(req, res){
 					tipo_servicio: record._fields[0].properties.TIPO_SERVICIO,
 					unidad_medida: record._fields[0].properties.UNIDAD_MEDIDA,
 					upc: record._fields[0].properties.UPC,
-					venta_caja: record._fields[0].properties.VENTA_CAJA
+					venta_caja: record._fields[0].properties.VENTA_CAJA,
+					cantidad: 1
 				});	
 			});
 		
@@ -432,6 +433,23 @@ app.post('/tipo_cambio/add', function(req, res){
 app.post('/cantidad/add', function(req, res){
 	
 	cantidad = req.body.cantidad;
+	var index = req.body.index;
+	
+	//console.log("index: " + index);
+	
+	//console.log(productoArray2[1]);
+	
+	//index = parseInt(index);
+	
+	productoArray2.forEach(function(producto2, i){
+		if(index == i){	
+			console.log("i: " + i );
+			//console.log("descuento: " + descuento);
+			producto2.cantidad = cantidad;
+		}
+	});
+	
+	descuento = 0;
 	
 	res.render('pages/3m', {
 			desplegar: total_nodos,

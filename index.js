@@ -8,16 +8,10 @@ var http = require('http');
 var ejs = require('ejs');
 var fs = require('fs');
 var pdf = require('html-pdf');
-var html = fs.readFileSync('./views/pages/cotizacion.ejs', 'utf8');
-
-var options = { 
-format: 'Letter',
-"base": "/Users/DiegOrtega/Desktop/cotizador/cotizador-3m/public"			  
-};
 
 var app = express(); 
 
-app.set('port', (process.env.PORT || 5000));
+app.set('port', (process.env.PORT || 5000)); 
 
 app.use(express.static(__dirname + '/public'));
 
@@ -330,6 +324,16 @@ app.post('/datos/add', function(req, res){
 		});
 });
 
+var html = fs.readFileSync(__dirname + '/views/pages/cotizacion.ejs', 'utf8');
+
+
+var options = { 
+"format": 'Letter',
+"base": 'file://'+ __dirname + '/public'		  
+};
+
+//console.log('file://'+ __dirname + '/public');
+
 app.post('/download', function(req, res){
 	
 	var obj = {
@@ -345,16 +349,16 @@ app.post('/download', function(req, res){
 			num_cot: num_cot,
 			extension: extension,
 			email_vendedor: email_vendedor,
-		    tiempo_entrega: tiempo_entrega
+		    tiempo_entrega: tiempo_entrega,
+			tipo_cambio: tipo_cambio,
+			cantidad: cantidad
 		};
 	
 	var renderedhtml = ejs.render(html, obj);
     
-    var pdfref = fs.readFileSync('./cotizacion.pdf','utf-8'); 
-    
     pdf.create(renderedhtml, options).toFile('./cotizacion.pdf', function(err, response) {
   		if (err) return console.log(err);
-  		console.log(response); // { filename: '/app/businesscard.pdf' }   
+  		console.log(response); 
         res.download('./cotizacion.pdf');
 	}); 
 	
@@ -434,12 +438,6 @@ app.post('/cantidad/add', function(req, res){
 	
 	cantidad = req.body.cantidad;
 	var index = req.body.index;
-	
-	//console.log("index: " + index);
-	
-	//console.log(productoArray2[1]);
-	
-	//index = parseInt(index);
 	
 	productoArray2.forEach(function(producto2, i){
 		if(index == i){	

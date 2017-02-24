@@ -9,6 +9,10 @@ var ejs = require('ejs');
 var fs = require('fs');
 var pdf = require('html-pdf');
 
+var moment = require('moment');
+
+var fecha = moment().format('DD/MM/YYYY');
+
 var app = express(); 
 
 app.set('port', (process.env.PORT || 5000)); 
@@ -37,7 +41,7 @@ var driver = neo4j.driver(graphenedbURL, neo4j.auth.basic(graphenedbUser, graphe
 
 var session = driver.session();
 
-var total_nodos, nombre = null, empresa, telefono, mail, productoArray = [], productoArray2 = [], vendedor = null, num_vendedor, num_cot, descuento, extension, email_vendedor, tiempo_entrega, check, tipo_cambio=20, cantidad=1;
+var total_nodos, nombre = null, empresa, telefono, mail, productoArray = [], productoArray2 = [], vendedor = null, num_vendedor, num_cot, descuento, extension, email_vendedor, tiempo_entrega, check, tipo_cambio=20, precio;
 
 app.get('/', function(request, response){
 	response.render('pages/index3')
@@ -66,7 +70,8 @@ app.get('/3m', function(req, res) {
 					email_vendedor: email_vendedor,
 					tiempo_entrega: tiempo_entrega,
 					tipo_cambio: tipo_cambio,
-					cantidad: cantidad
+					fecha: fecha, 
+					precio: precio
 				});
 		
 		})
@@ -84,21 +89,22 @@ app.post('/contacto/add', function(req, res){
 	console.log("nombre: "+nombre+" empresa: "+empresa+" telefono: "+telefono+" mail: "+mail);
 
 		res.render('pages/3m', {
-			desplegar: total_nodos,
-			nombre: nombre,
-			empresa: empresa,
-			telefono: telefono,
-			mail: mail,
-			productos: productoArray,
-			prod_agregados: productoArray2,
-			vendedor: vendedor,
-			num_vendedor: num_vendedor,
-			num_cot: num_cot,
-			extension: extension,
-			email_vendedor: email_vendedor,
-		    tiempo_entrega: tiempo_entrega,
-			tipo_cambio: tipo_cambio,
-			cantidad: cantidad
+				desplegar: total_nodos,
+				nombre: nombre,
+				empresa: empresa,
+				telefono: telefono,
+				mail: mail,
+				productos: productoArray,
+				prod_agregados: productoArray2,
+				vendedor: vendedor,
+				num_vendedor: num_vendedor,
+				num_cot: num_cot,
+				extension: extension,
+				email_vendedor: email_vendedor,
+				tiempo_entrega: tiempo_entrega,
+				tipo_cambio: tipo_cambio,
+				fecha: fecha, 
+				precio: precio
 		});
 });
 
@@ -156,21 +162,22 @@ app.post('/busqueda/add', function(req, res){
 			});
 		    console.log("tamaño de respuesta de busqueda = " + productoArray.length);
 			res.render('pages/3m', {
-				desplegar: total_nodos,
-				nombre: nombre,
-				empresa: empresa,
-				telefono: telefono,
-				mail: mail,
-				productos: productoArray,
-				prod_agregados: productoArray2,
-				vendedor: vendedor,
-				num_vendedor: num_vendedor,
-				num_cot: num_cot,
-				extension: extension,
-				email_vendedor: email_vendedor,
-				tiempo_entrega: tiempo_entrega,
-				tipo_cambio: tipo_cambio,
-				cantidad: cantidad
+					desplegar: total_nodos,
+					nombre: nombre,
+					empresa: empresa,
+					telefono: telefono,
+					mail: mail,
+					productos: productoArray,
+					prod_agregados: productoArray2,
+					vendedor: vendedor,
+					num_vendedor: num_vendedor,
+					num_cot: num_cot,
+					extension: extension,
+					email_vendedor: email_vendedor,
+					tiempo_entrega: tiempo_entrega,
+					tipo_cambio: tipo_cambio,
+					fecha: fecha, 
+					precio: precio
 			});
 			productoArray = [];
 		
@@ -238,21 +245,22 @@ app.post('/carrito/add', function(req, res){
 		console.log("productos dentro de carrito = " + productoArray2.length);
 		
 		res.render('pages/3m', {
-			desplegar: total_nodos,
-			nombre: nombre,
-			empresa: empresa,
-			telefono: telefono,
-			mail: mail,
-			productos: productoArray,
-			prod_agregados: productoArray2,
-			vendedor: vendedor,
-			num_vendedor: num_vendedor,
-			num_cot: num_cot,
-			extension: extension,
-			email_vendedor: email_vendedor,
-		    tiempo_entrega: tiempo_entrega,
-			tipo_cambio: tipo_cambio,
-			cantidad: cantidad
+				desplegar: total_nodos,
+				nombre: nombre,
+				empresa: empresa,
+				telefono: telefono,
+				mail: mail,
+				productos: productoArray,
+				prod_agregados: productoArray2,
+				vendedor: vendedor,
+				num_vendedor: num_vendedor,
+				num_cot: num_cot,
+				extension: extension,
+				email_vendedor: email_vendedor,
+				tiempo_entrega: tiempo_entrega,
+				tipo_cambio: tipo_cambio,
+				fecha: fecha, 
+				precio: precio
 		});
        
 		
@@ -291,9 +299,10 @@ app.post('/eliminacion/add', function(req, res){
 			num_cot: num_cot,
 			extension: extension,
 			email_vendedor: email_vendedor,
-		    tiempo_entrega: tiempo_entrega,
+			tiempo_entrega: tiempo_entrega,
 			tipo_cambio: tipo_cambio,
-			cantidad: cantidad
+			fecha: fecha, 
+			precio: precio
 		});
 });
 
@@ -304,6 +313,18 @@ app.post('/datos/add', function(req, res){
 	extension = req.body.extension;
 	email_vendedor = req.body.email;
 	tiempo_entrega = req.body.tiempo_entrega;
+	
+	console.log("tiempo de entrega: " + tiempo_entrega);
+	
+	var i = 0;
+	
+	if(tiempo_entrega != ""){
+		while(i < productoArray2.length){
+			productoArray2[i].tiempo_entrega = tiempo_entrega;	
+			console.log("tiempo: " + productoArray2.tiempo_entrega );
+			i++;
+		}
+	};
 	
 	res.render('pages/3m', {
 			desplegar: total_nodos,
@@ -318,9 +339,10 @@ app.post('/datos/add', function(req, res){
 			num_cot: num_cot,
 			extension: extension,
 			email_vendedor: email_vendedor,
-		    tiempo_entrega: tiempo_entrega,
+			tiempo_entrega: tiempo_entrega,
 			tipo_cambio: tipo_cambio,
-			cantidad: cantidad
+			fecha: fecha, 
+			precio: precio
 		});
 });
 
@@ -328,11 +350,11 @@ var html = fs.readFileSync(__dirname + '/views/pages/cotizacion.ejs', 'utf8');
 
 
 var options = { 
-"format": 'Letter',
-"base": 'file://'+ __dirname + '/public'		  
+    format: 'Letter',	
+	base: 'file:///Users/DiegOrtega/Desktop/cotizador/cotizador-3m/public'		  
 };
 
-//console.log('file://'+ __dirname + '/public');
+console.log('file://'+ __dirname + '/public');
 
 app.post('/download', function(req, res){
 	
@@ -349,9 +371,10 @@ app.post('/download', function(req, res){
 			num_cot: num_cot,
 			extension: extension,
 			email_vendedor: email_vendedor,
-		    tiempo_entrega: tiempo_entrega,
+			tiempo_entrega: tiempo_entrega,
 			tipo_cambio: tipo_cambio,
-			cantidad: cantidad
+			fecha: fecha, 
+			precio: precio
 		};
 	
 	var renderedhtml = ejs.render(html, obj);
@@ -367,8 +390,11 @@ app.post('/download', function(req, res){
 app.get('/pdfprevio', function(req, res){
 	
 		productoArray2.forEach(function(producto2){
-				var mxn = producto2.precio_lista_unidad_mxn;
-				var usd = producto2.precio_lista_unidad_usd;
+			var mxn = producto2.precio_lista_unidad_mxn;
+			var usd = producto2.precio_lista_unidad_usd;
+			var desc_ref = producto2.descuento;
+			
+			if(usd != undefined){
 				var n = usd.indexOf('$');
 			
 				console.log("mxn: " + mxn);
@@ -388,26 +414,41 @@ app.get('/pdfprevio', function(req, res){
 					var cambio_mxn = parseFloat(mxn2);
 					
 					producto2.precio_lista_unidad_mxn = cambio_mxn*tipo_cambio;
+					
+					var precio_mxn = cambio_mxn*tipo_cambio;
+					
+					var desc_ref2 = parseFloat(desc_ref);
+					
+					console.log("desc_ref3: " + desc_ref2); 
+					
+					var diferencia = precio_mxn*(desc_ref2)/100;
+					
+					console.log("diferencia:"+ diferencia);
+					
+					precio = precio_mxn - diferencia;
 
-				 }; 
+				 };	
+			}
+				 
 		});
 	
    res.render('pages/cotizacion',{
-            desplegar: total_nodos,
-			nombre: nombre,
-			empresa: empresa,
-			telefono: telefono,
-			mail: mail,
-			productos: productoArray,
-			prod_agregados: productoArray2,
-			vendedor: vendedor,
-			num_vendedor: num_vendedor,
-			num_cot: num_cot,
-			extension: extension,
-			email_vendedor: email_vendedor,
-		    tiempo_entrega: tiempo_entrega,
-			tipo_cambio: tipo_cambio,
-			cantidad: cantidad
+		desplegar: total_nodos,
+		nombre: nombre,
+		empresa: empresa,
+		telefono: telefono,
+		mail: mail,
+		productos: productoArray,
+		prod_agregados: productoArray2,
+		vendedor: vendedor,
+		num_vendedor: num_vendedor,
+		num_cot: num_cot,
+		extension: extension,
+		email_vendedor: email_vendedor,
+		tiempo_entrega: tiempo_entrega,
+		tipo_cambio: tipo_cambio,
+		fecha: fecha, 
+		precio: precio
    }); 
 });
 
@@ -427,9 +468,10 @@ app.post('/tipo_cambio/add', function(req, res){
 			num_cot: num_cot,
 			extension: extension,
 			email_vendedor: email_vendedor,
-		    tiempo_entrega: tiempo_entrega,
+			tiempo_entrega: tiempo_entrega,
 			tipo_cambio: tipo_cambio,
-			cantidad: cantidad
+			fecha: fecha, 
+			precio: precio
 		});
 	
 });
@@ -447,7 +489,7 @@ app.post('/cantidad/add', function(req, res){
 		}
 	});
 	
-	descuento = 0;
+	cantidad = 0;
 	
 	res.render('pages/3m', {
 			desplegar: total_nodos,
@@ -462,9 +504,10 @@ app.post('/cantidad/add', function(req, res){
 			num_cot: num_cot,
 			extension: extension,
 			email_vendedor: email_vendedor,
-		    tiempo_entrega: tiempo_entrega,
+			tiempo_entrega: tiempo_entrega,
 			tipo_cambio: tipo_cambio,
-			cantidad: cantidad
+			fecha: fecha, 
+			precio: precio
 		});
 	
 });
@@ -475,10 +518,6 @@ app.post('/descuento/add', function(req, res){
 	var index = req.body.index;
 	
 	console.log("index: " + index);
-	
-	//console.log(productoArray2[1]);
-	
-	//index = parseInt(index);
 	
 	productoArray2.forEach(function(producto2, i){
 		if(index == i){	
@@ -503,9 +542,10 @@ app.post('/descuento/add', function(req, res){
 			num_cot: num_cot,
 			extension: extension,
 			email_vendedor: email_vendedor,
-		    tiempo_entrega: tiempo_entrega,
+			tiempo_entrega: tiempo_entrega,
 			tipo_cambio: tipo_cambio,
-			cantidad: cantidad
+			fecha: fecha, 
+			precio: precio
 		});
 	
 });

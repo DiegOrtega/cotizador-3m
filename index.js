@@ -35,9 +35,9 @@ var graphenedbUser = process.env.GRAPHENEDB_BOLT_USER;
 var graphenedbPass = process.env.GRAPHENEDB_BOLT_PASSWORD;
 
 //Protocolo de conexión para servidor cloud heroku
-var driver = neo4j.driver(graphenedbURL, neo4j.auth.basic(graphenedbUser, graphenedbPass));
+//var driver = neo4j.driver(graphenedbURL, neo4j.auth.basic(graphenedbUser, graphenedbPass));
 
-//var driver = neo4j.driver('bolt://localhost', neo4j.auth.basic('neo4j', 'Sistemas'));
+var driver = neo4j.driver('bolt://localhost', neo4j.auth.basic('neo4j', 'Sistemas'));
 
 var session = driver.session();
 
@@ -237,7 +237,8 @@ app.post('/carrito/add', function(req, res){
 					unidad_medida: record._fields[0].properties.UNIDAD_MEDIDA,
 					upc: record._fields[0].properties.UPC,
 					venta_caja: record._fields[0].properties.VENTA_CAJA,
-					cantidad: 1
+					cantidad: 1,
+					precio_descuento: null
 				});	
 			});
 		
@@ -419,13 +420,13 @@ app.get('/pdfprevio', function(req, res){
 					
 					var desc_ref2 = parseFloat(desc_ref);
 					
-					console.log("desc_ref3: " + desc_ref2); 
+					console.log("desc_ref2: " + desc_ref2); 
 					
-					var diferencia = precio_mxn*(desc_ref2)/100;
+					var diferencia = (precio_mxn*((desc_ref2)/100));
 					
 					console.log("diferencia:"+ diferencia);
 					
-					precio = precio_mxn - diferencia;
+					producto2.precio_descuento = precio_mxn - diferencia;
 
 				 };	
 			}

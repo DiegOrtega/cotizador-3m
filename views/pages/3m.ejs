@@ -40,7 +40,7 @@
                     <div class="row">
                         
                         <div class="col-lg-12">
-                            <h3 class="centro">Primer paso: INGRESA A TU CLIENTE</h3>
+                            <h3 class="centro">Ingresa los datos del cliente</h3>
                             <hr>
                         </div>
                         
@@ -96,13 +96,14 @@
 				<div class="container">
                     <div class="row">
                         
-                        <h3 class="centro">Segundo paso: BUSCA EL PRODUCTO Y AGREGALO A LA COTIZACI&Oacute;N CUANDO TERMINES</h3>
+                        <h3 class="centro">Busca el producto y seleccionalo</h3>
                         
                         <hr>
 
                         <form method="post" action="/busqueda/add" id="form1">	
                             <input type="text" placeholder="&nbsp;Stock" size="25" name="stock">&ensp;
-                            <input type="text" placeholder="Palabra Clave: modelo, upc, código o descripción" size="50" name="desc">
+							<input type="text" placeholder="Modelo" size="25" name="modelo">&ensp;
+                            <input type="text" placeholder="Palabra Clave" size="50" name="desc">
                             <br/>
                         </form>	
 
@@ -113,40 +114,52 @@
 				
                 <div class="container">
                         <row class="row">            
-                            <% if(productos != []) { %>
+                            <% if(productos.length > 0) { %>
 
 
                                         <div class="col-lg-12 contenedorDatos">
-                                            <h4>Búsqueda:</h4>
+                                            <h4>Resultados de Búsqueda:  
+												<% if(stock_num != null){ %> Stock: <%=stock_num%>, <% } %> 
+												<% if(modelo != ''){ %> Modelo: <%= modelo %>, <% } %>
+												<% if(desc != null){ %> palabra clave: <%=desc%> <% } %>
+											</h4>
 
-                                            <ul class="centro">
+                                            
                                             <% productos.forEach(function(producto){ %>
-                                                <div id="col-lg-12 centro">
-                                                <form method="post" action="/carrito/add">
+                                                <div id="centro">
+                                                <form class="centro" method="post" action="/carrito/add">
                                                 <button class="boton3m2" name="agregar" type="submit" value="<%=producto.id_db%>">
-                                                    <li><%=producto.nombre%></li>
-                                                    <ul>
-                                                    <li>Stock: <%=producto.stock%></li>
-                                                    <li>Modelo: <%=producto.modelo%></li>
-                                                    </ul>
+													
+													<table class="table table-striped">
+														<thead>
+															<tr class="table-active">
+																<th >Producto</th>
+																<th>Stock</th>
+																<th>Modelo</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr>
+																<td><%=producto.nombre%></td>
+																<td><%=producto.stock%></td>
+																<td><%=producto.modelo%></td>
+															</tr>
+														</tbody>
+													</table>	
+													
                                                 <br/>
                                                 </button>
                                                 </form>	
-                                                </div>    
+                                                </div>
+												<br/>
                                             <%}) %>
-                                            </ul>
+                                            
                                     </div> 
                             <%} else{
                                 
                             } %>	
                             
                <div class="clearfix col-lg-12"></div>
-                  
-                            
-                <div class="col-lg-12 centro" >
-                     <button class="boton3m centro" type="submit" form="form1">Agregar todo</button>            
-                </div>            
-               
                  
 				 </row>
                 </div>
@@ -163,38 +176,195 @@
                 
                     <% if(prod_agregados != []){ %>
 
-                    <div class="col-lg-12 contenedorDatos">
-                    <ul class="centro">
+                    <div class="col-lg-12 contenedorDatos centro">
+                    
                         
                         <% prod_agregados.forEach(function(producto2, index){ %>
                         
                         <div class="col-lg-12 centro">
-                            <dd><%=producto2.nombre%></dd>
-                            <dr class="col-lg-12 centro">
-                                <dd>Stock: <%=producto2.stock%></dd>
-                                <dd>Modelo: <%=producto2.modelo%></dd>	
-                                <dd>Tiempo de entrega: <%= producto2.tiempo_entrega %></dd>
-                            </dr>  
+							
+							<table class="table table-hover">
+								<thead >
+									<tr>
+										<th>Campos</th>
+										<th>Datos</th>
+										<th colspan="2" class="centro">Input</th>
+									</tr>	
+								</thead>
+								<tbody data-toggle="collapse" data-target="#accordion<%=index%>" class="clickable">
+									<tr>
+										<th>Nombre</th>
+										<td><%=producto2.nombre%></td>
+										<td>
+											<form method="post" id="<%=index%>1" action="/cambio_nombre/add">
+											<input type="text" placeholder="<%=producto2.nombre%>" size="10" name="nombre">
+											</form>
+										</td>
+										<td><button class="boton3m3" type="submit" form="<%=index%>1" name="index" value="<%=index%>">Nombre</button></td>
+									</tr>
+								</tbody>	
+								<tbody id="accordion<%=index%>" class="collapse">
+									<tr>
+										<th>Cantidad</th>
+										<td><%= producto2.cantidad %></td>
+										<td>
+											<form method="post" action="/cantidad/add" id="<%= index %>6">
+											<input type="text" placeholder="<%= producto2.cantidad %>" size="10" name="cantidad">
+											</form>
+										</td>
+										<td>
+											<button class="boton3m3" type="submit" form="<%= index %>6" name="index" value="<%=index%>">Cantidad</button>
+										</td>
+									</tr>
+									<tr>
+										<th>Stock</th>
+										<td><%=producto2.stock%></td>
+										<td>
+											<form method="post" id="<%=index%>2" action="/cambio_stock/add">
+											<input type="text" placeholder="<%=producto2.stock%>" size="10" name="stock">
+											</form>
+										</td>
+										<td>
+											<button class="boton3m3" type="submit" form="<%=index%>2" name="index" value="<%=index%>">Stock</button>
+										</td>
+									</tr>
+									<tr>
+										<th>Modelo</th>
+										<td><%=producto2.modelo%></td>
+										<td>
+											<form method="post" id="<%=index%>3" action="/cambio_modelo/add">
+											<input type="text" placeholder="<%=producto2.modelo%>" size="10" name="modelo">
+											</form>
+										</td>
+										<td>
+											<button class="boton3m3" type="submit" form="<%=index%>3" name="index" value="<%=index%>">Modelo</button>
+										</td>
+									</tr>
+									<tr>
+										<th>Color/Grano</th>
+										<td><%=producto2.color_grano%></td>
+										<td>
+											<form method="post" action="/cambio_color_grano/add" id="<%=index%>7">
+											<input type="text" placeholder="<%=producto2.color_grano%>" size="10" name="color_grano">
+											</form>
+										</td>
+										<td>
+											<button class="boton3m3" type="submit" form="<%=index%>7" name="index" value="<%=index%>">Color/Grano</button>
+										</td>
+									</tr>
+									<tr>
+										<th>Medida</th>
+										<td><%= producto2.presentacion_medida%></td>
+										<td>
+											<form method="post" action="/cambio_medida/add" id="<%=index%>9">
+											<input type="text" placeholder="<%= producto2.presentacion_medida%>" size="10" name="medida">
+											</form>
+										</td>
+										<td>
+											<button class="boton3m3" type="submit" form="<%=index%>9" name="index" value="<%=index%>">Medida</button>
+										</td>
+									</tr>
+									<tr>
+										<th>Unidad</th>
+										<td><%=producto2.unidad_medida%></td>
+										<td>
+											<form method="post" action="/cambio_unidad/add" id="<%=index%>10">
+											<input type="text" placeholder="<%=producto2.unidad_medida%>" size="10" name="unidad">
+											</form>
+										</td>
+										<td>
+											<button class="boton3m3" type="submit" form="<%=index%>10" name="index" value="<%=index%>">Unidad</button>
+										</td>
+									</tr>
+									<tr>
+										<th>Precio de lista por unidad USD</th>
+										<td><%=producto2.precio_lista_unidad_usd%></td>
+										<td>
+											<form method="post" action="/cambio_precio_usd/add" id="<%=index%>8">
+											<input type="text" placeholder="<%=producto2.precio_lista_unidad_usd%>" size="10" name="precio">
+											</form>
+										</td>
+										<td>
+											<button class="boton3m3" type="submit" form="<%=index%>8" name="index" value="<%=index%>">Precio en USD</button>
+										</td>
+									</tr>
+									<tr>
+										<th>Descuento</th>
+										<td><%= producto2.descuento %></td>
+										<td>
+											<form method="post" id="<%=index%>5" action="/descuento/add">
+											<input type="text" placeholder="<%=producto2.descuento %>" size="10" name="descuento">
+											</form>
+										</td>
+										<td>
+											<button class="boton3m3" type="submit" form="<%=index%>5" name="index" value="<%=index%>" >Descuento</button>
+										</td>
+									</tr>
+									<tr>
+										<th>Tiempo de entrega</th>
+										<td><%= producto2.tiempo_entrega %></td>
+										<td>
+											<form method="post" id="<%=index%>4" action="/cambio_tiempo/add">
+											<input type="text" placeholder="<%=producto2.tiempo_entrega%>" size="10" name="tiempo">
+											</form>
+										</td>
+										<td>
+											<button class="boton3m3" type="submit" form="<%=index%>4" name="index" value="<%=index%>">Tiempo de entrega</button>
+										</td>
+									</tr>
+									<tr>
+										<th>Piezas por caja</th>
+										<td><%=producto2.piezas_caja %></td>
+									</tr>
+									<tr>
+										<th>Área</th>
+										<td><%=producto2.area%></td>
+									</tr>
+									<tr>
+										<th>Familia</th>
+										<td><%=producto2.familia%></td>
+									</tr>
+									<tr>
+										<th>Piezas mínimas</th>
+										<td><%=producto2.piezas_minimas%></td>
+									</tr>
+									<tr>
+										<th>Precio de distribuidor especial</th>
+										<td><%=producto2.precio_distribuidor_especial%></td>
+									</tr>
+									<tr>
+										<th>Precio de distribuidor MXN</th>
+										<td><%=producto2.precio_distribuidor_mxn%></td>
+									</tr>
+									<tr>
+										<th>Precio de distribuidor USD</th>
+										<td><%=producto2.precio_distribuidor_usd%></td>
+									</tr>
+									<tr>
+										<th>Precio de lista MXN</th>
+										<td><%=producto2.precio_lista_unidad_mxn%></td>
+									</tr>
+									<tr>
+										<th>Tipo de servicio</th>
+										<td><%= producto2.tipo_servicio %></td>
+									</tr>
+									<tr>
+										<th>UPC</th>
+										<td><%=producto2.upc%></td>
+									</tr>
+								</tbody>
+							</table>
+					
                         </div>
                         
                         <hr>
                         <br/>
-						<form method="post" id="<%= index %>" action="/descuento/add">
-							<input type="text" placeholder="<%= producto2.descuento %>" size="5" name="descuento">
-							<button class="boton3m3" type="submit" form="<%= index %>" name="index" value="<%= index %>" >Descuento</button>
-						</form>
-                        <br/>
-                        <form method="post" action="/cantidad/add" id="<%= index %>2">
-							<input type="text" placeholder="<%= producto2.cantidad %>" size="5" name="cantidad">
-							<button class="boton3m3" type="submit" form="<%= index %>2" name="index" value="<%=index%>">Cantidad</button>
-						</form>
-                        <br/>
                         <form method="post" action="/eliminacion/add"> 
-                            <button class="boton3m2" name="eliminar" type="submit" value="<%=producto2.id%>">Eliminar producto</button>
+                            <button class="boton3m3" name="eliminar" type="submit" value="<%=producto2.id%>">Eliminar producto</button>
                         </form>
                         <hr>                
                         <% }); %>
-                    </ul>
+                    
                 </div>    
                 <% } %>
             </div>     
@@ -207,7 +377,7 @@
 		<div class="container">
             <div class="row">
             
-            <h3 class="centro">Tercer paso: INGRESA TUS DATOS DE VENDEDOR Y TIEMPO DE ENTREGA</h3>
+            <h3 class="centro">Ingresa la información del vendedor</h3>
                 
         <hr>
 				

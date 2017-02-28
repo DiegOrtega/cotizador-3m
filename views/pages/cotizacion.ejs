@@ -9,11 +9,11 @@
 </head>
 	
 <body>
-	<div class="container">
-		<div class="row">
-			<div style="text-align: right">
-				<h3 style="border: 2px solid; border-radius: 5px;"><%= fecha %></h3>
-			</div>
+	
+		<div class="container">
+			<div class="row">
+				<h3 class="col-lg-6" style="text-align: left;">Tipo de cambio: $<%= tipo_cambio %> MXN</h3>
+				<h3 class="col-lg-6" style="text-align: right;"><%= fecha %></h3>
 		</div>
 	</div>
 	
@@ -23,7 +23,7 @@
 			<img src="/img/logoleo.png" class="img-responsive center-block" alt="Artículos Innovadores Leo" title="Artículos Innovadores Leo">
 		</div>
 		<div class="col-lg-4" align="center">
-			<h1 style="margin-top: 42.5px !important;">Cotización</h1>
+			<h1 style="margin-top: 42.5px !important;">Cotización de Material</h1>
 		</div>
 		<div class="col-lg-4" align="center">
 			<img src="/img/3M.png" class="img-responsive center-block" alt="Artículos Innovadores Leo" title="Artículos Innovadores Leo" style="max-height: 124px !important;">
@@ -70,7 +70,7 @@
 
 					<thead class="thead-default">
 						<tr class="">
-							<th colspan="11" class="celda-centro" ><h2>Productos Agregados a Cotización</h2></th>
+							<th colspan="13" class="celda-centro" ><h2>Productos Agregados a Cotización</h2></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -84,31 +84,41 @@
 							<th class="">
 								Producto
 							</th>
-							<th class="">
-								Color/grano
+							<th>
+								Stock
 							</th>
 							<th class="">
 								Modelo
+							</th>
+							<th class="">
+								Color/grano
 							</th>
 							<th>
 								Medida
 							</th>
 							<th>
-								Precio Lista USD
+								Unidad
 							</th>
 							<th>
-								Precio Lista MXN
+								Precio Unitario Lista USD
+							</th>
+							<th>
+								Precio Unitario Lista MXN
 							</th>
 							<th>
 								Descuento (%)
 							</th>
 							<th>
-								Precio con descuento
+								Precio Unitario con Descuento
+							</th>
+							<th>
+								Precio de # piezas
 							</th>
 							<th class="">
 								Tiempo de entrega (días)
 							</th>
 						</tr>
+						
 						<% 
 						var cont = 0;
 						prod_agregados.forEach(function(producto2){	
@@ -124,11 +134,17 @@
 								<td class="">
 									<%=producto2.nombre%>
 								</td>
-								<td class="">
-									<%=producto2.color_grano%>
+								<td>
+									<%= producto2.stock %>
 								</td>
 								<td class="">
 									<%=producto2.modelo%>
+								</td>
+								<td class="">
+									<%=producto2.color_grano%>
+								</td>
+								<td>
+									<%= producto2.presentacion_medida %>
 								</td>
 								<td>
 									<%= producto2.unidad_medida %>
@@ -143,7 +159,10 @@
 									<%= producto2.descuento %> 
 								</td>
 								<td>
-								<%= producto2.precio_descuento %>
+									<%= producto2.precio_descuento %>
+								</td>
+								<td>
+								   <%= producto2.precio_cantidad %> 
 								</td>
 								<td class="">
 									<%= producto2.tiempo_entrega %>

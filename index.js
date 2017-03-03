@@ -119,14 +119,19 @@ app.post('/busqueda/add', function(req, res){
 	var stock_num = req.body.stock;
 	var desc = req.body.desc;
 	var modelo = req.body.modelo;
+	var color_grano = req.body.color_grano;
+	var medida = req.body.medida
 	
 	if(stock_num == ''){stock_num = null};
 	if(desc == ''){desc = null};
+	if(modelo == ''){modelo = null};
+	if(color_grano == ''){color_grano = null};
+	if(medida == ''){medida = null};
 	
-	console.log(stock_num +" "+ desc);
+	console.log(stock_num +" "+ desc+" "+modelo+" "+color_grano+" "+medida);
 	
 	session
-		.run("MATCH (n) WHERE n.STOCK =~ {stock_1} OR n.AREA =~ {key} OR n.COLOR_GRANO =~ {key} OR n.AIL_CODIGO_SAE =~ {key} OR n.CORMA_CODIGO_SAE =~{key} OR n.DESCRIPCION_AMPLIA1 =~{key} OR n.DESCRIPCION_AMPLIA2 =~{key} OR n.DESCRIPCION_AMPLIA3 =~{key} OR n.DESCUENTO =~{key} OR n.DIVISION =~{key} OR n.FAMILIA =~{key} OR n.FAMILIA =~ {key} OR n.MODELO =~ {modelo} OR n.NOMBRE =~{key} OR n.PIEZAS_CAJA =~{key} OR n.PRESENTACION_MEDIDA  =~ {key} OR n.STOCK2 =~ {stock_1} OR n.UPC =~ {key} RETURN n LIMIT 5", {stock_1: ".*"+stock_num+".*", key: ".*(?i)"+desc+".*", modelo:".*(?i)"+modelo+".*" })
+		.run("MATCH (n) WHERE n.STOCK =~ {stock_1} OR n.AREA =~ {key} OR n.COLOR_GRANO =~ {color_grano} OR n.AIL_CODIGO_SAE =~ {key} OR n.CORMA_CODIGO_SAE =~{key} OR n.DESCRIPCION_AMPLIA1 =~{key} OR n.DESCRIPCION_AMPLIA2 =~{key} OR n.DESCRIPCION_AMPLIA3 =~{key} OR n.DESCUENTO =~{key} OR n.DIVISION =~{key} OR n.FAMILIA =~{key} OR n.FAMILIA =~ {key} OR n.MODELO =~ {modelo} OR n.NOMBRE =~{key} OR n.PIEZAS_CAJA =~{key} OR n.STOCK2 =~ {stock_1} OR n.UPC =~ {key} OR n.PRESENTACION_MEDIDA  =~ {medida} RETURN n LIMIT 5", {stock_1: ".*"+stock_num+".*", key: ".*(?i)"+desc+".*", modelo:".*(?i)"+modelo+".*", color_grano:".*(?i)"+color_grano+".*", medida:".*(?i)"+medida+".*" })
 		.then(function(result2){
 			result2.records.forEach(function(record){
 				productoArray.push({
@@ -254,10 +259,19 @@ app.post('/carrito/add', function(req, res){
 					venta_caja: record._fields[0].properties.VENTA_CAJA,
 					cantidad: 1,
 					precio_descuento: null,
-					precio_cantidad: null
+					precio_cantidad: null,
+					mxn_ref: null
 				});	
 			});
 		
+		productoArray2.forEach(function(producto2){
+			if(producto2.precio_lista_unidad_mxn != undefined){
+				producto2.mxn_ref = producto2.precio_lista_unidad_mxn;
+				console.log('mxn_ref: ' + producto2.mxn_ref);
+			}else{
+				console.log("mxn_ref: " + producto2.mxn_ref);
+			};
+		});
 		
 		console.log("productos dentro de carrito = " + productoArray2.length);
 		
@@ -423,20 +437,24 @@ app.get('/pdfprevio', function(req, res){
 			
 			if(usd != undefined){
 				var n = usd.indexOf('$');
-			
+				
 				console.log("mxn: " + mxn);
 				console.log("usd: " + usd);
 				console.log('$:' + n);
 
-				if( mxn != undefined){ 
+				if(producto2.mxn_ref != undefined){ 
+					
+					var m = mxn.indexOf('$');
 
 					console.log("precio: " + mxn);
+					
+					mxn = mxn.substring(m+1, mxn.length );
 					
 					var desc_ref2 = parseFloat(desc_ref);
 					
 					console.log("desc_ref2: " + desc_ref2); 
 					
-					var diferencia = (mxn*((desc_ref2)/100));
+					var diferencia = (parseFloat(mxn)*((desc_ref2)/100));
 					
 					console.log("diferencia:"+ diferencia);
 					
@@ -452,17 +470,17 @@ app.get('/pdfprevio', function(req, res){
 					
 					producto2.precio_cantidad = ((mxn - diferencia)*cantidad_num).toFixed(2);
 
-			 	}else if(n != -1){
+			 	}else if(n != -1 && producto2.mxn_ref == undefined){
 
-					var mxn2 = usd.substring(n+1, usd.length);
+					var usd2 = usd.substring(n+1, usd.length);
 					
-					console.log("transf = " + mxn2);
+					console.log("transf = " + usd2);
 					
-					var cambio_mxn = parseFloat(mxn2);
+					var cambio_usd = parseFloat(usd2);
 					
-					producto2.precio_lista_unidad_mxn = (cambio_mxn*tipo_cambio).toFixed(2);
+					producto2.precio_lista_unidad_mxn = (cambio_usd*tipo_cambio).toFixed(3);
 					
-					var precio_mxn = cambio_mxn*tipo_cambio;
+					var precio_mxn = cambio_usd*tipo_cambio;
 					
 					var desc_ref2 = parseFloat(desc_ref);
 					
@@ -479,6 +497,8 @@ app.get('/pdfprevio', function(req, res){
 					var cantidad_num = parseFloat(producto2.cantidad);
 					
 					producto2.precio_cantidad = producto2.precio_descuento*cantidad_num;
+					
+					var tipo_cambio_ref = tipo_cambio;
 
 				 };	
 			}

@@ -104,6 +104,8 @@
                             <input type="text" placeholder="&nbsp;Stock" size="25" name="stock">&ensp;
 							<input type="text" placeholder="Modelo" size="25" name="modelo">&ensp;
                             <input type="text" placeholder="Palabra Clave" size="50" name="desc">
+							<input type="text" placeholder="Color/Grano" size="25" name="color_grano">
+							<input type="text" placeholder="Medida" size="25" name="medida">
                             <br/>
                         </form>	
 
@@ -120,36 +122,40 @@
                                         <div class="col-lg-12 contenedorDatos">
                                             <h4>Resultados de Búsqueda:  
 												<% if(stock_num != null){ %> Stock: <%=stock_num%>, <% } %> 
-												<% if(modelo != ''){ %> Modelo: <%= modelo %>, <% } %>
+												<% if(modelo != null){ %> Modelo: <%= modelo %>, <% } %>
 												<% if(desc != null){ %> palabra clave: <%=desc%> <% } %>
 											</h4>
 
                                             
                                             <% productos.forEach(function(producto){ %>
                                                 <div id="centro">
-                                                <form class="centro" method="post" action="/carrito/add">
-                                                <button class="boton3m2" name="agregar" type="submit" value="<%=producto.id_db%>">
-													
-													<table class="table table-striped">
-														<thead>
-															<tr class="table-active">
-																<th >Producto</th>
-																<th>Stock</th>
-																<th>Modelo</th>
-															</tr>
-														</thead>
-														<tbody>
-															<tr>
-																<td><%=producto.nombre%></td>
-																<td><%=producto.stock%></td>
-																<td><%=producto.modelo%></td>
-															</tr>
-														</tbody>
-													</table>	
-													
-                                                <br/>
-                                                </button>
-                                                </form>	
+													<form class="centro" method="post" action="/carrito/add">
+														<button class="boton3m2" name="agregar" type="submit" value="<%=producto.id_db%>">
+
+															<table class="table table-striped" style="margin:0px;">
+																<thead>
+																	<tr class="table-active">
+																		<th >Producto</th>
+																		<th>Stock</th>
+																		<th>Modelo</th>
+																		<th>Color/Grano</th>
+																		<th>Medida</th>
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr>
+																		<td><%=producto.nombre%></td>
+																		<td><%=producto.stock%></td>
+																		<td><%=producto.modelo%></td>
+																		<td><%=producto.color_grano%></td>
+																		<td><%=producto.presentacion_medida%></td>
+																	</tr>
+																</tbody>
+															</table>	
+
+														<br/>
+														</button>
+													</form>	
                                                 </div>
 												<br/>
                                             <%}) %>
@@ -184,23 +190,17 @@
                         <div class="col-lg-12 centro">
 							
 							<table class="table table-hover">
-								<thead >
-									<tr>
-										<th>Campos</th>
-										<th>Datos</th>
-										<th colspan="2" class="centro">Input</th>
-									</tr>	
-								</thead>
+								
 								<tbody data-toggle="collapse" data-target="#accordion<%=index%>" class="clickable">
 									<tr>
 										<th>Nombre</th>
 										<td><%=producto2.nombre%></td>
 										<td>
-											<form method="post" id="<%=index%>1" action="/cambio_nombre/add">
-											<input type="text" placeholder="<%=producto2.nombre%>" size="10" name="nombre">
+											<form class="centro" method="post" id="<%=index%>1" action="/cambio_nombre/add">
+											<input type="text" placeholder="<%=producto2.nombre%>" size="30" name="nombre">
 											</form>
 										</td>
-										<td><button class="boton3m3" type="submit" form="<%=index%>1" name="index" value="<%=index%>">Nombre</button></td>
+										<td><button class="boton3m3" type="submit" form="<%=index%>1" name="index" value="<%=index%>">Cambiar Nombre</button></td>
 									</tr>
 								</tbody>	
 								<tbody id="accordion<%=index%>" class="collapse">
@@ -208,108 +208,108 @@
 										<th>Cantidad</th>
 										<td><%= producto2.cantidad %></td>
 										<td>
-											<form method="post" action="/cantidad/add" id="<%= index %>6">
+											<form class="centro" method="post" action="/cantidad/add" id="<%= index %>6">
 											<input type="text" placeholder="<%= producto2.cantidad %>" size="10" name="cantidad">
 											</form>
 										</td>
 										<td>
-											<button class="boton3m3" type="submit" form="<%= index %>6" name="index" value="<%=index%>">Cantidad</button>
+											<button class="boton3m3" type="submit" form="<%= index %>6" name="index" value="<%=index%>">Cambiar Cantidad</button>
 										</td>
 									</tr>
 									<tr>
 										<th>Stock</th>
 										<td><%=producto2.stock%></td>
 										<td>
-											<form method="post" id="<%=index%>2" action="/cambio_stock/add">
+											<form class="centro" method="post" id="<%=index%>2" action="/cambio_stock/add">
 											<input type="text" placeholder="<%=producto2.stock%>" size="10" name="stock">
 											</form>
 										</td>
 										<td>
-											<button class="boton3m3" type="submit" form="<%=index%>2" name="index" value="<%=index%>">Stock</button>
+											<button class="boton3m3" type="submit" form="<%=index%>2" name="index" value="<%=index%>">Cambiar Stock</button>
 										</td>
 									</tr>
 									<tr>
 										<th>Modelo</th>
 										<td><%=producto2.modelo%></td>
 										<td>
-											<form method="post" id="<%=index%>3" action="/cambio_modelo/add">
+											<form class="centro" method="post" id="<%=index%>3" action="/cambio_modelo/add">
 											<input type="text" placeholder="<%=producto2.modelo%>" size="10" name="modelo">
 											</form>
 										</td>
 										<td>
-											<button class="boton3m3" type="submit" form="<%=index%>3" name="index" value="<%=index%>">Modelo</button>
+											<button class="boton3m3" type="submit" form="<%=index%>3" name="index" value="<%=index%>">Cambiar Modelo</button>
 										</td>
 									</tr>
 									<tr>
 										<th>Color/Grano</th>
 										<td><%=producto2.color_grano%></td>
 										<td>
-											<form method="post" action="/cambio_color_grano/add" id="<%=index%>7">
+											<form class="centro" method="post" action="/cambio_color_grano/add" id="<%=index%>7">
 											<input type="text" placeholder="<%=producto2.color_grano%>" size="10" name="color_grano">
 											</form>
 										</td>
 										<td>
-											<button class="boton3m3" type="submit" form="<%=index%>7" name="index" value="<%=index%>">Color/Grano</button>
+											<button class="boton3m3" type="submit" form="<%=index%>7" name="index" value="<%=index%>">Cambiar Color/Grano</button>
 										</td>
 									</tr>
 									<tr>
 										<th>Medida</th>
 										<td><%= producto2.presentacion_medida%></td>
 										<td>
-											<form method="post" action="/cambio_medida/add" id="<%=index%>9">
+											<form class="centro" method="post" action="/cambio_medida/add" id="<%=index%>9">
 											<input type="text" placeholder="<%= producto2.presentacion_medida%>" size="10" name="medida">
 											</form>
 										</td>
 										<td>
-											<button class="boton3m3" type="submit" form="<%=index%>9" name="index" value="<%=index%>">Medida</button>
+											<button class="boton3m3" type="submit" form="<%=index%>9" name="index" value="<%=index%>">Cambiar Medida</button>
 										</td>
 									</tr>
 									<tr>
 										<th>Unidad</th>
 										<td><%=producto2.unidad_medida%></td>
 										<td>
-											<form method="post" action="/cambio_unidad/add" id="<%=index%>10">
+											<form class="centro" method="post" action="/cambio_unidad/add" id="<%=index%>10">
 											<input type="text" placeholder="<%=producto2.unidad_medida%>" size="10" name="unidad">
 											</form>
 										</td>
 										<td>
-											<button class="boton3m3" type="submit" form="<%=index%>10" name="index" value="<%=index%>">Unidad</button>
+											<button class="boton3m3" type="submit" form="<%=index%>10" name="index" value="<%=index%>">Cambiar Unidad</button>
 										</td>
 									</tr>
 									<tr>
 										<th>Precio de lista por unidad USD</th>
 										<td><%=producto2.precio_lista_unidad_usd%></td>
 										<td>
-											<form method="post" action="/cambio_precio_usd/add" id="<%=index%>8">
+											<form class="centro" method="post" action="/cambio_precio_usd/add" id="<%=index%>8">
 											<input type="text" placeholder="<%=producto2.precio_lista_unidad_usd%>" size="10" name="precio">
 											</form>
 										</td>
 										<td>
-											<button class="boton3m3" type="submit" form="<%=index%>8" name="index" value="<%=index%>">Precio en USD</button>
+											<button class="boton3m3" type="submit" form="<%=index%>8" name="index" value="<%=index%>">Cambiar Precio en USD</button>
 										</td>
 									</tr>
 									<tr>
 										<th>Descuento</th>
 										<td><%= producto2.descuento %></td>
 										<td>
-											<form method="post" id="<%=index%>5" action="/descuento/add">
+											<form class="centro" method="post" id="<%=index%>5" action="/descuento/add">
 											<input type="text" placeholder="<%=producto2.descuento %>" size="10" name="descuento">
 											</form>
 										</td>
 										<td>
-											<button class="boton3m3" type="submit" form="<%=index%>5" name="index" value="<%=index%>" >Descuento</button>
+											<button class="boton3m3" type="submit" form="<%=index%>5" name="index" value="<%=index%>" >Cambiar Descuento</button>
 										</td>
 									</tr>
 									<tr>
 										<th>Tiempo de entrega</th>
 										<td><%= producto2.tiempo_entrega %></td>
 										<td>
-											<form method="post" id="<%=index%>4" action="/cambio_tiempo/add">
+											<form class="centro" method="post" id="<%=index%>4" action="/cambio_tiempo/add">
 											<input type="text" placeholder="<%=producto2.tiempo_entrega%>" size="10" name="tiempo">
 											</form>
 										</td>
 										<td>
-											<button class="boton3m3" type="submit" form="<%=index%>4" name="index" value="<%=index%>">Tiempo de entrega</button>
+											<button class="boton3m3" type="submit" form="<%=index%>4" name="index" value="<%=index%>">Cambiar Tiempo de entrega</button>
 										</td>
 									</tr>
 									<tr>

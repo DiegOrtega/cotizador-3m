@@ -112,35 +112,36 @@
 								Precio Unitario con Descuento
 							</th>
 							<th>
-								Precio de # piezas
+								Precio por # piezas
 							</th>
-							<th class="">
+							<th>
 								Tiempo de entrega (días)
 							</th>
 						</tr>
 						
 						<% 
-						var cont = 0;
+						var cont = 0, suma_bruta = 0, IVA=0, total_neto = 0;
 						prod_agregados.forEach(function(producto2){	
-						cont ++ 
+						cont ++;
+						suma_bruta = suma_bruta + parseFloat(producto2.precio_cantidad);	
 						%>
-							<tr class="">
+							<tr>
 								<td>
-									<%= cont %>
+								<%= cont %>
 								</td>
 								<td>
 								<%= producto2.cantidad%>
 								</td>
-								<td class="">
+								<td>
 									<%=producto2.nombre%>
 								</td>
 								<td>
 									<%= producto2.stock %>
 								</td>
-								<td class="">
+								<td>
 									<%=producto2.modelo%>
 								</td>
-								<td class="">
+								<td>
 									<%=producto2.color_grano%>
 								</td>
 								<td>
@@ -159,16 +160,16 @@
 									<%= producto2.descuento %> 
 								</td>
 								<td>
-									<%= producto2.precio_descuento %>
+									$<%= producto2.precio_descuento %>
 								</td>
 								<td>
-								   <%= producto2.precio_cantidad %> 
+								   $<%= producto2.precio_cantidad %> 
 								</td>
-								<td class="">
-									<%= producto2.tiempo_entrega %>
+								<td>
+								    <%= producto2.tiempo_entrega %>
 								</td>
 							</tr>		
-						<% }) %>
+						<% }); %>
 					</tbody>
 				</table>
 			</div>	
@@ -176,13 +177,24 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-offset-6 col-lg-6" style="border: 1px solid gray; border-radius: 10px;">
+						<%
+						 IVA = parseFloat(suma_bruta*0.16);
+						 total_neto = suma_bruta + IVA;
+						%>
 						<table class="table table-striped">
 							<tbody>
 								<tr>
-									<th>Total</th>
+									<th>Total Bruto</th>
+									<td>$<%= suma_bruta %></td>
+								</tr>
+								
+								<tr>
+									<th>IVA (16%)</th>
+									<td>$<%=IVA%></td>
 								</tr>
 								<tr>
-									<td>500</td>
+									<th>Total Neto</th>
+									<td>$<%=total_neto%></td>
 								</tr>
 							</tbody>
 						</table>

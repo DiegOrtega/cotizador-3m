@@ -33,7 +33,7 @@
 	
 	<br/>
 	
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
 			<div style="border: 1px solid gray; border-radius: 10px;">
 				<table class="table">
@@ -65,14 +65,15 @@
             
 			<br/>
 			
-			<div style="border: 1px solid gray; border-radius: 10px;">
-				<table class="table table-striped">
+			<div class="col-lg-12">
+				<table class="table table-striped col-lg-12">
 
 					<thead class="thead-default">
 						<tr class="">
-							<th colspan="13" class="celda-centro" ><h2>Productos Agregados a Cotización</h2></th>
+							<th colspan="17" class="celda-centro" ><h2>Productos</h2></th>
 						</tr>
 					</thead>
+                    
 					<tbody>
 						<tr class="">
 							<th>
@@ -99,20 +100,25 @@
 							<th>
 								Unidad
 							</th>
+                            
+                            <th>
+                                Precio Unitario Lista (USD)
+                            </th>
 							<th>
-								Precio Unitario Lista USD
-							</th>
-							<th>
-								Precio Unitario Lista MXN
-							</th>
-							<th>
+								Precio Unitario de distribuidor (MXN)
+                            </th>
+                            <th>
+								Precio Unitario Lista (MXN)
+                            </th>
+                            
+                            <th>
 								Descuento (%)
 							</th>
-							<th>
-								Precio Unitario con Descuento
+                            <th>
+								Precio Unitario c/ Descuento (MXN)
 							</th>
 							<th>
-								Precio por # piezas
+								Precio x # de unidades (MXN)
 							</th>
 							<th>
 								Tiempo de entrega (días)
@@ -120,10 +126,9 @@
 						</tr>
 						
 						<% 
-						var cont = 0, suma_bruta = 0, IVA=0, total_neto = 0;
 						prod_agregados.forEach(function(producto2){	
-						cont ++;
-						suma_bruta = suma_bruta + parseFloat(producto2.precio_cantidad);	
+                            var cont = 0;
+						cont ++;  
 						%>
 							<tr>
 								<td>
@@ -151,10 +156,26 @@
 									<%= producto2.unidad_medida %>
 								</td>
 								<td>
-									<%= producto2.precio_lista_unidad_usd %>
-								</td>
+                                    <% if( producto2.precio_lista_unidad_usd != undefined || producto2.precio_lista_unidad_mxn == undefined){ %>
+                                       <%= producto2.precio_lista_unidad_usd %> 
+                                   <% }else if(producto2.precio_lista_unidad_mxn != undefined){ %>
+                                   <% } %>
+                                    
+                                </td>
+                                <td>
+                                    <% if(producto2.precio_distribuidor_mxn != undefined || producto2.precio_lista_unidad_mxn == undefined){ %>
+                                        <%= producto2.precio_distribuidor_mxn %>    
+                                    <% }else if(producto2.precio_lista_unidad_usd != undefined || producto2.precio_lista_unidad_mxn != undefined){ %>
+                                    
+                                    <% } %>
+                                    
+                                </td> 
 								<td>
-									<%= producto2.precio_lista_unidad_mxn %>
+                                    <% if(producto2.precio_lista_unidad_mxn != undefined){ %>
+                                        <%= producto2.precio_lista_unidad_mxn %>
+                                    <% }else{ %>
+                                       Precio no definido. 
+                                    <% } %>
 								</td>
 								<td>
 									<%= producto2.descuento %> 
@@ -163,10 +184,10 @@
 									$<%= producto2.precio_descuento %>
 								</td>
 								<td>
-								   $<%= producto2.precio_cantidad %> 
+								   $<%= producto2.precio_cantidad %>
 								</td>
 								<td>
-								    <%= producto2.tiempo_entrega %>
+								    <%= producto2.tiempo_entrega %> 
 								</td>
 							</tr>		
 						<% }); %>
@@ -177,24 +198,21 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-offset-6 col-lg-6" style="border: 1px solid gray; border-radius: 10px;">
-						<%
-						 IVA = parseFloat(suma_bruta*0.16);
-						 total_neto = suma_bruta + IVA;
-						%>
+						
 						<table class="table table-striped">
 							<tbody>
 								<tr>
 									<th>Total Bruto</th>
-									<td>$<%= suma_bruta %></td>
+									<td>$<%= (suma_bruta).toFixed(3) %> MXN</td>
 								</tr>
 								
 								<tr>
 									<th>IVA (16%)</th>
-									<td>$<%=IVA%></td>
+									<td>$<%=IVA%> MXN</td>
 								</tr>
 								<tr>
 									<th>Total Neto</th>
-									<td>$<%=total_neto%></td>
+									<td>$<%=total_neto%> MXN</td>
 								</tr>
 							</tbody>
 						</table>

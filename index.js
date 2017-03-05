@@ -41,7 +41,7 @@ var driver = neo4j.driver(graphenedbURL, neo4j.auth.basic(graphenedbUser, graphe
 
 var session = driver.session();
 
-var total_nodos, nombre = null, empresa, telefono, mail, productoArray = [], productoArray2 = [], vendedor = null, num_vendedor, num_cot, descuento, extension, email_vendedor, tiempo_entrega, check, tipo_cambio=20, precio, stock_num, modelo, desc, nombre_p, stock_c, modelo_c, color_grano_c, tiempo_c, precio_c, medida_c, unidad_c, unidad_c;
+var total_nodos, nombre = null, empresa, telefono, mail, productoArray = [], productoArray2 = [], vendedor = null, num_vendedor, num_cot, descuento, extension, email_vendedor, tiempo_entrega, check, tipo_cambio=20, precio, stock_num, modelo, desc, nombre_p, stock_c, modelo_c, color_grano_c, tiempo_c, precio_c, medida_c, unidad_c, unidad_c,   IVA=0, total_neto = 0, suma_bruta = 0, IVA_raw;
 
 app.get('/', function(request, response){
 	response.render('pages/index3')
@@ -74,7 +74,11 @@ app.get('/3m', function(req, res) {
 					precio: precio,
 					stock_num: stock_num,
 					desc: desc,
-					modelo: modelo
+					modelo: modelo,
+                    suma_bruta: suma_bruta,
+                    IVA: IVA,
+                    total_neto: total_neto,
+                    suma_buta: suma_bruta
 				});
 		
 		})
@@ -93,24 +97,28 @@ app.post('/contacto/add', function(req, res){
 
 		res.render('pages/3m', {
 				desplegar: total_nodos,
-				nombre: nombre,
-				empresa: empresa,
-				telefono: telefono,
-				mail: mail,
-				productos: productoArray,
-				prod_agregados: productoArray2,
-				vendedor: vendedor,
-				num_vendedor: num_vendedor,
-				num_cot: num_cot,
-				extension: extension,
-				email_vendedor: email_vendedor,
-				tiempo_entrega: tiempo_entrega,
-				tipo_cambio: tipo_cambio,
-				fecha: fecha, 
-				precio: precio,
-				stock_num: stock_num,
-				desc: desc,
-				modelo: modelo
+					nombre: nombre,
+					empresa: empresa,
+					telefono: telefono,
+					mail: mail,
+					productos: productoArray,
+					prod_agregados: productoArray2,
+					vendedor: vendedor,
+					num_vendedor: num_vendedor,
+					num_cot: num_cot,
+					extension: extension,
+					email_vendedor: email_vendedor,
+					tiempo_entrega: tiempo_entrega,
+					tipo_cambio: tipo_cambio,
+					fecha: fecha, 
+					precio: precio,
+					stock_num: stock_num,
+					desc: desc,
+					modelo: modelo,
+                    suma_bruta: suma_bruta,
+                    IVA: IVA,
+                    total_neto: total_neto,
+                    suma_buta: suma_bruta
 		});
 });
 
@@ -177,24 +185,28 @@ app.post('/busqueda/add', function(req, res){
 		
 			res.render('pages/3m', {
 				desplegar: total_nodos,
-				nombre: nombre,
-				empresa: empresa,
-				telefono: telefono,
-				mail: mail,
-				productos: productoArray,
-				prod_agregados: productoArray2,
-				vendedor: vendedor,
-				num_vendedor: num_vendedor,
-				num_cot: num_cot,
-				extension: extension,
-				email_vendedor: email_vendedor,
-				tiempo_entrega: tiempo_entrega,
-				tipo_cambio: tipo_cambio,
-				fecha: fecha, 
-				precio: precio,
-				stock_num: stock_num,
-				desc: desc,
-				modelo: modelo
+					nombre: nombre,
+					empresa: empresa,
+					telefono: telefono,
+					mail: mail,
+					productos: productoArray,
+					prod_agregados: productoArray2,
+					vendedor: vendedor,
+					num_vendedor: num_vendedor,
+					num_cot: num_cot,
+					extension: extension,
+					email_vendedor: email_vendedor,
+					tiempo_entrega: tiempo_entrega,
+					tipo_cambio: tipo_cambio,
+					fecha: fecha, 
+					precio: precio,
+					stock_num: stock_num,
+					desc: desc,
+					modelo: modelo,
+                    suma_bruta: suma_bruta,
+                    IVA: IVA,
+                    total_neto: total_neto,
+                    suma_buta: suma_bruta
 			});
 		
 			productoArray = [];
@@ -277,24 +289,28 @@ app.post('/carrito/add', function(req, res){
 		
 		res.render('pages/3m', {
 				desplegar: total_nodos,
-				nombre: nombre,
-				empresa: empresa,
-				telefono: telefono,
-				mail: mail,
-				productos: productoArray,
-				prod_agregados: productoArray2,
-				vendedor: vendedor,
-				num_vendedor: num_vendedor,
-				num_cot: num_cot,
-				extension: extension,
-				email_vendedor: email_vendedor,
-				tiempo_entrega: tiempo_entrega,
-				tipo_cambio: tipo_cambio,
-				fecha: fecha, 
-				precio: precio,
-				stock_num: stock_num,
-				desc: desc,
-				modelo: modelo
+					nombre: nombre,
+					empresa: empresa,
+					telefono: telefono,
+					mail: mail,
+					productos: productoArray,
+					prod_agregados: productoArray2,
+					vendedor: vendedor,
+					num_vendedor: num_vendedor,
+					num_cot: num_cot,
+					extension: extension,
+					email_vendedor: email_vendedor,
+					tiempo_entrega: tiempo_entrega,
+					tipo_cambio: tipo_cambio,
+					fecha: fecha, 
+					precio: precio,
+					stock_num: stock_num,
+					desc: desc,
+					modelo: modelo,
+                    suma_bruta: suma_bruta,
+                    IVA: IVA,
+                    total_neto: total_neto,
+                    suma_buta: suma_bruta
 		});
        
 		
@@ -322,24 +338,28 @@ app.post('/eliminacion/add', function(req, res){
 	
 	res.render('pages/3m', {
 			desplegar: total_nodos,
-			nombre: nombre,
-			empresa: empresa,
-			telefono: telefono,
-			mail: mail,
-			productos: productoArray,
-			prod_agregados: productoArray2,
-			vendedor: vendedor,
-			num_vendedor: num_vendedor,
-			num_cot: num_cot,
-			extension: extension,
-			email_vendedor: email_vendedor,
-			tiempo_entrega: tiempo_entrega,
-			tipo_cambio: tipo_cambio,
-			fecha: fecha, 
-			precio: precio,
-			stock_num: stock_num,
-			desc: desc,
-			modelo: modelo
+					nombre: nombre,
+					empresa: empresa,
+					telefono: telefono,
+					mail: mail,
+					productos: productoArray,
+					prod_agregados: productoArray2,
+					vendedor: vendedor,
+					num_vendedor: num_vendedor,
+					num_cot: num_cot,
+					extension: extension,
+					email_vendedor: email_vendedor,
+					tiempo_entrega: tiempo_entrega,
+					tipo_cambio: tipo_cambio,
+					fecha: fecha, 
+					precio: precio,
+					stock_num: stock_num,
+					desc: desc,
+					modelo: modelo,
+                    suma_bruta: suma_bruta,
+                    IVA: IVA,
+                    total_neto: total_neto,
+                    suma_buta: suma_bruta
 		});
 });
 
@@ -365,24 +385,28 @@ app.post('/datos/add', function(req, res){
 	
 	res.render('pages/3m', {
 			desplegar: total_nodos,
-			nombre: nombre,
-			empresa: empresa,
-			telefono: telefono,
-			mail: mail,
-			productos: productoArray,
-			prod_agregados: productoArray2,
-			vendedor: vendedor,
-			num_vendedor: num_vendedor,
-			num_cot: num_cot,
-			extension: extension,
-			email_vendedor: email_vendedor,
-			tiempo_entrega: tiempo_entrega,
-			tipo_cambio: tipo_cambio,
-			fecha: fecha, 
-			precio: precio,
-			stock_num: stock_num,
-			desc: desc,
-			modelo: modelo
+					nombre: nombre,
+					empresa: empresa,
+					telefono: telefono,
+					mail: mail,
+					productos: productoArray,
+					prod_agregados: productoArray2,
+					vendedor: vendedor,
+					num_vendedor: num_vendedor,
+					num_cot: num_cot,
+					extension: extension,
+					email_vendedor: email_vendedor,
+					tiempo_entrega: tiempo_entrega,
+					tipo_cambio: tipo_cambio,
+					fecha: fecha, 
+					precio: precio,
+					stock_num: stock_num,
+					desc: desc,
+					modelo: modelo,
+                    suma_bruta: suma_bruta,
+                    IVA: IVA,
+                    total_neto: total_neto,
+                    suma_buta: suma_bruta
 		});
 });
 
@@ -400,21 +424,28 @@ app.post('/download', function(req, res){
 	
 	var obj = {
 			desplegar: total_nodos,
-			nombre: nombre,
-			empresa: empresa,
-			telefono: telefono,
-			mail: mail,
-			productos: productoArray,
-			prod_agregados: productoArray2,
-			vendedor: vendedor,
-			num_vendedor: num_vendedor,
-			num_cot: num_cot,
-			extension: extension,
-			email_vendedor: email_vendedor,
-			tiempo_entrega: tiempo_entrega,
-			tipo_cambio: tipo_cambio,
-			fecha: fecha, 
-			precio: precio
+            nombre: nombre,
+            empresa: empresa,
+            telefono: telefono,
+            mail: mail,
+            productos: productoArray,
+            prod_agregados: productoArray2,
+            vendedor: vendedor,
+            num_vendedor: num_vendedor,
+            num_cot: num_cot,
+            extension: extension,
+            email_vendedor: email_vendedor,
+            tiempo_entrega: tiempo_entrega,
+            tipo_cambio: tipo_cambio,
+            fecha: fecha, 
+            precio: precio,
+            stock_num: stock_num,
+            desc: desc,
+            modelo: modelo,
+            suma_bruta: suma_bruta,
+            IVA: IVA,
+            total_neto: total_neto,
+            suma_buta: suma_bruta
 		};
 	
 	var renderedhtml = ejs.render(html, obj);
@@ -428,103 +459,322 @@ app.post('/download', function(req, res){
 });
 
 app.get('/pdfprevio', function(req, res){
-	
+    
+    total_neto = 0; suma_bruta = 0; IVA = 0, IVA_raw = 0;
+    
 		productoArray2.forEach(function(producto2){
 			
 			var mxn = producto2.precio_lista_unidad_mxn;
 			var usd = producto2.precio_lista_unidad_usd;
-			var desc_ref = producto2.descuento;
-			
-			if(usd != undefined){
-				var n = usd.indexOf('$');
-				
-				console.log("mxn: " + mxn);
-				console.log("usd: " + usd);
-				console.log('$:' + n);
+            var usd_distribuidor = producto2.precio_distribuidor_usd;
+            var desc_ref = producto2.descuento;
+            
+            console.log('mxn:' + mxn);
+            console.log('usd: ' + usd);
+            console.log('usd_distribuidor: ' + usd_distribuidor );
+            console.log('desc_ref: ' + desc_ref);
+         
+            
+            if(mxn != undefined){
+                var desc_ref2 = parseFloat(desc_ref);
 
-				if(producto2.mxn_ref != undefined){ 
-					
-					var m = mxn.indexOf('$');
+                        console.log("desc_ref2: " + desc_ref2); 
 
-					console.log("precio: " + mxn);
-					
-					mxn = mxn.substring(m+1, mxn.length );
-					
-					var desc_ref2 = parseFloat(desc_ref);
-					
-					console.log("desc_ref2: " + desc_ref2); 
-					
-					var diferencia = (parseFloat(mxn)*((desc_ref2)/100));
-					
-					console.log("diferencia:"+ diferencia);
-					
-					console.log("mxn: " + mxn);
-					
-					producto2.precio_descuento = (mxn - diferencia).toFixed(2);
-					
-					console.log("precio c/ descuento: " + producto2.precio_descuento);
-					
-					console.log("cantidad: " + producto2.cantidad);
-					
-					var cantidad_num = parseFloat(producto2.cantidad);
-					
-					producto2.precio_cantidad = ((mxn - diferencia)*cantidad_num).toFixed(2);
+                        var diferencia = (parseFloat(mxn)*((desc_ref2)/100));
 
-			 	}else if(n != -1 && producto2.mxn_ref == undefined){
+                        console.log("diferencia:"+ diferencia);
 
-					var usd2 = usd.substring(n+1, usd.length);
-					
-					console.log("transf = " + usd2);
-					
-					var cambio_usd = parseFloat(usd2);
-					
-					producto2.precio_lista_unidad_mxn = (cambio_usd*tipo_cambio).toFixed(3);
-					
-					var precio_mxn = cambio_usd*tipo_cambio;
-					
-					var desc_ref2 = parseFloat(desc_ref);
-					
-					console.log("desc_ref2: " + desc_ref2); 
-					
-					var diferencia = (precio_mxn*((desc_ref2)/100));
-					
-					console.log("diferencia:"+ diferencia);
-					
-					producto2.precio_descuento = (precio_mxn - diferencia).toFixed(2); 
-					
-					console.log("cantidad: " + producto2.cantidad);
-					
-					var cantidad_num = parseFloat(producto2.cantidad);
-					
-					producto2.precio_cantidad = producto2.precio_descuento*cantidad_num;
-					
-					var tipo_cambio_ref = tipo_cambio;
+                        console.log("mxn: " + mxn);
 
-				 };	
-			}
+                        producto2.precio_descuento = (mxn - diferencia).toFixed(3);
+
+                        console.log("precio c/ descuento: " + producto2.precio_descuento);
+
+                        console.log("cantidad: " + producto2.cantidad);
+
+                        var cantidad_num = parseFloat(producto2.cantidad);
+
+                        producto2.precio_cantidad = ((mxn - diferencia)*cantidad_num).toFixed(3);
+            }
+            else if(usd_distribuidor != undefined ){
+                var v = usd_distribuidor.indexOf('$');
+
+                if(producto2.precio_lista_unidad_usd != undefined){
+                    var n = usd.indexOf('$');
+
+                    console.log("mxn: " + mxn);
+                    console.log("usd: " + usd);
+                    console.log('$:' + n);
+
+                    if(producto2.mxn_ref != undefined){ 
+
+                        var m = mxn.indexOf('$');
+
+                        console.log("precio: " + mxn);
+
+                        mxn = mxn.substring(m+1, mxn.length );
+
+                        var desc_ref2 = parseFloat(desc_ref);
+
+                        console.log("desc_ref2: " + desc_ref2); 
+
+                        var diferencia = (parseFloat(mxn)*((desc_ref2)/100));
+
+                        console.log("diferencia:"+ diferencia);
+
+                        console.log("mxn: " + mxn);
+
+                        producto2.precio_descuento = (mxn - diferencia).toFixed(3);
+
+                        console.log("precio c/ descuento: " + producto2.precio_descuento);
+
+                        console.log("cantidad: " + producto2.cantidad);
+
+                        var cantidad_num = parseFloat(producto2.cantidad);
+
+                        producto2.precio_cantidad = ((mxn - diferencia)*cantidad_num).toFixed(3);
+
+                    }else if(n != -1 && producto2.mxn_ref == undefined){
+
+                        var usd2 = usd.substring(n+1, usd.length);
+
+                        console.log("transf = " + usd2);
+
+                        var cambio_usd = parseFloat(usd2);
+
+                        producto2.precio_lista_unidad_mxn = (cambio_usd*tipo_cambio).toFixed(3);
+
+                        var precio_mxn = cambio_usd*tipo_cambio;
+
+                        var desc_ref2 = parseFloat(desc_ref);
+
+                        console.log("desc_ref2: " + desc_ref2); 
+
+                        var diferencia = (precio_mxn*((desc_ref2)/100));
+
+                        console.log("diferencia:"+ diferencia);
+
+                        producto2.precio_descuento = (precio_mxn - diferencia).toFixed(3); 
+
+                        console.log("cantidad: " + producto2.cantidad);
+
+                        var cantidad_num = parseFloat(producto2.cantidad);
+
+                        producto2.precio_cantidad = (producto2.precio_descuento*cantidad_num).toFixed(3);
+
+                        var tipo_cambio_ref = tipo_cambio;
+
+                     }else if(producto2.mxn == undefined){
+                         var cambio_usd = parseFloat(usd);
+
+                        producto2.precio_lista_unidad_mxn = (cambio_usd*tipo_cambio).toFixed(3);
+
+                        var precio_mxn = cambio_usd*tipo_cambio;
+
+                        var desc_ref2 = parseFloat(desc_ref);
+
+                        console.log("desc_ref2: " + desc_ref2); 
+
+                        var diferencia = (precio_mxn*((desc_ref2)/100));
+
+                        console.log("diferencia:"+ diferencia);
+
+                        producto2.precio_descuento = (precio_mxn - diferencia).toFixed(3); 
+
+                        console.log("cantidad: " + producto2.cantidad);
+
+                        var cantidad_num = parseFloat(producto2.cantidad);
+
+                        producto2.precio_cantidad = (producto2.precio_descuento*cantidad_num).toFixed(3);
+
+                        var tipo_cambio_ref = tipo_cambio;
+
+                     };	
+
+                }else if(producto2.precio_lista_unidad_usd == undefined && producto2.precio_distribuidor_usd != undefined){
+
+                    usd = usd_distribuidor;
+
+                    var usd2 = usd.substring(v+1, usd.length);
+
+                        console.log("transf precio distribuidor = " + usd2);
+
+                        var cambio_usd = parseFloat(usd2);
+
+                        producto2.precio_distribuidor_mxn = (cambio_usd*tipo_cambio).toFixed(3);
+
+                        var precio_mxn = cambio_usd*tipo_cambio;
+
+                        var desc_ref2 = parseFloat(desc_ref);
+
+                        console.log("desc_ref2: " + desc_ref2); 
+
+                        var diferencia = (precio_mxn*((desc_ref2)/100));
+
+                        console.log("diferencia:"+ diferencia);
+
+                        producto2.precio_descuento = (precio_mxn - diferencia).toFixed(3); 
+
+                        console.log("cantidad: " + producto2.cantidad);
+
+                        var cantidad_num = parseFloat(producto2.cantidad);
+
+                        producto2.precio_cantidad = (producto2.precio_descuento*cantidad_num).toFixed(3);
+
+                        var tipo_cambio_ref = tipo_cambio;
+
+                }else{
+                    producto2.precio_lista_unidad_usd = undefined;
+                    producto2.precio_lista_unidad_mxn = undefined;
+                    producto2.precio_distribuidor_usd = undefined;
+                };
+                
+            }
+            else if(producto2.descuento == undefined && mxn != undefined){
+                producto2.descuento = 0;
+                
+                var desc_ref2 = parseFloat(desc_ref);
+
+                        console.log("desc_ref2: " + desc_ref2); 
+
+                        var diferencia = (parseFloat(mxn)*((desc_ref2)/100));
+
+                        console.log("diferencia:"+ diferencia);
+
+                        console.log("mxn: " + mxn);
+
+                        producto2.precio_descuento = (mxn - diferencia).toFixed(3);
+
+                        console.log("precio c/ descuento: " + producto2.precio_descuento);
+
+                        console.log("cantidad: " + producto2.cantidad);
+
+                        var cantidad_num = parseFloat(producto2.cantidad);
+
+                        producto2.precio_cantidad = ((mxn - diferencia)*cantidad_num).toFixed(3);
+            
+            }
+            else if(producto2.descuento == undefined && mxn == undefined && usd == undefined){
+                producto2.descuento = 0;
+                producto2.precio_lista_unidad_usd = undefined;
+                producto2.precio_lista_unidad_mxn = undefined;
+                producto2.precio_distribuidor_usd = undefined;
+                
+            }
+            else if(producto2.precio_lista_unidad_mxn != undefined && producto2.descuento != undefined  ){
+                 var desc_ref2 = parseFloat(desc_ref);
+
+                        console.log("desc_ref2: " + desc_ref2); 
+
+                        var diferencia = (parseFloat(mxn)*((desc_ref2)/100));
+
+                        console.log("diferencia:"+ diferencia);
+
+                        console.log("mxn: " + mxn);
+
+                        producto2.precio_descuento = (mxn - diferencia).toFixed(3);
+
+                        console.log("precio c/ descuento: " + producto2.precio_descuento);
+
+                        console.log("cantidad: " + producto2.cantidad);
+
+                        var cantidad_num = parseFloat(producto2.cantidad);
+
+                        producto2.precio_cantidad = ((mxn - diferencia)*cantidad_num).toFixed(3);
+                
+            }
+            else if(producto2.precio_lista_unidad_mxn != undefined){
+                
+                mxn = parseFloat(producto2.precio_lista_unidad_mxn);
+                
+                var desc_ref2 = parseFloat(desc_ref);
+
+                console.log("desc_ref2: " + desc_ref2); 
+
+                var diferencia = mxn*((desc_ref2)/100);
+
+                console.log("diferencia:"+ diferencia);
+
+                console.log("mxn: " + mxn);
+
+                producto2.precio_descuento = (mxn - diferencia).toFixed(3);
+
+                console.log("precio c/ descuento: " + producto2.precio_descuento);
+
+                console.log("cantidad: " + producto2.cantidad);
+
+                var cantidad_num = parseFloat(producto2.cantidad);
+
+                producto2.precio_cantidad = ((mxn - diferencia)*cantidad_num).toFixed(3);
+            }
+            else if(usd != undefined){
+                var usd2 = usd.substring(n+1, usd.length);
+
+                        console.log("transf = " + usd2);
+
+                        var cambio_usd = parseFloat(usd2);
+
+                        producto2.precio_lista_unidad_mxn = (cambio_usd*tipo_cambio).toFixed(3);
+
+                        var precio_mxn = cambio_usd*tipo_cambio;
+
+                        var desc_ref2 = parseFloat(desc_ref);
+
+                        console.log("desc_ref2: " + desc_ref2); 
+
+                        var diferencia = (precio_mxn*((desc_ref2)/100));
+
+                        console.log("diferencia:"+ diferencia);
+
+                        producto2.precio_descuento = (precio_mxn - diferencia).toFixed(3); 
+
+                        console.log("cantidad: " + producto2.cantidad);
+
+                        var cantidad_num = parseFloat(producto2.cantidad);
+
+                        producto2.precio_cantidad = (producto2.precio_descuento*cantidad_num).toFixed(3);
+
+                        var tipo_cambio_ref = tipo_cambio;
+            }
+            else{
+                producto2.precio_lista_unidad_usd = undefined;
+                producto2.precio_lista_unidad_mxn = undefined;
+                producto2.precio_distribuidor_usd = undefined;
+            };
+            
+            suma_bruta = suma_bruta + parseFloat(producto2.precio_cantidad);
+            IVA_raw = (suma_bruta*0.16).toFixed(3);
+            IVA = parseFloat(IVA_raw);
+            total_neto = (suma_bruta + IVA).toFixed(3);          
+           
+           
 				 
 		});
 	
    res.render('pages/cotizacion',{
 		desplegar: total_nodos,
-		nombre: nombre,
-		empresa: empresa,
-		telefono: telefono,
-		mail: mail,
-		productos: productoArray,
-		prod_agregados: productoArray2,
-		vendedor: vendedor,
-		num_vendedor: num_vendedor,
-		num_cot: num_cot,
-		extension: extension,
-		email_vendedor: email_vendedor,
-		tiempo_entrega: tiempo_entrega,
-		tipo_cambio: tipo_cambio,
-		fecha: fecha, 
-		precio: precio,
-		stock_num: stock_num,
-		desc: desc,
-		modelo: modelo
+        nombre: nombre,
+        empresa: empresa,
+        telefono: telefono,
+        mail: mail,
+        productos: productoArray,
+        prod_agregados: productoArray2,
+        vendedor: vendedor,
+        num_vendedor: num_vendedor,
+        num_cot: num_cot,
+        extension: extension,
+        email_vendedor: email_vendedor,
+        tiempo_entrega: tiempo_entrega,
+        tipo_cambio: tipo_cambio,
+        fecha: fecha, 
+        precio: precio,
+        stock_num: stock_num,
+        desc: desc,
+        modelo: modelo,
+        suma_bruta: suma_bruta,
+        IVA: IVA,
+        total_neto: total_neto,
+        suma_buta: suma_bruta
    }); 
 });
 
@@ -533,24 +783,28 @@ app.post('/tipo_cambio/add', function(req, res){
 	
 	res.render('pages/3m', {
 			desplegar: total_nodos,
-			nombre: nombre,
-			empresa: empresa,
-			telefono: telefono,
-			mail: mail,
-			productos: productoArray,
-			prod_agregados: productoArray2,
-			vendedor: vendedor,
-			num_vendedor: num_vendedor,
-			num_cot: num_cot,
-			extension: extension,
-			email_vendedor: email_vendedor,
-			tiempo_entrega: tiempo_entrega,
-			tipo_cambio: tipo_cambio,
-			fecha: fecha, 
-			precio: precio,
-			stock_num: stock_num,
-			desc: desc,
-			modelo: modelo
+            nombre: nombre,
+            empresa: empresa,
+            telefono: telefono,
+            mail: mail,
+            productos: productoArray,
+            prod_agregados: productoArray2,
+            vendedor: vendedor,
+            num_vendedor: num_vendedor,
+            num_cot: num_cot,
+            extension: extension,
+            email_vendedor: email_vendedor,
+            tiempo_entrega: tiempo_entrega,
+            tipo_cambio: tipo_cambio,
+            fecha: fecha, 
+            precio: precio,
+            stock_num: stock_num,
+            desc: desc,
+            modelo: modelo,
+            suma_bruta: suma_bruta,
+            IVA: IVA,
+            total_neto: total_neto,
+            suma_buta: suma_bruta
 		});
 	
 });
@@ -569,26 +823,30 @@ app.post('/cantidad/add', function(req, res){
 
 	
 	res.render('pages/3m', {
-			desplegar: total_nodos,
-			nombre: nombre,
-			empresa: empresa,
-			telefono: telefono,
-			mail: mail,
-			productos: productoArray,
-			prod_agregados: productoArray2,
-			vendedor: vendedor,
-			num_vendedor: num_vendedor,
-			num_cot: num_cot,
-			extension: extension,
-			email_vendedor: email_vendedor,
-			tiempo_entrega: tiempo_entrega,
-			tipo_cambio: tipo_cambio,
-			fecha: fecha, 
-			precio: precio,
-			stock_num: stock_num,
-			desc: desc,
-			modelo: modelo
-		});
+        desplegar: total_nodos,
+        nombre: nombre,
+        empresa: empresa,
+        telefono: telefono,
+        mail: mail,
+        productos: productoArray,
+        prod_agregados: productoArray2,
+        vendedor: vendedor,
+        num_vendedor: num_vendedor,
+        num_cot: num_cot,
+        extension: extension,
+        email_vendedor: email_vendedor,
+        tiempo_entrega: tiempo_entrega,
+        tipo_cambio: tipo_cambio,
+        fecha: fecha, 
+        precio: precio,
+        stock_num: stock_num,
+        desc: desc,
+        modelo: modelo,
+        suma_bruta: suma_bruta,
+        IVA: IVA,
+        total_neto: total_neto,
+        suma_buta: suma_bruta
+    });
 	
 });
 
@@ -611,24 +869,28 @@ app.post('/descuento/add', function(req, res){
 	
 	res.render('pages/3m', {
 			desplegar: total_nodos,
-			nombre: nombre,
-			empresa: empresa,
-			telefono: telefono,
-			mail: mail,
-			productos: productoArray,
-			prod_agregados: productoArray2,
-			vendedor: vendedor,
-			num_vendedor: num_vendedor,
-			num_cot: num_cot,
-			extension: extension,
-			email_vendedor: email_vendedor,
-			tiempo_entrega: tiempo_entrega,
-			tipo_cambio: tipo_cambio,
-			fecha: fecha, 
-			precio: precio,
-			stock_num: stock_num,
-			desc: desc,
-			modelo: modelo
+            nombre: nombre,
+            empresa: empresa,
+            telefono: telefono,
+            mail: mail,
+            productos: productoArray,
+            prod_agregados: productoArray2,
+            vendedor: vendedor,
+            num_vendedor: num_vendedor,
+            num_cot: num_cot,
+            extension: extension,
+            email_vendedor: email_vendedor,
+            tiempo_entrega: tiempo_entrega,
+            tipo_cambio: tipo_cambio,
+            fecha: fecha, 
+            precio: precio,
+            stock_num: stock_num,
+            desc: desc,
+            modelo: modelo,
+            suma_bruta: suma_bruta,
+            IVA: IVA,
+            total_neto: total_neto,
+            suma_buta: suma_bruta
 		});
 	
 });
@@ -822,6 +1084,8 @@ app.post('/cambio_precio_usd/add', function(req,res){
 			console.log("i: " + i );
 			console.log("precio_c: " + precio_c);
 			producto2.precio_lista_unidad_usd = precio_c;
+            console.log("producto2.precio_lista_unidad_usd: " + producto2.precio_lista_unidad_usd);
+            
 		}
 	});
 	
@@ -847,6 +1111,43 @@ app.post('/cambio_precio_usd/add', function(req,res){
 		modelo: modelo
 	});
 	
+});
+
+app.post('/cambio_precio_mxn/add', function(req, res){
+    var precio_c_mxn = req.body.precio_mxn;
+	var index = req.body.index;
+	
+	productoArray2.forEach(function(producto2, i){
+		if(index == i){	
+			console.log("i: " + i );
+			console.log("precio_c_mxn: " + precio_c_mxn);
+			producto2.precio_lista_unidad_mxn = precio_c_mxn;
+            console.log("producto2.precio_lista_unidad_mxn: " + producto2.precio_lista_unidad_mxn);
+            
+		}
+	});
+	
+	res.render('pages/3m', {
+		desplegar: total_nodos,
+		nombre: nombre,
+		empresa: empresa,
+		telefono: telefono,
+		mail: mail,
+		productos: productoArray,
+		prod_agregados: productoArray2,
+		vendedor: vendedor,
+		num_vendedor: num_vendedor,
+		num_cot: num_cot,
+		extension: extension,
+		email_vendedor: email_vendedor,
+		tiempo_entrega: tiempo_entrega,
+		tipo_cambio: tipo_cambio,
+		fecha: fecha, 
+		precio: precio,
+		stock_num: stock_num,
+		desc: desc,
+		modelo: modelo
+	});
 });
 
 app.post('/cambio_medida/add', function(req,res){

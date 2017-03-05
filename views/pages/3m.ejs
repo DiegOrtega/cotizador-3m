@@ -288,6 +288,18 @@
 											<button class="boton3m3" type="submit" form="<%=index%>8" name="index" value="<%=index%>">Cambiar Precio en USD</button>
 										</td>
 									</tr>
+                                    <tr>
+										<th>Precio de lista MXN</th>
+										<td><%=producto2.precio_lista_unidad_mxn%></td>
+                                       <td>
+                                            <form class="centro" method="post" action="/cambio_precio_mxn/add" id="<%=index%>11">
+                                            <input type="text" placeholder="<%=producto2.precio_lista_unidad_mxn%>" size="10" name="precio_mxn">
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <button class="boton3m3" type="submit" form="<%=index%>11" name="index" value="<%=index%>">Cambiar Precio en MXN</button>
+                                        </td>
+                                    </tr>
 									<tr>
 										<th>Descuento</th>
 										<td><%= producto2.descuento %></td>
@@ -339,10 +351,6 @@
 									<tr>
 										<th>Precio de distribuidor USD</th>
 										<td><%=producto2.precio_distribuidor_usd%></td>
-									</tr>
-									<tr>
-										<th>Precio de lista MXN</th>
-										<td><%=producto2.precio_lista_unidad_mxn%></td>
 									</tr>
 									<tr>
 										<th>Tipo de servicio</th>

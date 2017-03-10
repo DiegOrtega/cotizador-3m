@@ -21,9 +21,9 @@
         
 		<div class="container">
 			<div class="row">
-				<h3 class="col-lg-6- col-md-6"> Productos en la Base de Datos: <%=desplegar%> </h3>
+				<h3 class="col-lg-6 col-md-6"> Productos en la Base de Datos: <%=desplegar%> </h3>
 			
-				<div class="col-lg-6 col-md-6">
+				<div class="col-lg-5 col-md-4">
 					<h4 style="text-align: right">Tipo de cambio:</h4>
 					<form style="text-align: right" id="tipo_cambio" method="post" action="/tipo_cambio/add">
 						<input id="timpo_cambio" type="text" placeholder="<%= tipo_cambio %>" size="10" name="tipo_cambio">
@@ -175,8 +175,7 @@
                 <div class=" centro">
                     <h4>Productos Agregados a Cotización</h4>
                 </div>
-        
-               
+		
         <div class="container">
             <div class="row">
                 
@@ -184,26 +183,35 @@
 
                     <div class="col-lg-12 contenedorDatos centro">
                     
+						<style>/* fix = code from bootstrap 3 */
+						tbody.collapse.in {
+						  display: table-row-group;
+						}
+						</style>
                         
                         <% prod_agregados.forEach(function(producto2, index){ %>
                         
                         <div class="col-lg-12 centro">
 							
-							<table class="table table-hover">
+							<table class="table table-responsive table-hover">
 								
-								<tbody data-toggle="collapse" data-target="#accordion<%=index%>" class="clickable">
-									<tr>
-										<th>Nombre</th>
-										<td><%=producto2.nombre%></td>
-										<td>
-											<form class="centro" method="post" id="<%=index%>1" action="/cambio_nombre/add">
-											<input type="text" placeholder="<%=producto2.nombre%>" size="30" name="nombre">
-											</form>
-										</td>
-										<td><button class="boton3m3" type="submit" form="<%=index%>1" name="index" value="<%=index%>">Cambiar Nombre</button></td>
-									</tr>
-								</tbody>	
-								<tbody id="accordion<%=index%>" class="collapse">
+								<tbody class="clickable" data-toggle="collapse" data-target="#collapse<%=index%>" aria-expanded="true" aria-controls="collapse<%=index%>1">
+									
+										<tr> 
+											<th>Nombre</th>
+											<td><%=producto2.nombre%></td>
+											<td>
+												<form class="centro" method="post" id="<%=index%>1" action="/cambio_nombre/add">
+													<input type="text" placeholder="<%=producto2.nombre%>" size="30" name="nombre">
+												</form>
+											</td>
+											<td><button class="boton3m3" type="submit" form="<%=index%>1" name="index" value="<%=index%>">Cambiar Nombre</button></td>
+										</tr>
+									
+								</tbody>
+									
+								<tbody id="collapse<%=index%>" class="collapse">
+									
 									<tr>
 										<th>Cantidad</th>
 										<td><%= producto2.cantidad %></td>
@@ -288,18 +296,6 @@
 											<button class="boton3m3" type="submit" form="<%=index%>8" name="index" value="<%=index%>">Cambiar Precio en USD</button>
 										</td>
 									</tr>
-                                    <tr>
-										<th>Precio de lista MXN</th>
-										<td><%=producto2.precio_lista_unidad_mxn%></td>
-                                       <td>
-                                            <form class="centro" method="post" action="/cambio_precio_mxn/add" id="<%=index%>11">
-                                            <input type="text" placeholder="<%=producto2.precio_lista_unidad_mxn%>" size="10" name="precio_mxn">
-                                            </form>
-                                        </td>
-                                        <td>
-                                            <button class="boton3m3" type="submit" form="<%=index%>11" name="index" value="<%=index%>">Cambiar Precio en MXN</button>
-                                        </td>
-                                    </tr>
 									<tr>
 										<th>Descuento</th>
 										<td><%= producto2.descuento %></td>
@@ -353,6 +349,10 @@
 										<td><%=producto2.precio_distribuidor_usd%></td>
 									</tr>
 									<tr>
+										<th>Precio de lista MXN</th>
+										<td><%=producto2.precio_lista_unidad_mxn%></td>
+									</tr>
+									<tr>
 										<th>Tipo de servicio</th>
 										<td><%= producto2.tipo_servicio %></td>
 									</tr>
@@ -360,7 +360,8 @@
 										<th>UPC</th>
 										<td><%=producto2.upc%></td>
 									</tr>
-								</tbody>
+										
+								</tbody>		
 							</table>
 					
                         </div>
@@ -402,10 +403,10 @@
         </form>  
             
         </div>		  
-
+		</div>
         <hr>
     
-		<div class="container-fluid">
+		<div class="container">
             <div class="row">
                 <div class="col-lg-12 contenedorDatos">
                     <h4>Datos ingresados del vendedor</h4>
@@ -437,18 +438,18 @@
 
         <div class="container">
             <div class="row">
-                <h3 class="centro">&Uacute;ltimo paso: GENERA Y GUARDA TU PDF</h3>
-                
+                <h3 class="centro col-lg-12">&Uacute;ltimo paso: GENERA Y GUARDA TU PDF</h3>
+                <br>
                 <hr>
                 
-                <div class="col-lg-12 centro">
+                <!--<div class="col-lg-12 centro">
                 <form method="post" action="/download">
                     <button class="boton3m" type="submit">Crear PDF</button>
                 </form>
-                </div>
+                </div>-->
                 
-                <div class="centro">
-                <a href="/pdfprevio" target="_blank"><h4>Vista previa</h4></a>
+                <div class="centro col-lg-12">
+                <a href="/pdfprevio" class="boton3m" target="_blank"><h4>Vista previa</h4></a>
                 </div>
                 
             </div>

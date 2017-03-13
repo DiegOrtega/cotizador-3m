@@ -212,7 +212,7 @@ app.post('/carrito/add', function(req, res){
 	var carrito = req.body.agregar;
 	
 	if(check == carrito){
-		productoArray2.splice(productoArray2.length - 1, 1);	
+		productoArray2.splice(productoArray2.length - 1, 1);
 	};
 	
 	check = carrito;

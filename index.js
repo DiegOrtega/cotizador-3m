@@ -218,7 +218,7 @@ app.post('/carrito/add', function(req, res){
 	check = carrito;
 	
 	session	
-		.run("MATCH (n {ID: {carrito}}) RETURN n", {carrito: carrito})
+		.run("MATCH (n {STOCK: {carrito}}) RETURN n", {carrito: carrito})
 		.then(function(result3){
 		result3.records.forEach(function(record){
 				productoArray2.push({

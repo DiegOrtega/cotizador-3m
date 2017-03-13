@@ -130,7 +130,7 @@
                                             <% productos.forEach(function(producto){ %>
                                                 <div id="centro">
 													<form class="centro" method="post" action="/carrito/add">
-														<button class="boton3m2" name="agregar" type="submit" value="<%=producto.id_db%>">
+														<button class="boton3m2" name="agregar" type="submit" value="<%=producto.stock%>">
 
 															<table class="table table-striped" style="margin:0px;">
 																<thead>

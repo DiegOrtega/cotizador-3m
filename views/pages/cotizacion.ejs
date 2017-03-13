@@ -131,7 +131,8 @@
 						prod_agregados.forEach(function(producto2){	
 						cont ++;
 						suma_bruta = suma_bruta + parseFloat(producto2.precio_cantidad);
-						var dir = 'http://www.ail.com.mx/imgprod/'+producto2.id_db+'-'+producto2.modelo+'.jpg';
+                        var dir_min = 'http://www.ail.com.mx/imgprod/'+producto2.id_db+'-'+producto2.modelo+'.jpg'; 
+						var dir = dir_min.toLowerCase();                
 						//	var dir = '/img/logoleo.png';
 						%>
 							<tr>
@@ -163,7 +164,7 @@
 									<%= producto2.precio_lista_unidad_usd %>
 								</td>
 								<td>
-									<%= producto2.precio_lista_unidad_mxn %>
+									$<%= producto2.precio_lista_unidad_mxn %>
 								</td>
 								<td>
 									<%= producto2.descuento %> 
@@ -195,7 +196,7 @@
 							<tbody>
 								<tr>
 									<th>Total Bruto</th>
-									<td>$<%= suma_bruta %></td>
+									<td>$<%= (suma_bruta).toFixed(3) %></td>
 								</tr>
 								
 								<tr>
@@ -232,7 +233,7 @@
 									# vendedor
 								</th>
 								<th class="">
-									# cotización
+									Folio
 								</th>
 								<th class="">
 									Extension

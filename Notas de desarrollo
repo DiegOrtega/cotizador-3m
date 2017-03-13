@@ -1,0 +1,9 @@
+Notas de desarrollo 14/03/2017
+
+Tareas del día
+-Vacias tablas para renombramiento de ID y Modelo.
+-Reparar bug:
+    Los productos con ID similares se agregan a la cotización incluso cuando sólo se ha solicitado uno de los varios productos con esta condición. 
+        -Soluciones
+            Cambiar proceso agregado a la cotización "carrito/add" (Fácil)
+            Eliminar duplicidad de ID (Dificil)

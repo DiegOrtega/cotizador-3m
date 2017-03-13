@@ -1,9 +1,15 @@
 Notas de desarrollo 14/03/2017
 
 Tareas del día
+
 -Vaciar tablas para renombramiento de ID y Modelo.
+
 -Reparar bug:
     Los productos con ID similares se agregan a la cotización incluso cuando sólo se ha solicitado uno de los varios productos con esta condición. 
         -Soluciones
             Cambiar proceso agregado a la cotización "carrito/add" (Fácil)
             Eliminar duplicidad de ID (Dificil)
+	-Resultado
+		Se cambio el código para que solo se agregara a través del # de stock 		a la vez que se cambio la consulta para que solo regrese 1 resultado. 
+
+Notas de desarrollo 15/03/2017

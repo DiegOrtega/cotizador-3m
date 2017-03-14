@@ -132,7 +132,8 @@
 						cont ++;
 						suma_bruta = suma_bruta + parseFloat(producto2.precio_cantidad);
                         var dir_min = 'http://www.ail.com.mx/imgprod/'+producto2.id_db+'-'+producto2.modelo+'.jpg'; 
-						var dir = dir_min.toLowerCase();                
+						var dir = dir_min.toLowerCase();
+						dir = dir.replace(/\s+/g, '');	
 						//	var dir = '/img/logoleo.png';
 						%>
 							<tr>

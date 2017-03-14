@@ -39,13 +39,13 @@ var graphenedbUser1 = process.env.GRAPHENEDB_COPPER_BOLT_USER;
 var graphenedbPass1 = process.env.GRAPHENEDB_COPPER_BOLT_PASSWORD;
 
 //Protocolo de conexión para servidor cloud heroku
-//var driver = neo4j.driver(graphenedbURL, neo4j.auth.basic(graphenedbUser, graphenedbPass));
+var driver = neo4j.driver(graphenedbURL, neo4j.auth.basic(graphenedbUser, graphenedbPass));
 //var driver1 = neo4j.driver(graphenedbURL1, neo4j.auth.basic(graphenedbUser1, graphenedbPass1));
 
-var driver = neo4j.driver('bolt://localhost', neo4j.auth.basic('neo4j', 'Sistemas'));
+//var driver = neo4j.driver('bolt://localhost', neo4j.auth.basic('neo4j', 'Sistemas'));
 
 var session = driver.session();
-var session1 = driver1.session();
+//var session1 = driver1.session();
 
 
 var total_nodos, nombre = null, empresa, telefono, mail, productoArray = [], productoArray2 = [], vendedor = null, num_vendedor, num_cot, descuento, extension, email_vendedor, tiempo_entrega, check, tipo_cambio=20, precio, stock_num, modelo, desc, nombre_p, stock_c, modelo_c, color_grano_c, tiempo_c, precio_c, medida_c, unidad_c, unidad_c;

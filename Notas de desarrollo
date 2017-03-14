@@ -13,3 +13,10 @@ Tareas del día
 		Se cambio el código para que solo se agregara a través del # de stock 		a la vez que se cambio la consulta para que solo regrese 1 resultado. 
 
 Notas de desarrollo 15/03/2017
+
+-Vaciado de tablas a BD en web
+	Eliminar base de datos actual y agregar base de datos reparada desde cero.
+-Crear # de folio
+	Usar otra base de datos en el mismo servidor (fácil)
+-Bug de precio no existente que no se puede actualizar
+

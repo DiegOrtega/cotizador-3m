@@ -34,12 +34,19 @@ var graphenedbURL = process.env.GRAPHENEDB_BOLT_URL;
 var graphenedbUser = process.env.GRAPHENEDB_BOLT_USER;
 var graphenedbPass = process.env.GRAPHENEDB_BOLT_PASSWORD;
 
-//Protocolo de conexión para servidor cloud heroku
-var driver = neo4j.driver(graphenedbURL, neo4j.auth.basic(graphenedbUser, graphenedbPass));
+var graphenedbURL1 = process.env.GRAPHENEDB_COPPER_BOLT_URL;
+var graphenedbUser1 = process.env.GRAPHENEDB_COPPER_BOLT_USER;
+var graphenedbPass1 = process.env.GRAPHENEDB_COPPER_BOLT_PASSWORD;
 
-//var driver = neo4j.driver('bolt://localhost', neo4j.auth.basic('neo4j', 'Sistemas'));
+//Protocolo de conexión para servidor cloud heroku
+//var driver = neo4j.driver(graphenedbURL, neo4j.auth.basic(graphenedbUser, graphenedbPass));
+//var driver1 = neo4j.driver(graphenedbURL1, neo4j.auth.basic(graphenedbUser1, graphenedbPass1));
+
+var driver = neo4j.driver('bolt://localhost', neo4j.auth.basic('neo4j', 'Sistemas'));
 
 var session = driver.session();
+var session1 = driver1.session();
+
 
 var total_nodos, nombre = null, empresa, telefono, mail, productoArray = [], productoArray2 = [], vendedor = null, num_vendedor, num_cot, descuento, extension, email_vendedor, tiempo_entrega, check, tipo_cambio=20, precio, stock_num, modelo, desc, nombre_p, stock_c, modelo_c, color_grano_c, tiempo_c, precio_c, medida_c, unidad_c, unidad_c;
 
@@ -818,13 +825,116 @@ app.post('/cambio_precio_usd/add', function(req,res){
 	var precio_c = req.body.precio;
 	var index = req.body.index;
 	
-	productoArray2.forEach(function(producto2, i){
-		if(index == i){	
-			console.log("i: " + i );
-			console.log("precio_c: " + precio_c);
-			producto2.precio_lista_unidad_usd = precio_c;
-		}
-	});
+	productoArray2.forEach(function(producto2,i){
+			var mxn = producto2.precio_lista_unidad_mxn;
+			var usd = producto2.precio_lista_unidad_usd;
+			var desc_ref = producto2.descuento;	
+		
+		
+			if(index == i){	
+				console.log("i: " + i );
+				console.log("precio_c: " + precio_c);
+				usd = precio_c;
+				producto2.precio_lista_unidad_usd = usd;
+			};
+		
+			if(usd != undefined){
+				var n = usd.indexOf('$');
+				
+				console.log("mxn: " + mxn);
+				console.log("usd: " + usd);
+				console.log('$:' + n);
+
+				if(producto2.mxn_ref != undefined){ 
+					
+					var m = mxn.indexOf('$');
+
+					console.log("precio: " + mxn);
+					
+					mxn = mxn.substring(m+1, mxn.length );
+					
+					var desc_ref2 = parseFloat(desc_ref);
+					
+					console.log("desc_ref2: " + desc_ref2); 
+					
+					var diferencia = (parseFloat(mxn)*((desc_ref2)/100));
+					
+					console.log("diferencia:"+ diferencia);
+					
+					console.log("mxn: " + mxn);
+					
+					producto2.precio_descuento = (mxn - diferencia).toFixed(2);
+					
+					console.log("precio c/ descuento: " + producto2.precio_descuento);
+					
+					console.log("cantidad: " + producto2.cantidad);
+					
+					var cantidad_num = parseFloat(producto2.cantidad);
+					
+					producto2.precio_cantidad = ((mxn - diferencia)*cantidad_num).toFixed(2);
+
+			 	}else if(n != -1 && producto2.mxn_ref == undefined){
+
+					var usd2 = usd.substring(n+1, usd.length);
+					
+					console.log("transf = " + usd2);
+					
+					var cambio_usd = parseFloat(usd2);
+					
+					producto2.precio_lista_unidad_mxn = (cambio_usd*tipo_cambio).toFixed(3);
+					
+					var precio_mxn = cambio_usd*tipo_cambio;
+					
+					var desc_ref2 = parseFloat(desc_ref);
+					
+					console.log("desc_ref2: " + desc_ref2); 
+					
+					var diferencia = (precio_mxn*((desc_ref2)/100));
+					
+					console.log("diferencia:"+ diferencia);
+					
+					producto2.precio_descuento = (precio_mxn - diferencia).toFixed(2); 
+					
+					console.log("cantidad: " + producto2.cantidad);
+					
+					var cantidad_num = parseFloat(producto2.cantidad);
+					
+					producto2.precio_cantidad = producto2.precio_descuento*cantidad_num;
+					
+					var tipo_cambio_ref = tipo_cambio;
+
+				 }else{
+					 
+					 console.log("transf = " + usd);
+					
+					var cambio_usd = parseFloat(usd);
+					
+					producto2.precio_lista_unidad_mxn = (cambio_usd*tipo_cambio).toFixed(3);
+					
+					var precio_mxn = cambio_usd*tipo_cambio;
+					
+					var desc_ref2 = parseFloat(desc_ref);
+					
+					console.log("desc_ref2: " + desc_ref2); 
+					
+					var diferencia = (precio_mxn*((desc_ref2)/100));
+					
+					console.log("diferencia:"+ diferencia);
+					
+					producto2.precio_descuento = (precio_mxn - diferencia).toFixed(2); 
+					
+					console.log("cantidad: " + producto2.cantidad);
+					
+					var cantidad_num = parseFloat(producto2.cantidad);
+					
+					producto2.precio_cantidad = producto2.precio_descuento*cantidad_num;
+					
+					var tipo_cambio_ref = tipo_cambio;
+					 
+				 };	
+			}
+				 
+		});
 	
 	res.render('pages/3m', {
 		desplegar: total_nodos,

@@ -40,7 +40,7 @@ var graphenedbPass1 = process.env.GRAPHENEDB_COPPER_BOLT_PASSWORD;
 
 //Protocolo de conexión para servidor cloud heroku
 
-if(graphenedbURL = 'undefined'){
+if(graphenedbURL == undefined){
 	var driver = neo4j.driver('bolt://localhost', neo4j.auth.basic('neo4j', 'Sistemas'));
 	var session = driver.session();
 	

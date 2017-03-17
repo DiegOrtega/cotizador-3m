@@ -385,18 +385,20 @@
         
 		<h3 class="centro">Ingresa la información del vendedor</h3>
 		
-		<div class="container-fluid">
-            <div class="row">
+		
         <hr>
 		<br/>		
 	
 			<form method="post" action="/datos/add" class="col-lg-12 centro">
 				
+				<div class="container-fluid">
+            <div class="row">
+				
 				<div class="col-lg-6">
 					<input type="text" placeholder="Tiempo de entrega" name="tiempo_entrega">
 				</div>
 				
-				<div class="dropdown col-lg-6">
+				<div class="col-lg-6 dropdown">
 				  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					Vendedores
 				  </button>
@@ -406,10 +408,11 @@
 				   <% }) %>
 				  </div>
 				</div>
-				
+				</div>
+				</div>	
 			</form>	
-		</div>		  
-		</div>
+			  
+		
         <hr>
     
 		<div class="container">
@@ -464,5 +467,16 @@
         	
 	</body>
 </html>
+<script type="text/javascript">
+            $(window).scroll(function() {
+			  sessionStorage.scrollTop = $(this).scrollTop();
+			});
+
+			$(document).ready(function() {
+			  if (sessionStorage.scrollTop != "undefined") {
+				$(window).scrollTop(sessionStorage.scrollTop);
+			  }
+			});
+        </script>
 
 <% include ../partials/3m_refs.ejs %>

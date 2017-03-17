@@ -18,7 +18,8 @@
 	"validator": "*",
 	"reload": "*",
 	"html-pdf": "*",
-	"pdfkitjs": "*" 
+	"pdfkitjs": "*",
+	"tether": "*" 
   },
   "repository": {
     "type": "git",

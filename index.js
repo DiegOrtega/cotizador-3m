@@ -39,16 +39,58 @@ var graphenedbUser1 = process.env.GRAPHENEDB_COPPER_BOLT_USER;
 var graphenedbPass1 = process.env.GRAPHENEDB_COPPER_BOLT_PASSWORD;
 
 //Protocolo de conexión para servidor cloud heroku
-var driver = neo4j.driver(graphenedbURL, neo4j.auth.basic(graphenedbUser, graphenedbPass));
-//var driver1 = neo4j.driver(graphenedbURL1, neo4j.auth.basic(graphenedbUser1, graphenedbPass1));
 
-//var driver = neo4j.driver('bolt://localhost', neo4j.auth.basic('neo4j', 'Sistemas'));
+if(graphenedbURL = 'undefined'){
+	var driver = neo4j.driver('bolt://localhost', neo4j.auth.basic('neo4j', 'Sistemas'));
+	var session = driver.session();
+	
+	session
+	.run('MATCH (n:VENDEDOR) RETURN n')
+	.then(function(res){
+		res.records.forEach(function(record){
+			vendedorArray.push({
+			id: record._fields[0].properties.ID,	
+			nombre: record._fields[0].properties.NOMBRE,
+			extension: record._fields[0].properties.EXTENSION,
+			correo: record._fields[0].properties.CORREO,
+			folio: record._fields[0].properties.FOLIO	
+			});
+		});
+		console.log("vendedorArray: ");
+		console.log(vendedorArray);
+	})
+	.catch(function(err){
+		console.log(err);
+	});
+	
+}else{
+	var driver = neo4j.driver(graphenedbURL, neo4j.auth.basic(graphenedbUser, graphenedbPass));
+	var driver1 = neo4j.driver(graphenedbURL1, neo4j.auth.basic(graphenedbUser1, graphenedbPass1));
+	var session = driver.session();
+	var session1 = driver1.session();
+	
+	session1
+	.run('MATCH (n:VENDEDOR) RETURN n')
+	.then(function(res){
+		res.records.forEach(function(record){
+			vendedorArray.push({
+			id: record._fields[0].properties.ID,	
+			nombre: record._fields[0].properties.NOMBRE,
+			extension: record._fields[0].properties.EXTENSION,
+			correo: record._fields[0].properties.CORREO,
+			folio: record._fields[0].properties.FOLIO	
+			});
+		});
+		console.log("vendedorArray: ");
+		console.log(vendedorArray);
+	})
+	.catch(function(err){
+		console.log(err);
+	});
+	
+};
 
-var session = driver.session();
-//var session1 = driver1.session();
-
-
-var total_nodos, nombre = null, empresa, telefono, mail, productoArray = [], productoArray2 = [], vendedor = null, num_vendedor, num_cot, descuento, extension, email_vendedor, tiempo_entrega, check, tipo_cambio=20, precio, stock_num, modelo, desc, nombre_p, stock_c, modelo_c, color_grano_c, tiempo_c, precio_c, medida_c, unidad_c, unidad_c;
+var total_nodos, nombre = null, empresa, telefono, mail, productoArray = [], productoArray2 = [], vendedor = null, num_vendedor, num_cot, descuento, extension, email_vendedor, tiempo_entrega, check, tipo_cambio=20, precio, stock_num, modelo, desc, nombre_p, stock_c, modelo_c, color_grano_c, tiempo_c, precio_c, medida_c, unidad_c, unidad_c, vendedorArray = [];
 
 app.get('/', function(request, response){
 	response.render('pages/index3')
@@ -62,6 +104,7 @@ app.get('/3m', function(req, res) {
 			  	result.records.forEach(function(record){
 				total_nodos = record._fields[[0]].low; 
 				}); 
+				
 				res.render('pages/3m', {
 					desplegar: total_nodos,
 					nombre: nombre,
@@ -81,13 +124,14 @@ app.get('/3m', function(req, res) {
 					precio: precio,
 					stock_num: stock_num,
 					desc: desc,
-					modelo: modelo
+					modelo: modelo,
+					vendedorArray: vendedorArray
 				});
 		
 		})
 		.catch(function(err){
 		console.log(err);
-		})	
+		})
 });
 
 app.post('/contacto/add', function(req, res){
@@ -100,24 +144,25 @@ app.post('/contacto/add', function(req, res){
 
 		res.render('pages/3m', {
 				desplegar: total_nodos,
-				nombre: nombre,
-				empresa: empresa,
-				telefono: telefono,
-				mail: mail,
-				productos: productoArray,
-				prod_agregados: productoArray2,
-				vendedor: vendedor,
-				num_vendedor: num_vendedor,
-				num_cot: num_cot,
-				extension: extension,
-				email_vendedor: email_vendedor,
-				tiempo_entrega: tiempo_entrega,
-				tipo_cambio: tipo_cambio,
-				fecha: fecha, 
-				precio: precio,
-				stock_num: stock_num,
-				desc: desc,
-				modelo: modelo
+					nombre: nombre,
+					empresa: empresa,
+					telefono: telefono,
+					mail: mail,
+					productos: productoArray,
+					prod_agregados: productoArray2,
+					vendedor: vendedor,
+					num_vendedor: num_vendedor,
+					num_cot: num_cot,
+					extension: extension,
+					email_vendedor: email_vendedor,
+					tiempo_entrega: tiempo_entrega,
+					tipo_cambio: tipo_cambio,
+					fecha: fecha, 
+					precio: precio,
+					stock_num: stock_num,
+					desc: desc,
+					modelo: modelo,
+					vendedorArray: vendedorArray
 		});
 });
 
@@ -184,24 +229,25 @@ app.post('/busqueda/add', function(req, res){
 		
 			res.render('pages/3m', {
 				desplegar: total_nodos,
-				nombre: nombre,
-				empresa: empresa,
-				telefono: telefono,
-				mail: mail,
-				productos: productoArray,
-				prod_agregados: productoArray2,
-				vendedor: vendedor,
-				num_vendedor: num_vendedor,
-				num_cot: num_cot,
-				extension: extension,
-				email_vendedor: email_vendedor,
-				tiempo_entrega: tiempo_entrega,
-				tipo_cambio: tipo_cambio,
-				fecha: fecha, 
-				precio: precio,
-				stock_num: stock_num,
-				desc: desc,
-				modelo: modelo
+					nombre: nombre,
+					empresa: empresa,
+					telefono: telefono,
+					mail: mail,
+					productos: productoArray,
+					prod_agregados: productoArray2,
+					vendedor: vendedor,
+					num_vendedor: num_vendedor,
+					num_cot: num_cot,
+					extension: extension,
+					email_vendedor: email_vendedor,
+					tiempo_entrega: tiempo_entrega,
+					tipo_cambio: tipo_cambio,
+					fecha: fecha, 
+					precio: precio,
+					stock_num: stock_num,
+					desc: desc,
+					modelo: modelo,
+					vendedorArray: vendedorArray
 			});
 		
 			productoArray = [];
@@ -284,24 +330,25 @@ app.post('/carrito/add', function(req, res){
 		
 		res.render('pages/3m', {
 				desplegar: total_nodos,
-				nombre: nombre,
-				empresa: empresa,
-				telefono: telefono,
-				mail: mail,
-				productos: productoArray,
-				prod_agregados: productoArray2,
-				vendedor: vendedor,
-				num_vendedor: num_vendedor,
-				num_cot: num_cot,
-				extension: extension,
-				email_vendedor: email_vendedor,
-				tiempo_entrega: tiempo_entrega,
-				tipo_cambio: tipo_cambio,
-				fecha: fecha, 
-				precio: precio,
-				stock_num: stock_num,
-				desc: desc,
-				modelo: modelo
+					nombre: nombre,
+					empresa: empresa,
+					telefono: telefono,
+					mail: mail,
+					productos: productoArray,
+					prod_agregados: productoArray2,
+					vendedor: vendedor,
+					num_vendedor: num_vendedor,
+					num_cot: num_cot,
+					extension: extension,
+					email_vendedor: email_vendedor,
+					tiempo_entrega: tiempo_entrega,
+					tipo_cambio: tipo_cambio,
+					fecha: fecha, 
+					precio: precio,
+					stock_num: stock_num,
+					desc: desc,
+					modelo: modelo,
+					vendedorArray: vendedorArray
 		});
        
 		
@@ -329,34 +376,38 @@ app.post('/eliminacion/add', function(req, res){
 	
 	res.render('pages/3m', {
 			desplegar: total_nodos,
-			nombre: nombre,
-			empresa: empresa,
-			telefono: telefono,
-			mail: mail,
-			productos: productoArray,
-			prod_agregados: productoArray2,
-			vendedor: vendedor,
-			num_vendedor: num_vendedor,
-			num_cot: num_cot,
-			extension: extension,
-			email_vendedor: email_vendedor,
-			tiempo_entrega: tiempo_entrega,
-			tipo_cambio: tipo_cambio,
-			fecha: fecha, 
-			precio: precio,
-			stock_num: stock_num,
-			desc: desc,
-			modelo: modelo
+					nombre: nombre,
+					empresa: empresa,
+					telefono: telefono,
+					mail: mail,
+					productos: productoArray,
+					prod_agregados: productoArray2,
+					vendedor: vendedor,
+					num_vendedor: num_vendedor,
+					num_cot: num_cot,
+					extension: extension,
+					email_vendedor: email_vendedor,
+					tiempo_entrega: tiempo_entrega,
+					tipo_cambio: tipo_cambio,
+					fecha: fecha, 
+					precio: precio,
+					stock_num: stock_num,
+					desc: desc,
+					modelo: modelo,
+					vendedorArray: vendedorArray
 		});
 });
 
 app.post('/datos/add', function(req, res){
+	index = req.body.index;
+	tiempo_entrega = req.body.tiempo_entrega;
+	
+	/*
 	vendedor = req.body.vendedor;
 	num_vendedor = req.body.num_vendedor;
 	num_cot = req.body.num_cot;
 	extension = req.body.extension;
 	email_vendedor = req.body.email;
-	tiempo_entrega = req.body.tiempo_entrega;
 	
 	console.log("tiempo de entrega: " + tiempo_entrega);
 	
@@ -369,6 +420,17 @@ app.post('/datos/add', function(req, res){
 			i++;
 		}
 	};
+	*/
+	
+	vendedorArray.forEach(function(vendedores, indexRef){
+		if(index == indexRef){
+			vendedor = vendedores.nombre;
+			num_vendedor = vendedores.id;
+			num_cot = vendedores.folio;
+			extension = vendedores.extension;
+			email_vendedor = vendedores.correo;
+		};
+	});
 	
 	res.render('pages/3m', {
 			desplegar: total_nodos,
@@ -389,7 +451,8 @@ app.post('/datos/add', function(req, res){
 			precio: precio,
 			stock_num: stock_num,
 			desc: desc,
-			modelo: modelo
+			modelo: modelo,
+			vendedorArray: vendedorArray
 		});
 });
 
@@ -408,21 +471,25 @@ app.post('/download', function(req, res){
 	
 	var obj = {
 			desplegar: total_nodos,
-			nombre: nombre,
-			empresa: empresa,
-			telefono: telefono,
-			mail: mail,
-			productos: productoArray,
-			prod_agregados: productoArray2,
-			vendedor: vendedor,
-			num_vendedor: num_vendedor,
-			num_cot: num_cot,
-			extension: extension,
-			email_vendedor: email_vendedor,
-			tiempo_entrega: tiempo_entrega,
-			tipo_cambio: tipo_cambio,
-			fecha: fecha, 
-			precio: precio
+					nombre: nombre,
+					empresa: empresa,
+					telefono: telefono,
+					mail: mail,
+					productos: productoArray,
+					prod_agregados: productoArray2,
+					vendedor: vendedor,
+					num_vendedor: num_vendedor,
+					num_cot: num_cot,
+					extension: extension,
+					email_vendedor: email_vendedor,
+					tiempo_entrega: tiempo_entrega,
+					tipo_cambio: tipo_cambio,
+					fecha: fecha, 
+					precio: precio,
+					stock_num: stock_num,
+					desc: desc,
+					modelo: modelo,
+					vendedorArray: vendedorArray
 		};
 	
 	var renderedhtml = ejs.render(html, obj);
@@ -515,24 +582,25 @@ app.get('/pdfprevio', function(req, res){
 	
    res.render('pages/cotizacion',{
 		desplegar: total_nodos,
-		nombre: nombre,
-		empresa: empresa,
-		telefono: telefono,
-		mail: mail,
-		productos: productoArray,
-		prod_agregados: productoArray2,
-		vendedor: vendedor,
-		num_vendedor: num_vendedor,
-		num_cot: num_cot,
-		extension: extension,
-		email_vendedor: email_vendedor,
-		tiempo_entrega: tiempo_entrega,
-		tipo_cambio: tipo_cambio,
-		fecha: fecha, 
-		precio: precio,
-		stock_num: stock_num,
-		desc: desc,
-		modelo: modelo
+					nombre: nombre,
+					empresa: empresa,
+					telefono: telefono,
+					mail: mail,
+					productos: productoArray,
+					prod_agregados: productoArray2,
+					vendedor: vendedor,
+					num_vendedor: num_vendedor,
+					num_cot: num_cot,
+					extension: extension,
+					email_vendedor: email_vendedor,
+					tiempo_entrega: tiempo_entrega,
+					tipo_cambio: tipo_cambio,
+					fecha: fecha, 
+					precio: precio,
+					stock_num: stock_num,
+					desc: desc,
+					modelo: modelo,
+					vendedorArray: vendedorArray
    }); 
 });
 
@@ -541,24 +609,25 @@ app.post('/tipo_cambio/add', function(req, res){
 	
 	res.render('pages/3m', {
 			desplegar: total_nodos,
-			nombre: nombre,
-			empresa: empresa,
-			telefono: telefono,
-			mail: mail,
-			productos: productoArray,
-			prod_agregados: productoArray2,
-			vendedor: vendedor,
-			num_vendedor: num_vendedor,
-			num_cot: num_cot,
-			extension: extension,
-			email_vendedor: email_vendedor,
-			tiempo_entrega: tiempo_entrega,
-			tipo_cambio: tipo_cambio,
-			fecha: fecha, 
-			precio: precio,
-			stock_num: stock_num,
-			desc: desc,
-			modelo: modelo
+					nombre: nombre,
+					empresa: empresa,
+					telefono: telefono,
+					mail: mail,
+					productos: productoArray,
+					prod_agregados: productoArray2,
+					vendedor: vendedor,
+					num_vendedor: num_vendedor,
+					num_cot: num_cot,
+					extension: extension,
+					email_vendedor: email_vendedor,
+					tiempo_entrega: tiempo_entrega,
+					tipo_cambio: tipo_cambio,
+					fecha: fecha, 
+					precio: precio,
+					stock_num: stock_num,
+					desc: desc,
+					modelo: modelo,
+					vendedorArray: vendedorArray
 		});
 	
 });
@@ -578,24 +647,25 @@ app.post('/cantidad/add', function(req, res){
 	
 	res.render('pages/3m', {
 			desplegar: total_nodos,
-			nombre: nombre,
-			empresa: empresa,
-			telefono: telefono,
-			mail: mail,
-			productos: productoArray,
-			prod_agregados: productoArray2,
-			vendedor: vendedor,
-			num_vendedor: num_vendedor,
-			num_cot: num_cot,
-			extension: extension,
-			email_vendedor: email_vendedor,
-			tiempo_entrega: tiempo_entrega,
-			tipo_cambio: tipo_cambio,
-			fecha: fecha, 
-			precio: precio,
-			stock_num: stock_num,
-			desc: desc,
-			modelo: modelo
+					nombre: nombre,
+					empresa: empresa,
+					telefono: telefono,
+					mail: mail,
+					productos: productoArray,
+					prod_agregados: productoArray2,
+					vendedor: vendedor,
+					num_vendedor: num_vendedor,
+					num_cot: num_cot,
+					extension: extension,
+					email_vendedor: email_vendedor,
+					tiempo_entrega: tiempo_entrega,
+					tipo_cambio: tipo_cambio,
+					fecha: fecha, 
+					precio: precio,
+					stock_num: stock_num,
+					desc: desc,
+					modelo: modelo,
+					vendedorArray: vendedorArray
 		});
 	
 });
@@ -619,24 +689,25 @@ app.post('/descuento/add', function(req, res){
 	
 	res.render('pages/3m', {
 			desplegar: total_nodos,
-			nombre: nombre,
-			empresa: empresa,
-			telefono: telefono,
-			mail: mail,
-			productos: productoArray,
-			prod_agregados: productoArray2,
-			vendedor: vendedor,
-			num_vendedor: num_vendedor,
-			num_cot: num_cot,
-			extension: extension,
-			email_vendedor: email_vendedor,
-			tiempo_entrega: tiempo_entrega,
-			tipo_cambio: tipo_cambio,
-			fecha: fecha, 
-			precio: precio,
-			stock_num: stock_num,
-			desc: desc,
-			modelo: modelo
+					nombre: nombre,
+					empresa: empresa,
+					telefono: telefono,
+					mail: mail,
+					productos: productoArray,
+					prod_agregados: productoArray2,
+					vendedor: vendedor,
+					num_vendedor: num_vendedor,
+					num_cot: num_cot,
+					extension: extension,
+					email_vendedor: email_vendedor,
+					tiempo_entrega: tiempo_entrega,
+					tipo_cambio: tipo_cambio,
+					fecha: fecha, 
+					precio: precio,
+					stock_num: stock_num,
+					desc: desc,
+					modelo: modelo,
+					vendedorArray: vendedorArray
 		});
 	
 });
@@ -655,24 +726,25 @@ app.post('/cambio_nombre/add', function(req,res){
 	
 	res.render('pages/3m', {
 		desplegar: total_nodos,
-		nombre: nombre,
-		empresa: empresa,
-		telefono: telefono,
-		mail: mail,
-		productos: productoArray,
-		prod_agregados: productoArray2,
-		vendedor: vendedor,
-		num_vendedor: num_vendedor,
-		num_cot: num_cot,
-		extension: extension,
-		email_vendedor: email_vendedor,
-		tiempo_entrega: tiempo_entrega,
-		tipo_cambio: tipo_cambio,
-		fecha: fecha, 
-		precio: precio,
-		stock_num: stock_num,
-		desc: desc,
-		modelo: modelo
+					nombre: nombre,
+					empresa: empresa,
+					telefono: telefono,
+					mail: mail,
+					productos: productoArray,
+					prod_agregados: productoArray2,
+					vendedor: vendedor,
+					num_vendedor: num_vendedor,
+					num_cot: num_cot,
+					extension: extension,
+					email_vendedor: email_vendedor,
+					tiempo_entrega: tiempo_entrega,
+					tipo_cambio: tipo_cambio,
+					fecha: fecha, 
+					precio: precio,
+					stock_num: stock_num,
+					desc: desc,
+					modelo: modelo,
+					vendedorArray: vendedorArray
 	});
 	
 });
@@ -691,24 +763,25 @@ app.post('/cambio_stock/add', function(req,res){
 	
 	res.render('pages/3m', {
 		desplegar: total_nodos,
-		nombre: nombre,
-		empresa: empresa,
-		telefono: telefono,
-		mail: mail,
-		productos: productoArray,
-		prod_agregados: productoArray2,
-		vendedor: vendedor,
-		num_vendedor: num_vendedor,
-		num_cot: num_cot,
-		extension: extension,
-		email_vendedor: email_vendedor,
-		tiempo_entrega: tiempo_entrega,
-		tipo_cambio: tipo_cambio,
-		fecha: fecha, 
-		precio: precio,
-		stock_num: stock_num,
-		desc: desc,
-		modelo: modelo
+					nombre: nombre,
+					empresa: empresa,
+					telefono: telefono,
+					mail: mail,
+					productos: productoArray,
+					prod_agregados: productoArray2,
+					vendedor: vendedor,
+					num_vendedor: num_vendedor,
+					num_cot: num_cot,
+					extension: extension,
+					email_vendedor: email_vendedor,
+					tiempo_entrega: tiempo_entrega,
+					tipo_cambio: tipo_cambio,
+					fecha: fecha, 
+					precio: precio,
+					stock_num: stock_num,
+					desc: desc,
+					modelo: modelo,
+					vendedorArray: vendedorArray
 	});
 	
 });
@@ -727,24 +800,25 @@ app.post('/cambio_modelo/add', function(req,res){
 	
 	res.render('pages/3m', {
 		desplegar: total_nodos,
-		nombre: nombre,
-		empresa: empresa,
-		telefono: telefono,
-		mail: mail,
-		productos: productoArray,
-		prod_agregados: productoArray2,
-		vendedor: vendedor,
-		num_vendedor: num_vendedor,
-		num_cot: num_cot,
-		extension: extension,
-		email_vendedor: email_vendedor,
-		tiempo_entrega: tiempo_entrega,
-		tipo_cambio: tipo_cambio,
-		fecha: fecha, 
-		precio: precio,
-		stock_num: stock_num,
-		desc: desc,
-		modelo: modelo
+					nombre: nombre,
+					empresa: empresa,
+					telefono: telefono,
+					mail: mail,
+					productos: productoArray,
+					prod_agregados: productoArray2,
+					vendedor: vendedor,
+					num_vendedor: num_vendedor,
+					num_cot: num_cot,
+					extension: extension,
+					email_vendedor: email_vendedor,
+					tiempo_entrega: tiempo_entrega,
+					tipo_cambio: tipo_cambio,
+					fecha: fecha, 
+					precio: precio,
+					stock_num: stock_num,
+					desc: desc,
+					modelo: modelo,
+					vendedorArray: vendedorArray
 	});
 	
 });
@@ -763,24 +837,25 @@ app.post('/cambio_tiempo/add', function(req,res){
 	
 	res.render('pages/3m', {
 		desplegar: total_nodos,
-		nombre: nombre,
-		empresa: empresa,
-		telefono: telefono,
-		mail: mail,
-		productos: productoArray,
-		prod_agregados: productoArray2,
-		vendedor: vendedor,
-		num_vendedor: num_vendedor,
-		num_cot: num_cot,
-		extension: extension,
-		email_vendedor: email_vendedor,
-		tiempo_entrega: tiempo_entrega,
-		tipo_cambio: tipo_cambio,
-		fecha: fecha, 
-		precio: precio,
-		stock_num: stock_num,
-		desc: desc,
-		modelo: modelo
+					nombre: nombre,
+					empresa: empresa,
+					telefono: telefono,
+					mail: mail,
+					productos: productoArray,
+					prod_agregados: productoArray2,
+					vendedor: vendedor,
+					num_vendedor: num_vendedor,
+					num_cot: num_cot,
+					extension: extension,
+					email_vendedor: email_vendedor,
+					tiempo_entrega: tiempo_entrega,
+					tipo_cambio: tipo_cambio,
+					fecha: fecha, 
+					precio: precio,
+					stock_num: stock_num,
+					desc: desc,
+					modelo: modelo,
+					vendedorArray: vendedorArray
 	});
 	
 });
@@ -816,7 +891,8 @@ app.post('/cambio_color_grano/add', function(req,res){
 		precio: precio,
 		stock_num: stock_num,
 		desc: desc,
-		modelo: modelo
+		modelo: modelo,
+		vendedorArray: vendedorArray
 	});
 	
 });
@@ -955,7 +1031,8 @@ app.post('/cambio_precio_usd/add', function(req,res){
 		precio: precio,
 		stock_num: stock_num,
 		desc: desc,
-		modelo: modelo
+		modelo: modelo,
+		vendedorArray: vendedorArray
 	});
 	
 });
@@ -991,7 +1068,8 @@ app.post('/cambio_medida/add', function(req,res){
 		precio: precio,
 		stock_num: stock_num,
 		desc: desc,
-		modelo: modelo
+		modelo: modelo,
+		vendedorArray: vendedorArray
 	});
 	
 });
@@ -1027,7 +1105,8 @@ app.post('/cambio_unidad/add', function(req,res){
 		precio: precio,
 		stock_num: stock_num,
 		desc: desc,
-		modelo: modelo
+		modelo: modelo,
+		vendedorArray: vendedorArray
 	});
 	
 });

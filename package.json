@@ -1,7 +1,7 @@
 {
-  "name": "Cotizador AIL",
-  "version": "alpha",
-  "description": "",
+  "name": "node-js-getting-started",
+  "version": "0.2.5",
+  "description": "Ail",
   "engines": {
     "node": "5.9.1"
   },
@@ -18,8 +18,7 @@
 	"validator": "*",
 	"reload": "*",
 	"html-pdf": "*",
-	"pdfkitjs": "*",
-	"bootstrap": "*" 
+	"pdfkitjs": "*" 
   },
   "repository": {
     "type": "git",

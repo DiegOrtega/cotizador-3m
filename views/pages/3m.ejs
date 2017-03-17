@@ -383,26 +383,32 @@
         <hr>
         <div class="clearfix"></div>
         
-		<div class="container">
+		<h3 class="centro">Ingresa la información del vendedor</h3>
+		
+		<div class="container-fluid">
             <div class="row">
-            
-            <h3 class="centro">Ingresa la información del vendedor</h3>
-                
         <hr>
+		<br/>		
+	
+			<form method="post" action="/datos/add" class="col-lg-12 centro">
 				
-        <form method="post" action="/datos/add">
-            <input type="text" placeholder="&nbsp;Nombre de vendedor" size="35" name="vendedor">&ensp;
-            <input type="text" placeholder="&nbsp;No. Vend." size="7" name="num_vendedor">&ensp;
-            <input type="text" placeholder="&nbsp;No. Cot." size="7" name="num_cot">&ensp;
-            <!-- <input type="text" placeholder="&nbsp;Descuento" size="8" name="descuento">&ensp; -->
-            <input type="text" placeholder="&nbsp;Extensi&oacute;n" size="10" name="extension">&ensp;
-            <input type="email" placeholder="&nbsp;E-Mail de vendedor" name="email">&ensp;
-            <input type="text" placeholder="Tiempo de entrega" name="tiempo_entrega">
-            <div class="clearfix"></div>
-            <input class="boton3m" type="submit" value="Ingresar datos">
-        </form>  
-            
-        </div>		  
+				<div class="col-lg-6">
+					<input type="text" placeholder="Tiempo de entrega" name="tiempo_entrega">
+				</div>
+				
+				<div class="dropdown col-lg-6">
+				  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Vendedores
+				  </button>
+				  <div class="dropdown-menu col-lg-12 centro" aria-labelledby="dropdownMenuButton">
+					 <% vendedorArray.forEach(function(vendedor, index){ %> 
+					<button class="dropdown-item" name="index" value="<%=index%>"><%=vendedor.nombre%></button>
+				   <% }) %>
+				  </div>
+				</div>
+				
+			</form>	
+		</div>		  
 		</div>
         <hr>
     
@@ -410,12 +416,13 @@
             <div class="row">
                 <div class="col-lg-12 contenedorDatos">
                     <h4>Datos ingresados del vendedor</h4>
-                    <% if (vendedor != null) { %>
+                    <% console.log("vendedor: " + vendedor) 
+					if (vendedor != null) { %>
                         <table class="table table-striped">
                         <tr>
                             <th>Vendedor</th>
                             <th># vendedor</th>
-                            <th> # cotización</th>
+                            <th>Folio</th>
                             <th>Extension</th>
                             <th>email de vendedor</th>
                             <th>Tiempo de entrega</th>
@@ -458,4 +465,4 @@
 	</body>
 </html>
 
- <% include ../partials/3m_refs.ejs %>
+<% include ../partials/3m_refs.ejs %>

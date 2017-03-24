@@ -162,19 +162,22 @@
 									<%= producto2.unidad_medida %>
 								</td>
 								<td>
-									<%= producto2.precio_lista_unidad_usd %>
+									<%= producto2.precio_lista_unidad_usd.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); %>
 								</td>
 								<td>
-									$<%= producto2.precio_lista_unidad_mxn %>
+									$<%= producto2.precio_lista_unidad_mxn.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); %>
 								</td>
+								<%if(producto2.descuento > 30){ %>
+									<script>alert('Estás otorgando un descuento mayor a 30%!')</script>
+								<%}%>
 								<td>
 									<%= producto2.descuento %> 
 								</td>
 								<td>
-									$<%= producto2.precio_descuento %>
+									$<%= producto2.precio_descuento.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); %>
 								</td>
 								<td>
-								   $<%= producto2.precio_cantidad %> 
+								   $<%= producto2.precio_cantidad.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); %> 
 								</td>
 								<td>
 								    <%= producto2.tiempo_entrega %>
@@ -192,21 +195,21 @@
 				<div class="row">
 					<div class="offset-lg-6 col-lg-6 offset-md-6 col-md-6 offset-sm-0 col-sm-12 offset-xs-0 col-xs-12" style="border: 1px solid gray; border-radius: 10px;">
 						<%IVA = parseFloat(suma_bruta*0.16);
-						 total_neto = (suma_bruta + IVA).toFixed(3);%>
+						 total_neto = (suma_bruta + IVA).toFixed(2);%>
 						<table class="table table-striped">
 							<tbody>
 								<tr>
 									<th>Total Bruto</th>
-									<td>$<%= (suma_bruta).toFixed(3) %></td>
+									<td>$<%= (suma_bruta).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); %></td>
 								</tr>
 								
 								<tr>
 									<th>IVA (16%)</th>
-									<td>$<%=(IVA).toFixed(3)%></td>
+									<td>$<%=(IVA).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");%></td>
 								</tr>
 								<tr>
 									<th>Total Neto</th>
-									<td>$<%=total_neto%></td>
+									<td>$<%=Math.round(total_neto).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");%></td>
 								</tr>
 							</tbody>
 						</table>

@@ -19,7 +19,8 @@
 	"reload": "*",
 	"html-pdf": "*",
 	"pdfkitjs": "*",
-	"tether": "*" 
+	"tether": "*",
+	"multer": "1.1.0" 
   },
   "repository": {
     "type": "git",

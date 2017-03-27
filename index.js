@@ -92,7 +92,7 @@ if(graphenedbURL == undefined){
 	
 };
 
-var total_nodos, nombre = null, empresa, telefono, mail, productoArray = [], productoArray2 = [], vendedor = null, num_vendedor, num_cot, descuento, extension, email_vendedor, tiempo_entrega, check, tipo_cambio=20, precio, stock_num, modelo, desc, nombre_p, stock_c, modelo_c, color_grano_c, tiempo_c, precio_c, medida_c, unidad_c, unidad_c, vendedorArray = [],  dir = [];
+var total_nodos, nombre = null, empresa, telefono, mail, productoArray = [], productoArray2 = [], vendedor = null, num_vendedor, num_cot, descuento, extension, email_vendedor, tiempo_entrega, check, tipo_cambio=20, precio, stock_num, modelo, desc, nombre_p, stock_c, modelo_c, color_grano_c, tiempo_c, precio_c, medida_c, unidad_c, unidad_c, vendedorArray = [],  dir = [], ref=[], indexref = 0;
 
 app.get('/', function(request, response){
 	response.render('pages/index3')
@@ -128,7 +128,8 @@ app.get('/3m', function(req, res) {
 					desc: desc,
 					modelo: modelo,
 					vendedorArray: vendedorArray,
-					dir: dir
+					dir: dir,
+                    indexref: indexref 
 				});
 		
 		})
@@ -166,7 +167,8 @@ app.post('/contacto/add', function(req, res){
 				desc: desc,
 				modelo: modelo,
 				vendedorArray: vendedorArray,
-				dir: dir
+				dir: dir,
+                indexref: indexref
 		});
 });
 
@@ -258,7 +260,8 @@ app.post('/busqueda/add', function(req, res){
 				desc: desc,
 				modelo: modelo,
 				vendedorArray: vendedorArray,
-				dir: dir
+				dir: dir,
+                indexref: indexref 
 			});
 		
 			productoArray = [];
@@ -335,10 +338,15 @@ app.post('/carrito/add', function(req, res){
 			}else{
 				console.log("mxn_ref: " + producto2.mxn_ref);
 			};
-			
-			var dir_min = 'http://www.ail.com.mx/imgprod/'+producto2.id_db+'-'+producto2.modelo+'.jpg'; 
-		 	dir[index] = dir_min.toLowerCase().replace(/\s+/g, '');
-			
+            
+            if (ref[index] != 1 ){
+                var dir_min = 'http://www.ail.com.mx/imgprod/'+producto2.id_db+'-'+producto2.modelo+'.jpg';
+                dir[index] = dir_min.toLowerCase().replace(/\s+/g, '');  
+            }else if(ref[index] == 1 ){
+                dir[index] = '/img/uploads/'+indexref+'.jpg';
+            }
+            
+            
 		});
 		
 		console.log("productos dentro de carrito = " + productoArray2.length);
@@ -366,7 +374,8 @@ app.post('/carrito/add', function(req, res){
 				desc: desc,
 				modelo: modelo,
 				vendedorArray: vendedorArray,
-				dir: dir
+				dir: dir,
+                indexref: indexref
 		});
        
 		
@@ -413,7 +422,8 @@ app.post('/eliminacion/add', function(req, res){
 			desc: desc,
 			modelo: modelo,
 			vendedorArray: vendedorArray,
-			dir: dir
+			dir: dir,
+            indexref: indexref
 		});
 });
 
@@ -472,7 +482,8 @@ app.post('/datos/add', function(req, res){
 			desc: desc,
 			modelo: modelo,
 			vendedorArray: vendedorArray,
-			dir: dir
+			dir: dir,
+            indexref: indexref 
 		});
 });
 
@@ -510,7 +521,8 @@ app.post('/download', function(req, res){
 			desc: desc,
 			modelo: modelo,
 			vendedorArray: vendedorArray,
-			dir: dir
+			dir: dir,
+            indexref: indexref 
 		};
 	
 	var renderedhtml = ejs.render(html, obj);
@@ -525,7 +537,7 @@ app.post('/download', function(req, res){
 
 app.get('/pdfprevio', function(req, res){
 	
-		productoArray2.forEach(function(producto2){
+		productoArray2.forEach(function(producto2, index){
 			
 			var mxn = producto2.precio_lista_unidad_mxn;
 			var usd = producto2.precio_lista_unidad_usd;
@@ -597,7 +609,16 @@ app.get('/pdfprevio', function(req, res){
 					var tipo_cambio_ref = tipo_cambio;
 
 				 };	
-			}
+			};
+             
+            console.log('dir['+ index +']:' + dir[index]);
+            if(ref[index] != 1 ){
+                var dir_min = 'http://www.ail.com.mx/imgprod/'+producto2.id_db+'-'+producto2.modelo+'.jpg';
+                dir[index] = dir_min.toLowerCase().replace(/\s+/g, '');
+            }else if(ref[index] == 1){
+                dir[index] = '/img/uploads/'+indexref+'.jpg';
+            }; 
+            console.log('dir['+ index +']:' + dir[index]);
 				 
 		});
 	
@@ -622,7 +643,8 @@ app.get('/pdfprevio', function(req, res){
 		desc: desc,
 		modelo: modelo,
 		vendedorArray: vendedorArray,
-		dir: dir
+		dir: dir,
+        indexref: indexref 
    }); 
 });
 
@@ -650,7 +672,8 @@ app.post('/tipo_cambio/add', function(req, res){
 			desc: desc,
 			modelo: modelo,
 			vendedorArray: vendedorArray,
-			dir: dir
+			dir: dir,
+            indexref: indexref
 		});
 	
 });
@@ -689,7 +712,8 @@ app.post('/cantidad/add', function(req, res){
 			desc: desc,
 			modelo: modelo,
 			vendedorArray: vendedorArray,
-			dir: dir
+			dir: dir,
+            indexref: indexref 
 		});
 	
 });
@@ -732,7 +756,8 @@ app.post('/descuento/add', function(req, res){
 			desc: desc,
 			modelo: modelo,
 			vendedorArray: vendedorArray,
-			dir: dir
+			dir: dir,
+            indexref: indexref 
 		});
 	
 });
@@ -770,7 +795,8 @@ app.post('/cambio_nombre/add', function(req,res){
 		desc: desc,
 		modelo: modelo,
 		vendedorArray: vendedorArray,
-		dir: dir
+		dir: dir,
+        indexref: indexref
 	});
 	
 });
@@ -808,7 +834,8 @@ app.post('/cambio_stock/add', function(req,res){
 		desc: desc,
 		modelo: modelo,
 		vendedorArray: vendedorArray,
-		dir: dir
+		dir: dir,
+        indexref: indexref
 	});
 	
 });
@@ -846,7 +873,8 @@ app.post('/cambio_modelo/add', function(req,res){
 		desc: desc,
 		modelo: modelo,
 		vendedorArray: vendedorArray,
-		dir: dir
+		dir: dir,
+        indexref: indexref
 	});
 	
 });
@@ -884,7 +912,8 @@ app.post('/cambio_tiempo/add', function(req,res){
 		desc: desc,
 		modelo: modelo,
 		vendedorArray: vendedorArray,
-		dir: dir
+		dir: dir,
+        indexref: indexref
 	});
 	
 });
@@ -922,7 +951,8 @@ app.post('/cambio_color_grano/add', function(req,res){
 		desc: desc,
 		modelo: modelo,
 		vendedorArray: vendedorArray,
-		dir: dir
+		dir: dir,
+        indexref: indexref 
 	});
 	
 });
@@ -1063,7 +1093,8 @@ app.post('/cambio_precio_usd/add', function(req,res){
 		desc: desc,
 		modelo: modelo,
 		vendedorArray: vendedorArray,
-		dir: dir
+		dir: dir,
+        indexref: indexref 
 	});
 	
 });
@@ -1101,7 +1132,8 @@ app.post('/cambio_medida/add', function(req,res){
 		desc: desc,
 		modelo: modelo,
 		vendedorArray: vendedorArray,
-		dir: dir
+		dir: dir,
+        indexref: indexref 
 	});
 	
 });
@@ -1139,7 +1171,8 @@ app.post('/cambio_unidad/add', function(req,res){
 		desc: desc,
 		modelo: modelo,
 		vendedorArray: vendedorArray,
-		dir: dir
+		dir: dir,
+        indexref: indexref
 	});
 	
 });
@@ -1148,20 +1181,32 @@ app.post('/cambio_unidad/add', function(req,res){
 
 var storage = multer.diskStorage({
   destination: function (req, file, callback) {
-    callback(null, './uploads');
+    callback(null, './public/img/uploads');
   },
-  filename: function (req, file, callback) {
-    callback(null, file.fieldname + '-' + Date.now() + '.jpg');
+  filename: function (req, file, callback) {  
+    callback(null, file.originalname + '.jpg')
+    indexref = file.originalname;
   }
 });
 
+console.log('indexref: ' + indexref)
 var upload = multer({ storage : storage}).single('producto');
 
-app.post('/api/photo',function(req,res){
+app.post('/api/photo', function(req,res){
+
     upload(req,res,function(err) {
         if(err) {
             return res.end("Error uploading file.");
         }
+        var index = req.body.index;
+    
+        console.log('index: ' + index);
+        
+        dir[index] = '/img/uploads/'+indexref+'.jpg';
+        ref[index] = 1;
+        console.log('dir[index]: ' +  dir[index]);
+        console.log('dir: ' +  dir);
+    
         	res.render('pages/3m', {
 			desplegar: total_nodos,
 			nombre: nombre,
@@ -1183,7 +1228,8 @@ app.post('/api/photo',function(req,res){
 			desc: desc,
 			modelo: modelo,
 			vendedorArray: vendedorArray,
-			dir: dir
+			dir: dir,
+            indexref: indexref    
 	});
     });
 });

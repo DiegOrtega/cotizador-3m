@@ -321,7 +321,7 @@
 											</form>
 										</td>
 										<td>
-											<button class="boton3m3" type="submit" form="<%=index%>4" name="index" value="<%=index%>">Cambiar Tiempo de entrega</button>
+                                        <button class="boton3m3" type="submit" form="<%=index%>4" name="index" value="<%=index%>">Cambiar Tiempo de entrega</button>
 										</td>
 									</tr>
 									<tr>
@@ -330,12 +330,12 @@
 											<img src="<%=dir[index]%>" style="max-height:50px;" >
 										</td>
 										<td>
-											<form id="uploadForm<%=index%>" enctype="multipart/form-data" action="/api/photo" method="post">	
-											<input type="file" name="userPhoto" />
+											<form method="post" id="uploadForm<%=index%>" action="/api/photo" enctype="multipart/form-data">   
+											<input type="file" name="producto" />  
 											</form>	
 										</td>
 										<td>
-											<button class="boton3m3" type="submit" value="Upload Image" name="submit" form="uploadForm<%=index%>">Cargar Imagen</button>
+                                            <button class="boton3m3" type="submit" form="uploadForm<%=index%>" name="index" value="<%=index%>">Cargar Imagen</button>
 										</td>
 									</tr>
 									<tr>

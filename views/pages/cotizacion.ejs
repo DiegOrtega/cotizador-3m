@@ -128,13 +128,9 @@
 						
 						<% 
 						var cont = 0, suma_bruta = 0, IVA=0, total_neto = 0;
-						prod_agregados.forEach(function(producto2){	
+						prod_agregados.forEach(function(producto2, index){	
 						cont ++;
 						suma_bruta = suma_bruta + parseFloat(producto2.precio_cantidad);
-                        var dir_min = 'http://www.ail.com.mx/imgprod/'+producto2.id_db+'-'+producto2.modelo+'.jpg'; 
-						var dir = dir_min.toLowerCase();
-						dir = dir.replace(/\s+/g, '');	
-						//	var dir = '/img/logoleo.png';
 						%>
 							<tr>
 								<td>
@@ -144,7 +140,7 @@
 								<%= producto2.cantidad%>
 								</td>
 								<td>
-									<img src="<%=dir%>" style="max-height:50px;" >
+									<img src="<%=dir[index]%>" style="max-height:50px;" >
 								</td>
 								<td>
 									<%=producto2.nombre%>

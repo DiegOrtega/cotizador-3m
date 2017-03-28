@@ -30,6 +30,7 @@
 						<button class="boton3m3" form="tipo_cambio" type="submit">Ingresar</button>
 					</form>
 				</div>
+				
 			</div>
 		</div>
 		
@@ -96,20 +97,21 @@
 				<div class="container">
                     <div class="row">
                         
-                        <h3 class="centro">Busca el producto y seleccionalo</h3>
+                        <h3 class="col-lg-12 centro">Busca el producto y seleccionalo</h3>
                         
                         <hr>
 
                         <form method="post" action="/busqueda/add" id="form1">	
-                            <input type="text" placeholder="&nbsp;Stock" size="25" name="stock">&ensp;
-							<input type="text" placeholder="Modelo" size="25" name="modelo">&ensp;
-                            <input type="text" placeholder="Palabra Clave" size="50" name="desc">
-							<input type="text" placeholder="Color/Grano" size="25" name="color_grano">
-							<input type="text" placeholder="Medida" size="25" name="medida">
-							<input type="text" placeholder="Área" size="25" name="area">
-							<input type="text" placeholder="División" size="25" name="division">
-							<input type="text" placeholder="Familia" size="25" name="familia">
-							
+							<div class="form-control col-lg-12">
+								<input type="text" placeholder="&nbsp;Stock" size="25" name="stock">&ensp;
+								<input type="text" placeholder="Modelo" size="25" name="modelo">&ensp;
+								<input type="text" placeholder="Palabra Clave" size="50" name="desc">
+								<input type="text" placeholder="Color/Grano" size="25" name="color_grano">
+								<input type="text" placeholder="Medida" size="25" name="medida">
+								<input type="text" placeholder="Área" size="25" name="area">
+								<input type="text" placeholder="División" size="25" name="division">
+								<input type="text" placeholder="Familia" size="25" name="familia">
+							</div>
                             <br/>
                         </form>	
 
@@ -451,12 +453,23 @@
                         <tr>
                             <td><%=vendedor%></td>
                             <td><%=num_vendedor%></td>
-                            <td><%=num_cot%></td>
+							<% if (num_cot != 0 ){%>
+							<td><%=num_cot%></td>	
+							<%}else{ %>
+							<td></td>
+							<%}%>
                             <td><%=extension%></td>
                             <td><%=email_vendedor%></td>
                             <td><%=tiempo_entrega%></td>
                         </tr>    
-                        </table>  
+                        </table> 
+					<br>
+					
+					<form method="post" action="/folio" class="centro">
+						<button class="boton3m3 col-lg-4 col-md-4" type="submit" name="folio" value="<%=num_cot%>">Crear Nuevo Folio</button>
+					</form>
+					
+					
                     <% } %>
                 </div>
             </div>
@@ -477,7 +490,7 @@
                 </div>-->
                 
                 <div class="centro col-lg-12">
-                <a href="/pdfprevio" class="boton3m" target="_blank"><h4>Vista previa</h4></a>
+                <a href="/pdfprevio" class="boton3m" target="_blank" onclick="folio()" ><h4>Vista previa</h4></a>
                 </div>
                 
             </div>
@@ -495,6 +508,9 @@
 				$(window).scrollTop(sessionStorage.scrollTop);
 			  }
 			});
-        </script>
+	
+			alert("Bienvenido al cotizador de 3M de Ail \n por IMI Diego Ortega");
+
+</script>
 
 <% include ../partials/3m_refs.ejs %>

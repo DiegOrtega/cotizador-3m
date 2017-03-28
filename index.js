@@ -4,6 +4,9 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 var neo4j = require('neo4j-driver').v1;
 
+var server = require('http').createServer();
+var io = require('socket.io')(server);
+
 var http = require('http');
 var ejs = require('ejs');
 var fs = require('fs');
@@ -40,6 +43,10 @@ var graphenedbURL1 = process.env.GRAPHENEDB_COPPER_BOLT_URL;
 var graphenedbUser1 = process.env.GRAPHENEDB_COPPER_BOLT_USER;
 var graphenedbPass1 = process.env.GRAPHENEDB_COPPER_BOLT_PASSWORD;
 
+//Variables internas (No mover)
+
+var total_nodos, nombre = null, empresa, telefono, mail, productoArray = [], productoArray2 = [], vendedor = null, num_vendedor, num_cot = 0, descuento, extension, email_vendedor, tiempo_entrega, check, tipo_cambio=20, precio, stock_num, modelo, desc, nombre_p, stock_c, modelo_c, color_grano_c, tiempo_c, precio_c, medida_c, unidad_c, unidad_c, vendedorArray = [],  dir = [], ref=[], indexref = 0, folio = 0;
+
 //Protocolo de conexión para servidor cloud heroku
 
 if(graphenedbURL == undefined){
@@ -57,6 +64,7 @@ if(graphenedbURL == undefined){
 			correo: record._fields[0].properties.CORREO,
 			folio: record._fields[0].properties.FOLIO	
 			});
+			
 		});
 		console.log("vendedorArray: ");
 		console.log(vendedorArray);
@@ -92,15 +100,13 @@ if(graphenedbURL == undefined){
 	
 };
 
-var total_nodos, nombre = null, empresa, telefono, mail, productoArray = [], productoArray2 = [], vendedor = null, num_vendedor, num_cot, descuento, extension, email_vendedor, tiempo_entrega, check, tipo_cambio=20, precio, stock_num, modelo, desc, nombre_p, stock_c, modelo_c, color_grano_c, tiempo_c, precio_c, medida_c, unidad_c, unidad_c, vendedorArray = [],  dir = [], ref=[], indexref = 0;
-
 app.get('/', function(request, response){
 	response.render('pages/index3')
 });
 
 app.get('/3m', function(req, res) {
 	session
-		.run('MATCH (n) RETURN count(n) LIMIT 1')
+		.run('MATCH (n) RETURN count(n)')
 		.then(function(result){
         
 			  	result.records.forEach(function(record){
@@ -129,7 +135,8 @@ app.get('/3m', function(req, res) {
 					modelo: modelo,
 					vendedorArray: vendedorArray,
 					dir: dir,
-                    indexref: indexref 
+                    indexref: indexref,
+					folio: folio
 				});
 		
 		})
@@ -168,7 +175,8 @@ app.post('/contacto/add', function(req, res){
 				modelo: modelo,
 				vendedorArray: vendedorArray,
 				dir: dir,
-                indexref: indexref
+                indexref: indexref,
+				folio: folio
 		});
 });
 
@@ -261,7 +269,8 @@ app.post('/busqueda/add', function(req, res){
 				modelo: modelo,
 				vendedorArray: vendedorArray,
 				dir: dir,
-                indexref: indexref 
+                indexref: indexref,
+				folio: folio
 			});
 		
 			productoArray = [];
@@ -375,7 +384,8 @@ app.post('/carrito/add', function(req, res){
 				modelo: modelo,
 				vendedorArray: vendedorArray,
 				dir: dir,
-                indexref: indexref
+                indexref: indexref,
+				folio: folio
 		});
        
 		
@@ -423,7 +433,8 @@ app.post('/eliminacion/add', function(req, res){
 			modelo: modelo,
 			vendedorArray: vendedorArray,
 			dir: dir,
-            indexref: indexref
+            indexref: indexref,
+			folio: folio
 		});
 });
 
@@ -483,7 +494,8 @@ app.post('/datos/add', function(req, res){
 			modelo: modelo,
 			vendedorArray: vendedorArray,
 			dir: dir,
-            indexref: indexref 
+            indexref: indexref,
+			folio: folio
 		});
 });
 
@@ -522,7 +534,8 @@ app.post('/download', function(req, res){
 			modelo: modelo,
 			vendedorArray: vendedorArray,
 			dir: dir,
-            indexref: indexref 
+            indexref: indexref,
+			folio: folio
 		};
 	
 	var renderedhtml = ejs.render(html, obj);
@@ -644,7 +657,8 @@ app.get('/pdfprevio', function(req, res){
 		modelo: modelo,
 		vendedorArray: vendedorArray,
 		dir: dir,
-        indexref: indexref 
+        indexref: indexref,
+	    folio: folio
    }); 
 });
 
@@ -673,7 +687,8 @@ app.post('/tipo_cambio/add', function(req, res){
 			modelo: modelo,
 			vendedorArray: vendedorArray,
 			dir: dir,
-            indexref: indexref
+            indexref: indexref,
+			folio: folio
 		});
 	
 });
@@ -713,7 +728,8 @@ app.post('/cantidad/add', function(req, res){
 			modelo: modelo,
 			vendedorArray: vendedorArray,
 			dir: dir,
-            indexref: indexref 
+            indexref: indexref,
+			folio: folio
 		});
 	
 });
@@ -757,7 +773,8 @@ app.post('/descuento/add', function(req, res){
 			modelo: modelo,
 			vendedorArray: vendedorArray,
 			dir: dir,
-            indexref: indexref 
+            indexref: indexref,
+			folio: folio
 		});
 	
 });
@@ -796,7 +813,8 @@ app.post('/cambio_nombre/add', function(req,res){
 		modelo: modelo,
 		vendedorArray: vendedorArray,
 		dir: dir,
-        indexref: indexref
+        indexref: indexref,
+		folio: folio
 	});
 	
 });
@@ -835,7 +853,8 @@ app.post('/cambio_stock/add', function(req,res){
 		modelo: modelo,
 		vendedorArray: vendedorArray,
 		dir: dir,
-        indexref: indexref
+        indexref: indexref,
+		folio: folio
 	});
 	
 });
@@ -874,7 +893,8 @@ app.post('/cambio_modelo/add', function(req,res){
 		modelo: modelo,
 		vendedorArray: vendedorArray,
 		dir: dir,
-        indexref: indexref
+        indexref: indexref,
+		folio: folio
 	});
 	
 });
@@ -913,7 +933,8 @@ app.post('/cambio_tiempo/add', function(req,res){
 		modelo: modelo,
 		vendedorArray: vendedorArray,
 		dir: dir,
-        indexref: indexref
+        indexref: indexref,
+		folio: folio
 	});
 	
 });
@@ -952,7 +973,8 @@ app.post('/cambio_color_grano/add', function(req,res){
 		modelo: modelo,
 		vendedorArray: vendedorArray,
 		dir: dir,
-        indexref: indexref 
+        indexref: indexref,
+		folio: folio
 	});
 	
 });
@@ -1094,7 +1116,8 @@ app.post('/cambio_precio_usd/add', function(req,res){
 		modelo: modelo,
 		vendedorArray: vendedorArray,
 		dir: dir,
-        indexref: indexref 
+        indexref: indexref,
+		folio: folio
 	});
 	
 });
@@ -1133,7 +1156,8 @@ app.post('/cambio_medida/add', function(req,res){
 		modelo: modelo,
 		vendedorArray: vendedorArray,
 		dir: dir,
-        indexref: indexref 
+        indexref: indexref,
+		folio: folio
 	});
 	
 });
@@ -1172,7 +1196,8 @@ app.post('/cambio_unidad/add', function(req,res){
 		modelo: modelo,
 		vendedorArray: vendedorArray,
 		dir: dir,
-        indexref: indexref
+        indexref: indexref,
+		folio: folio
 	});
 	
 });
@@ -1229,9 +1254,77 @@ app.post('/api/photo', function(req,res){
 			modelo: modelo,
 			vendedorArray: vendedorArray,
 			dir: dir,
-            indexref: indexref    
+            indexref: indexref,
+			folio: folio	
 	});
     });
+});
+
+app.post('/folio', function(req, res){
+	folio = parseInt(req.body.folio);
+	folio = folio + 1;
+	num_cot = folio;
+	
+	console.log('folio: ' + folio);
+	
+	if(graphenedbURL == undefined){
+		
+			session
+			.run('MATCH (n:VENDEDOR) WHERE n.NOMBRE = {nombre} SET n.FOLIO = {folio} ', {nombre: vendedor, folio: folio })
+			.then(function(res){
+				console.log('res: \n' + res);
+				res.records.forEach(function(record){
+					console.log('folio grabado: ' + record);
+			});
+			})
+			.catch(function(err){
+				console.log(err);
+			});
+		
+	}else{
+				  
+		session1
+			.run('MATCH (n:VENDEDOR) WHERE n.NOMBRE = {nombre} SET n.FOLIO = {folio} ', {nombre: vendedor, folio: folio })
+			.then(function(res){
+				console.log('res: ' + res);
+				res.records.forEach(function(record){
+					console.log('folio grabado: ' + record);
+			});
+				
+			})	
+			.catch(function(err){
+				console.log(err);
+			});		  
+		
+	};
+	
+	
+	res.render('pages/3m', {
+			desplegar: total_nodos,
+			nombre: nombre,
+			empresa: empresa,
+			telefono: telefono,
+			mail: mail,
+			productos: productoArray,
+			prod_agregados: productoArray2,
+			vendedor: vendedor,
+			num_vendedor: num_vendedor,
+			num_cot: num_cot,
+			extension: extension,
+			email_vendedor: email_vendedor,
+			tiempo_entrega: tiempo_entrega,
+			tipo_cambio: tipo_cambio,
+			fecha: fecha, 
+			precio: precio,
+			stock_num: stock_num,
+			desc: desc,
+			modelo: modelo,
+			vendedorArray: vendedorArray,
+			dir: dir,
+            indexref: indexref,
+			folio: folio
+	});
+	
 });
 
 //Otras cotizadores

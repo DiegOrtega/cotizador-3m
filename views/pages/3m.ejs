@@ -28,15 +28,35 @@
 					<form style="text-align: right" id="tipo_cambio" method="post" action="/tipo_cambio/add">
 						<input id="timpo_cambio" type="text" placeholder="<%= tipo_cambio %>" size="10" name="tipo_cambio">
 						<button class="boton3m3" form="tipo_cambio" type="submit">Ingresar</button>
+                        
+                        <script>
+                            
+                            
+                            
+                        </script>
+                        
+                        
 					</form>
 				</div>
 				
 			</div>
 		</div>
-		
-				
+		 
+	<!-- FIN DE EJEMPLO-->			
         <hr>
-        			
+        	<div id="accordion" role="tablist" aria-multiselectable="false">
+                <div class="card">
+                    
+                <div class="card-header" role="tab" id="headingOne">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                        <h5 class="mb-0" >
+                            Ingresa los datos del cliente
+                        </h5>
+                     </a>    
+                </div>
+                    
+            <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+      <div class="card-block">
                 <div class="container">
                     <div class="row">
                         
@@ -61,6 +81,7 @@
                         <div class="col-lg-12">
                             <Button class="boton3m" form="form_usuario" type="submit">Ingresar datos</Button>
                         </div>           
+                       
                     
                         <div class="container">
                             <div class="row">
@@ -92,6 +113,26 @@
                 </div>
 		
 			<hr>
+          
+                </div>
+            </div>
+        </div> 
+            
+                <div class="clearfix"></div>
+                
+    <div class="card">
+       
+        <div class="card-header" role="tab" id="headingTwo">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseOne"> 
+                <h5 class="mb-0">
+                    Busca el producto y seleccionalo
+                </h5>
+            </a>
+        </div>
+        
+        
+        <div id="collapseTwo" class="collapse <%= ajuste_busqueda %>" role="tabpanel" aria-labelledby="headingTwo">
+      <div class="card-block">
         
 			<!--segunda parte //BUSCADOR-->
 				<div class="container">
@@ -134,8 +175,8 @@
 
                                         <div class="col-lg-12 contenedorDatos">
                                             <h4>Resultados de Búsqueda:  
-												<% if(stock_num != null){ %> Stock: <%=stock_num%>, <% } %> 
-												<% if(modelo != null){ %> Modelo: <%= modelo %>, <% } %>
+												<% if(stock_num != null){ %> Stock: <%=stock_num%> <% } %> 
+												<% if(modelo != null){ %> Modelo: <%= modelo %> <% } %>
 												<% if(desc != null){ %> palabra clave: <%=desc%> <% } %>
 											</h4>
 
@@ -184,9 +225,30 @@
                 </div>
         
 				<hr>
+            
+            </div>
+        </div>
+          
+            </div>
+           
+                <div class="clearfix"></div>
+                
+                <div class="card">
+       
+        <div class="card-header" role="tab" id="headingThree">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">  
+                <h5 class="mb-0">
+                    Checa los productos agregados a cotización
+                </h5>
+            </a>
+        </div>
+        
+        
+        <div id="collapseThree" class="collapse <%= ajuste_carrito %>" role="tabpanel" aria-labelledby="headingThree">
+      <div class="card-block">
         
                 <div class=" centro">
-                    <h4>Productos Agregados a Cotización</h4>
+                    <h4>Productos agregados a cotización</h4>
                 </div>
 		
         <div class="container">
@@ -407,8 +469,27 @@
         </div>
 					
         <br/>
-        <hr>
+          
+          <hr>
+            </div>
+                    </div>
+                </div>
+        
         <div class="clearfix"></div>
+   
+<div class="card"> 
+                
+    <div class="card-header" role="tab" id="headingFour">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">  
+            <h5 class="mb-0">
+                Ingresa la información del vendedor
+            </h5>
+        </a>
+        </div>
+        
+        
+        <div id="collapseFour" class="collapse" role="tabpanel" aria-labelledby="headingFour">
+      <div class="card-block">           
         
 		<h3 class="centro">Ingresa la información del vendedor</h3>
 		
@@ -482,11 +563,18 @@
             </div>
         </div>	
             
-        <hr>    
+        <hr>
+          
+            </div>
+    </div>
+                </div>
+                
+            <div class="clearfix"></div>    
 
         <div class="container">
             <div class="row">
-                <h3 class="centro col-lg-12">&Uacute;ltimo paso: GENERA Y GUARDA TU PDF</h3>
+                <h3 class="centro col-lg-12">Crea y guarda el PDF</h3>
+                <div class="clearfix"></div>
                 <br>
                 <hr>
                 
@@ -502,10 +590,25 @@
                 
             </div>
         </div>    
-        	
+    </div>
+        
+        <!--ALERTS!-->
+        
+        <div class="alert alert-<%=alerta_tipo%> alert-dismissible fade show" role="alert" id="floating_alert" style="margin-right:<%=hide1%>;">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <%=content%>
+        </div>
+        
+        
+        
 	</body>
 </html>
+
+
 <script type="text/javascript">
+    
             $(window).scroll(function() {
 			  sessionStorage.scrollTop = $(this).scrollTop();
 			});
@@ -517,6 +620,7 @@
 			});
 	
 			alert("Bienvenido al cotizador de 3M de Ail \n por IMI Diego Ortega");
+    
 
 </script>
 

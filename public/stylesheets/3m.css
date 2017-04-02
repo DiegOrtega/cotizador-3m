@@ -89,3 +89,9 @@
 	position:relative;
 	top:1px;
 }
+#floating_alert {
+    position: absolute;
+    top: 65px;
+    right: 350px;
+    z-index: 5000;
+}

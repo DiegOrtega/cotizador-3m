@@ -45,7 +45,7 @@ var graphenedbPass1 = process.env.GRAPHENEDB_COPPER_BOLT_PASSWORD;
 
 //Variables internas (No mover)
 
-var total_nodos, nombre = null, empresa, telefono, mail, productoArray = [], productoArray2 = [], vendedor = null, num_vendedor, num_cot = 0, descuento, extension, email_vendedor, tiempo_entrega, check, tipo_cambio=20, precio, stock_num, modelo, desc, nombre_p, stock_c, modelo_c, color_grano_c, tiempo_c, precio_c, medida_c, unidad_c, unidad_c, vendedorArray = [],  dir = [], ref=[], indexref = 0, folio = 0;
+var total_nodos, nombre = null, empresa, telefono, mail, productoArray = [], productoArray2 = [], vendedor = null, num_vendedor, num_cot = 0, descuento, extension, email_vendedor, tiempo_entrega, check, tipo_cambio=18, precio, stock_num, modelo, desc, nombre_p, stock_c, modelo_c, color_grano_c, tiempo_c, precio_c, medida_c, unidad_c, unidad_c, vendedorArray = [],  dir = [], ref=[], indexref = 0, folio = 0, alerta_cambio = false, alerta_datos = false, alerta_cantidad = false, alerta_descuento = false, cambio_nombre = false, cambio_stock = false, cambio_modelo = false, cambio_tiempo = false, cambio_color = false, cambio_precio = false, cambio_medida = false, cambio_unidad = false, cambio_api = false, cambio_folio = false, alerta_busqueda= false, alerta_carrito = false, alerta_datos2= false, alerta_eliminacion = false, ajuste_busqueda = "" , cont = 0, ajuste_carrito = "", hide1 = '-700px', content = '', alerta_tipo = 'success';
 
 //Protocolo de conexión para servidor cloud heroku
 
@@ -105,6 +105,11 @@ app.get('/', function(request, response){
 });
 
 app.get('/3m', function(req, res) {
+    
+    hide1 = '0px;';
+    content = "Bienvenido!";
+    alerta_tipo = "success";
+    
 	session
 		.run('MATCH (n) RETURN count(n)')
 		.then(function(result){
@@ -136,7 +141,30 @@ app.get('/3m', function(req, res) {
 					vendedorArray: vendedorArray,
 					dir: dir,
                     indexref: indexref,
-					folio: folio
+					folio: folio,
+                    alerta_cambio: alerta_cambio,
+                    alerta_datos: alerta_datos,
+                    alerta_busqueda: alerta_busqueda,
+                    alerta_carrito: alerta_carrito,
+                    alerta_datos2: alerta_datos2,
+                    alerta_cantidad: alerta_cantidad, 
+                    alerta_descuento: alerta_descuento,
+                    cambio_nombre: cambio_nombre, 
+                    cambio_stock: cambio_stock, 
+                    cambio_modelo: cambio_modelo, 
+                    cambio_tiempo: cambio_tiempo, 
+                    cambio_color: cambio_color, 
+                    cambio_precio: cambio_precio,
+                    cambio_medida: cambio_medida, 
+                    cambio_unidad: cambio_unidad, 
+                    cambio_api: cambio_api,
+                    cambio_folio: cambio_folio,
+                    alerta_eliminacion: alerta_eliminacion,
+                    ajuste_busqueda: ajuste_busqueda,
+                    ajuste_carrito: ajuste_carrito,
+                    hide1: hide1,
+                    content: content,
+                    alerta_tipo: alerta_tipo
 				});
 		
 		})
@@ -150,6 +178,16 @@ app.post('/contacto/add', function(req, res){
 	empresa = req.body.contacto_empresa;
 	telefono = req.body.contacto_tel;
 	mail = req.body.contacto_mail;
+    
+    if( alerta_datos == true){
+        alerta_datos = false;
+    }else if( alerta_datos == false){  
+        alerta_datos = true;
+    };
+    
+    hide1 = '0px;';
+    content = "Esta cotización es para " + nombre + "." + " Ahora busca los productos que necesites y seleccionalos!";
+    alerta_tipo = "success";
 	
 	console.log("nombre: "+nombre+" empresa: "+empresa+" telefono: "+telefono+" mail: "+mail);
 
@@ -176,12 +214,36 @@ app.post('/contacto/add', function(req, res){
 				vendedorArray: vendedorArray,
 				dir: dir,
                 indexref: indexref,
-				folio: folio
+				folio: folio,
+                alerta_cambio: alerta_cambio,
+                alerta_datos: alerta_datos,
+                alerta_busqueda: alerta_busqueda,
+                alerta_carrito: alerta_carrito,
+                alerta_datos2: alerta_datos2,
+                alerta_cantidad: alerta_cantidad, 
+                alerta_descuento: alerta_descuento,
+                cambio_nombre: cambio_nombre, 
+                cambio_stock: cambio_stock, 
+                cambio_modelo: cambio_modelo, 
+                cambio_tiempo: cambio_tiempo, 
+                cambio_color: cambio_color, 
+                cambio_precio: cambio_precio,
+                cambio_medida: cambio_medida, 
+                cambio_unidad: cambio_unidad, 
+                cambio_api: cambio_api,
+                cambio_folio: cambio_folio,
+                alerta_eliminacion: alerta_eliminacion,
+                ajuste_busqueda: ajuste_busqueda,
+                ajuste_carrito: ajuste_carrito,
+                hide1: hide1,
+                content: content,
+                alerta_tipo: alerta_tipo
 		});
 });
 
 
 app.post('/busqueda/add', function(req, res){
+    
 	var stock_num = req.body.stock;
 	var desc = req.body.desc;
 	var modelo = req.body.modelo;
@@ -191,6 +253,19 @@ app.post('/busqueda/add', function(req, res){
 	var division = req.body.division;
 	var familia = req.body.familia;
 	
+    cont = 1 + cont;
+    
+    if( ajuste_busqueda == "show" && cont > 1){
+        ajuste_busqueda = "";
+        cont = 0;
+    }else if( ajuste_busqueda == "" && cont == 1){  
+        ajuste_busqueda = "show";
+    };
+    
+    hide1 = '0px;';
+    content = "Búsqueda exitosa!";
+    alerta_tipo = "success";
+    
 	if(stock_num == ''){stock_num = null};
 	if(desc == ''){desc = null};
 	if(modelo == ''){modelo = null};
@@ -270,7 +345,30 @@ app.post('/busqueda/add', function(req, res){
 				vendedorArray: vendedorArray,
 				dir: dir,
                 indexref: indexref,
-				folio: folio
+				folio: folio,
+                alerta_cambio: alerta_cambio,
+                alerta_datos: alerta_datos,
+                alerta_busqueda: alerta_busqueda,
+                alerta_carrito: alerta_carrito,
+                alerta_datos2: alerta_datos2,
+                alerta_cantidad: alerta_cantidad, 
+                alerta_descuento: alerta_descuento,
+                cambio_nombre: cambio_nombre, 
+                cambio_stock: cambio_stock, 
+                cambio_modelo: cambio_modelo, 
+                cambio_tiempo: cambio_tiempo, 
+                cambio_color: cambio_color, 
+                cambio_precio: cambio_precio,
+                cambio_medida: cambio_medida, 
+                cambio_unidad: cambio_unidad, 
+                cambio_api: cambio_api,
+                cambio_folio: cambio_folio,
+                alerta_eliminacion: alerta_eliminacion,
+                ajuste_busqueda: ajuste_busqueda,
+                ajuste_carrito: ajuste_carrito,
+                hide1: hide1,
+                content: content,
+                alerta_tipo: alerta_tipo
 			});
 		
 			productoArray = [];
@@ -293,6 +391,23 @@ app.post('/carrito/add', function(req, res){
 	
 	check = carrito;
 	
+    if( ajuste_carrito == "show" && cont >= 1){
+        ajuste_carrito = "";
+        cont = 0;
+    }else if( ajuste_carrito == "" && cont == 1){  
+        ajuste_carrito = "show";
+    };
+    
+    if( ajuste_busqueda == "show"){
+        ajuste_busqueda = "";
+        cont = 0;
+    };
+    
+    hide1 = '0px;';
+    
+    alerta_tipo = "success";
+    
+    
 	session	
 		.run("MATCH (n {STOCK: {carrito}}) RETURN n LIMIT 1 ", {carrito: carrito})
 		.then(function(result3){
@@ -341,6 +456,9 @@ app.post('/carrito/add', function(req, res){
 			});
 		
 		productoArray2.forEach(function(producto2, index){
+            
+            content = "Agregaste " + producto2.nombre + " a tu cotización";
+            
 			if(producto2.precio_lista_unidad_mxn != undefined){
 				producto2.mxn_ref = producto2.precio_lista_unidad_mxn;
 				console.log('mxn_ref: ' + producto2.mxn_ref);
@@ -360,7 +478,11 @@ app.post('/carrito/add', function(req, res){
 		
 		console.log("productos dentro de carrito = " + productoArray2.length);
 		
-		 
+		 if( alerta_carrito == true){
+            alerta_carrito = false;
+        }else if( alerta_carrito == false){  
+            alerta_carrito = true;
+        };
 		
 		res.render('pages/3m', {
 				desplegar: total_nodos,
@@ -385,7 +507,30 @@ app.post('/carrito/add', function(req, res){
 				vendedorArray: vendedorArray,
 				dir: dir,
                 indexref: indexref,
-				folio: folio
+				folio: folio,
+                alerta_cambio: alerta_cambio,
+                alerta_datos: alerta_datos,
+                alerta_busqueda: alerta_busqueda,
+                alerta_carrito: alerta_carrito,
+                alerta_datos2: alerta_datos2,
+                alerta_cantidad: alerta_cantidad, 
+                alerta_descuento: alerta_descuento,
+                cambio_nombre: cambio_nombre, 
+                cambio_stock: cambio_stock, 
+                cambio_modelo: cambio_modelo, 
+                cambio_tiempo: cambio_tiempo, 
+                cambio_color: cambio_color, 
+                cambio_precio: cambio_precio,
+                cambio_medida: cambio_medida, 
+                cambio_unidad: cambio_unidad, 
+                cambio_api: cambio_api,
+                cambio_folio: cambio_folio,
+                alerta_eliminacion: alerta_eliminacion,
+                ajuste_busqueda: ajuste_busqueda,
+                ajuste_carrito: ajuste_carrito,
+                hide1: hide1,
+                content: content,
+                alerta_tipo: alerta_tipo
 		});
        
 		
@@ -400,11 +545,16 @@ app.post('/eliminacion/add', function(req, res){
 	//console.log(productoArray2[0].id);
 	//console.log("eliminar = " + eliminar);
 	console.log(productoArray2.length);
+    
+    hide1 = '0px;';
+    
+    alerta_tipo = "warning";
 	
 	var i = 0;
 	
 	while(i < productoArray2.length){
 		if(productoArray2[i].id == eliminar){
+            content = "Eliminaste " + productoArray2[i].nombre + " de tu cotización";
 			productoArray2.splice(i, 1);
 		};
 		console.log(i);
@@ -434,33 +584,39 @@ app.post('/eliminacion/add', function(req, res){
 			vendedorArray: vendedorArray,
 			dir: dir,
             indexref: indexref,
-			folio: folio
+			folio: folio,
+            alerta_cambio: alerta_cambio,
+            alerta_datos: alerta_datos,
+            alerta_busqueda: alerta_busqueda,
+            alerta_carrito: alerta_carrito,
+            alerta_datos2: alerta_datos2,
+            alerta_cantidad: alerta_cantidad, 
+            alerta_descuento: alerta_descuento,
+            cambio_nombre: cambio_nombre, 
+            cambio_stock: cambio_stock, 
+            cambio_modelo: cambio_modelo, 
+            cambio_tiempo: cambio_tiempo, 
+            cambio_color: cambio_color, 
+            cambio_precio: cambio_precio,
+            cambio_medida: cambio_medida, 
+            cambio_unidad: cambio_unidad, 
+            cambio_api: cambio_api,
+            cambio_folio: cambio_folio,
+            alerta_eliminacion: alerta_eliminacion,
+            ajuste_busqueda: ajuste_busqueda,
+            ajuste_carrito: ajuste_carrito,
+            hide1: hide1,
+            content: content,
+            alerta_tipo: alerta_tipo
 		});
 });
 
 app.post('/datos/add', function(req, res){
 	index = req.body.index;
 	tiempo_entrega = req.body.tiempo_entrega;
-	
-	/*
-	vendedor = req.body.vendedor;
-	num_vendedor = req.body.num_vendedor;
-	num_cot = req.body.num_cot;
-	extension = req.body.extension;
-	email_vendedor = req.body.email;
-	
-	console.log("tiempo de entrega: " + tiempo_entrega);
-	
-	var i = 0;
-	
-	if(tiempo_entrega != ""){
-		while(i < productoArray2.length){
-			productoArray2[i].tiempo_entrega = tiempo_entrega;	
-			console.log("tiempo: " + productoArray2.tiempo_entrega );
-			i++;
-		}
-	};
-	*/
+    
+    hide1 = '0px;';
+    alerta_tipo = "success";
 	
 	vendedorArray.forEach(function(vendedores, indexRef){
 		if(index == indexRef){
@@ -469,6 +625,7 @@ app.post('/datos/add', function(req, res){
 			num_cot = vendedores.folio;
 			extension = vendedores.extension;
 			email_vendedor = vendedores.correo;
+            content = 'Bienvenid@ ' + vendedor;
 		};
 	});
 	
@@ -495,7 +652,30 @@ app.post('/datos/add', function(req, res){
 			vendedorArray: vendedorArray,
 			dir: dir,
             indexref: indexref,
-			folio: folio
+			folio: folio,
+            alerta_cambio: alerta_cambio,
+            alerta_datos: alerta_datos,
+            alerta_busqueda: alerta_busqueda,
+            alerta_carrito: alerta_carrito,
+            alerta_datos2: alerta_datos2,
+            alerta_cantidad: alerta_cantidad, 
+            alerta_descuento: alerta_descuento,
+            cambio_nombre: cambio_nombre, 
+            cambio_stock: cambio_stock, 
+            cambio_modelo: cambio_modelo, 
+            cambio_tiempo: cambio_tiempo, 
+            cambio_color: cambio_color, 
+            cambio_precio: cambio_precio,
+            cambio_medida: cambio_medida, 
+            cambio_unidad: cambio_unidad, 
+            cambio_api: cambio_api,
+            cambio_folio: cambio_folio,
+            alerta_eliminacion: alerta_eliminacion,
+            ajuste_busqueda: ajuste_busqueda,
+            ajuste_carrito: ajuste_carrito,
+            hide1: hide1,
+            content: content,
+            alerta_tipo: alerta_tipo
 		});
 });
 
@@ -535,7 +715,27 @@ app.post('/download', function(req, res){
 			vendedorArray: vendedorArray,
 			dir: dir,
             indexref: indexref,
-			folio: folio
+			folio: folio,
+            alerta_cambio: alerta_cambio,
+            alerta_datos: alerta_datos,
+            alerta_busqueda: alerta_busqueda,
+            alerta_carrito: alerta_carrito,
+            alerta_datos2: alerta_datos2,
+            alerta_cantidad: alerta_cantidad, 
+            alerta_descuento: alerta_descuento,
+            cambio_nombre: cambio_nombre, 
+            cambio_stock: cambio_stock, 
+            cambio_modelo: cambio_modelo, 
+            cambio_tiempo: cambio_tiempo, 
+            cambio_color: cambio_color, 
+            cambio_precio: cambio_precio,
+            cambio_medida: cambio_medida, 
+            cambio_unidad: cambio_unidad, 
+            cambio_api: cambio_api,
+            cambio_folio: cambio_folio,
+            alerta_eliminacion: alerta_eliminacion,
+            ajuste_busqueda: ajuste_busqueda,
+            ajuste_carrito: ajuste_carrito
 		};
 	
 	var renderedhtml = ejs.render(html, obj);
@@ -636,34 +836,62 @@ app.get('/pdfprevio', function(req, res){
 		});
 	
    res.render('pages/cotizacion',{
-		desplegar: total_nodos,
-		nombre: nombre,
-		empresa: empresa,
-		telefono: telefono,
-		mail: mail,
-		productos: productoArray,
-		prod_agregados: productoArray2,
-		vendedor: vendedor,
-		num_vendedor: num_vendedor,
-		num_cot: num_cot,
-		extension: extension,
-		email_vendedor: email_vendedor,
-		tiempo_entrega: tiempo_entrega,
-		tipo_cambio: tipo_cambio,
-		fecha: fecha, 
-		precio: precio,
-		stock_num: stock_num,
-		desc: desc,
-		modelo: modelo,
-		vendedorArray: vendedorArray,
-		dir: dir,
-        indexref: indexref,
-	    folio: folio
+            desplegar: total_nodos,
+            nombre: nombre,
+            empresa: empresa,
+            telefono: telefono,
+            mail: mail,
+            productos: productoArray,
+            prod_agregados: productoArray2,
+            vendedor: vendedor,
+            num_vendedor: num_vendedor,
+            num_cot: num_cot,
+            extension: extension,
+            email_vendedor: email_vendedor,
+            tiempo_entrega: tiempo_entrega,
+            tipo_cambio: tipo_cambio,
+            fecha: fecha, 
+            precio: precio,
+            stock_num: stock_num,
+            desc: desc,
+            modelo: modelo,
+            vendedorArray: vendedorArray,
+            dir: dir,
+            indexref: indexref,
+            folio: folio,
+            alerta_cambio: alerta_cambio,
+            alerta_datos: alerta_datos,
+            alerta_busqueda: alerta_busqueda,
+            alerta_carrito: alerta_carrito,
+            alerta_datos2: alerta_datos2,
+            alerta_cantidad: alerta_cantidad, 
+            alerta_descuento: alerta_descuento,
+            cambio_nombre: cambio_nombre, 
+            cambio_stock: cambio_stock, 
+            cambio_modelo: cambio_modelo, 
+            cambio_tiempo: cambio_tiempo, 
+            cambio_color: cambio_color, 
+            cambio_precio: cambio_precio,
+            cambio_medida: cambio_medida, 
+            cambio_unidad: cambio_unidad, 
+            cambio_api: cambio_api,
+            cambio_folio: cambio_folio,
+            alerta_eliminacion: alerta_eliminacion,
+            ajuste_busqueda: ajuste_busqueda,
+            ajuste_carrito: ajuste_carrito
    }); 
 });
 
 app.post('/tipo_cambio/add', function(req, res){
 	tipo_cambio = req.body.tipo_cambio;
+    
+    if( alerta_cambio == true){
+        alerta_cambio = false;
+    }else if( alerta_cambio == false){  
+        alerta_cambio = true;
+    };
+    
+    console.log('alerta_cambio: ' + alerta_cambio);
 	
 	res.render('pages/3m', {
 			desplegar: total_nodos,
@@ -688,9 +916,30 @@ app.post('/tipo_cambio/add', function(req, res){
 			vendedorArray: vendedorArray,
 			dir: dir,
             indexref: indexref,
-			folio: folio
+			folio: folio,
+            alerta_cambio: alerta_cambio,
+            alerta_cambio: alerta_cambio,
+            alerta_datos: alerta_datos,
+            alerta_busqueda: alerta_busqueda,
+            alerta_carrito: alerta_carrito,
+            alerta_datos2: alerta_datos2,
+            alerta_cantidad: alerta_cantidad, 
+            alerta_descuento: alerta_descuento,
+            cambio_nombre: cambio_nombre, 
+            cambio_stock: cambio_stock, 
+            cambio_modelo: cambio_modelo, 
+            cambio_tiempo: cambio_tiempo, 
+            cambio_color: cambio_color, 
+            cambio_precio: cambio_precio,
+            cambio_medida: cambio_medida, 
+            cambio_unidad: cambio_unidad, 
+            cambio_api: cambio_api,
+            cambio_folio: cambio_folio,
+            alerta_eliminacion: alerta_eliminacion,
+            ajuste_busqueda: ajuste_busqueda,
+            ajuste_carrito: ajuste_carrito
 		});
-	
+    
 });
 
 app.post('/cantidad/add', function(req, res){
@@ -729,7 +978,27 @@ app.post('/cantidad/add', function(req, res){
 			vendedorArray: vendedorArray,
 			dir: dir,
             indexref: indexref,
-			folio: folio
+			folio: folio,
+            alerta_cambio: alerta_cambio,
+            alerta_datos: alerta_datos,
+            alerta_busqueda: alerta_busqueda,
+            alerta_carrito: alerta_carrito,
+            alerta_datos2: alerta_datos2,
+            alerta_cantidad: alerta_cantidad, 
+            alerta_descuento: alerta_descuento,
+            cambio_nombre: cambio_nombre, 
+            cambio_stock: cambio_stock, 
+            cambio_modelo: cambio_modelo, 
+            cambio_tiempo: cambio_tiempo, 
+            cambio_color: cambio_color, 
+            cambio_precio: cambio_precio,
+            cambio_medida: cambio_medida, 
+            cambio_unidad: cambio_unidad, 
+            cambio_api: cambio_api,
+            cambio_folio: cambio_folio,
+            alerta_eliminacion: alerta_eliminacion,
+            ajuste_busqueda: ajuste_busqueda,
+            ajuste_carrito: ajuste_carrito
 		});
 	
 });
@@ -774,7 +1043,27 @@ app.post('/descuento/add', function(req, res){
 			vendedorArray: vendedorArray,
 			dir: dir,
             indexref: indexref,
-			folio: folio
+			folio: folio,
+            alerta_cambio: alerta_cambio,
+            alerta_datos: alerta_datos,
+            alerta_busqueda: alerta_busqueda,
+            alerta_carrito: alerta_carrito,
+            alerta_datos2: alerta_datos2,
+            alerta_cantidad: alerta_cantidad, 
+            alerta_descuento: alerta_descuento,
+            cambio_nombre: cambio_nombre, 
+            cambio_stock: cambio_stock, 
+            cambio_modelo: cambio_modelo, 
+            cambio_tiempo: cambio_tiempo, 
+            cambio_color: cambio_color, 
+            cambio_precio: cambio_precio,
+            cambio_medida: cambio_medida, 
+            cambio_unidad: cambio_unidad, 
+            cambio_api: cambio_api,
+            cambio_folio: cambio_folio,
+            alerta_eliminacion: alerta_eliminacion,
+            ajuste_busqueda: ajuste_busqueda,
+            ajuste_carrito: ajuste_carrito
 		});
 	
 });
@@ -792,29 +1081,49 @@ app.post('/cambio_nombre/add', function(req,res){
 	});
 	
 	res.render('pages/3m', {
-		desplegar: total_nodos,
-		nombre: nombre,
-		empresa: empresa,
-		telefono: telefono,
-		mail: mail,
-		productos: productoArray,
-		prod_agregados: productoArray2,
-		vendedor: vendedor,
-		num_vendedor: num_vendedor,
-		num_cot: num_cot,
-		extension: extension,
-		email_vendedor: email_vendedor,
-		tiempo_entrega: tiempo_entrega,
-		tipo_cambio: tipo_cambio,
-		fecha: fecha, 
-		precio: precio,
-		stock_num: stock_num,
-		desc: desc,
-		modelo: modelo,
-		vendedorArray: vendedorArray,
-		dir: dir,
-        indexref: indexref,
-		folio: folio
+            desplegar: total_nodos,
+            nombre: nombre,
+            empresa: empresa,
+            telefono: telefono,
+            mail: mail,
+            productos: productoArray,
+            prod_agregados: productoArray2,
+            vendedor: vendedor,
+            num_vendedor: num_vendedor,
+            num_cot: num_cot,
+            extension: extension,
+            email_vendedor: email_vendedor,
+            tiempo_entrega: tiempo_entrega,
+            tipo_cambio: tipo_cambio,
+            fecha: fecha, 
+            precio: precio,
+            stock_num: stock_num,
+            desc: desc,
+            modelo: modelo,
+            vendedorArray: vendedorArray,
+            dir: dir,
+            indexref: indexref,
+            folio: folio,
+            alerta_cambio: alerta_cambio,
+            alerta_datos: alerta_datos,
+            alerta_busqueda: alerta_busqueda,
+            alerta_carrito: alerta_carrito,
+            alerta_datos2: alerta_datos2,
+            alerta_cantidad: alerta_cantidad, 
+            alerta_descuento: alerta_descuento,
+            cambio_nombre: cambio_nombre, 
+            cambio_stock: cambio_stock, 
+            cambio_modelo: cambio_modelo, 
+            cambio_tiempo: cambio_tiempo, 
+            cambio_color: cambio_color, 
+            cambio_precio: cambio_precio,
+            cambio_medida: cambio_medida, 
+            cambio_unidad: cambio_unidad, 
+            cambio_api: cambio_api,
+            cambio_folio: cambio_folio,
+            alerta_eliminacion: alerta_eliminacion,
+            ajuste_busqueda: ajuste_busqueda,
+            ajuste_carrito: ajuste_carrito
 	});
 	
 });
@@ -832,29 +1141,49 @@ app.post('/cambio_stock/add', function(req,res){
 	});
 	
 	res.render('pages/3m', {
-		desplegar: total_nodos,
-		nombre: nombre,
-		empresa: empresa,
-		telefono: telefono,
-		mail: mail,
-		productos: productoArray,
-		prod_agregados: productoArray2,
-		vendedor: vendedor,
-		num_vendedor: num_vendedor,
-		num_cot: num_cot,
-		extension: extension,
-		email_vendedor: email_vendedor,
-		tiempo_entrega: tiempo_entrega,
-		tipo_cambio: tipo_cambio,
-		fecha: fecha, 
-		precio: precio,
-		stock_num: stock_num,
-		desc: desc,
-		modelo: modelo,
-		vendedorArray: vendedorArray,
-		dir: dir,
-        indexref: indexref,
-		folio: folio
+            desplegar: total_nodos,
+            nombre: nombre,
+            empresa: empresa,
+            telefono: telefono,
+            mail: mail,
+            productos: productoArray,
+            prod_agregados: productoArray2,
+            vendedor: vendedor,
+            num_vendedor: num_vendedor,
+            num_cot: num_cot,
+            extension: extension,
+            email_vendedor: email_vendedor,
+            tiempo_entrega: tiempo_entrega,
+            tipo_cambio: tipo_cambio,
+            fecha: fecha, 
+            precio: precio,
+            stock_num: stock_num,
+            desc: desc,
+            modelo: modelo,
+            vendedorArray: vendedorArray,
+            dir: dir,
+            indexref: indexref,
+            folio: folio,
+            alerta_cambio: alerta_cambio,
+            alerta_datos: alerta_datos,
+            alerta_busqueda: alerta_busqueda,
+            alerta_carrito: alerta_carrito,
+            alerta_datos2: alerta_datos2,
+            alerta_cantidad: alerta_cantidad, 
+            alerta_descuento: alerta_descuento,
+            cambio_nombre: cambio_nombre, 
+            cambio_stock: cambio_stock, 
+            cambio_modelo: cambio_modelo, 
+            cambio_tiempo: cambio_tiempo, 
+            cambio_color: cambio_color, 
+            cambio_precio: cambio_precio,
+            cambio_medida: cambio_medida, 
+            cambio_unidad: cambio_unidad, 
+            cambio_api: cambio_api,
+            cambio_folio: cambio_folio,
+            alerta_eliminacion: alerta_eliminacion,
+            ajuste_busqueda: ajuste_busqueda,
+            ajuste_carrito: ajuste_carrito
 	});
 	
 });
@@ -872,29 +1201,49 @@ app.post('/cambio_modelo/add', function(req,res){
 	});
 	
 	res.render('pages/3m', {
-		desplegar: total_nodos,
-		nombre: nombre,
-		empresa: empresa,
-		telefono: telefono,
-		mail: mail,
-		productos: productoArray,
-		prod_agregados: productoArray2,
-		vendedor: vendedor,
-		num_vendedor: num_vendedor,
-		num_cot: num_cot,
-		extension: extension,
-		email_vendedor: email_vendedor,
-		tiempo_entrega: tiempo_entrega,
-		tipo_cambio: tipo_cambio,
-		fecha: fecha, 
-		precio: precio,
-		stock_num: stock_num,
-		desc: desc,
-		modelo: modelo,
-		vendedorArray: vendedorArray,
-		dir: dir,
-        indexref: indexref,
-		folio: folio
+            desplegar: total_nodos,
+            nombre: nombre,
+            empresa: empresa,
+            telefono: telefono,
+            mail: mail,
+            productos: productoArray,
+            prod_agregados: productoArray2,
+            vendedor: vendedor,
+            num_vendedor: num_vendedor,
+            num_cot: num_cot,
+            extension: extension,
+            email_vendedor: email_vendedor,
+            tiempo_entrega: tiempo_entrega,
+            tipo_cambio: tipo_cambio,
+            fecha: fecha, 
+            precio: precio,
+            stock_num: stock_num,
+            desc: desc,
+            modelo: modelo,
+            vendedorArray: vendedorArray,
+            dir: dir,
+            indexref: indexref,
+            folio: folio,
+            alerta_cambio: alerta_cambio,
+            alerta_datos: alerta_datos,
+            alerta_busqueda: alerta_busqueda,
+            alerta_carrito: alerta_carrito,
+            alerta_datos2: alerta_datos2,
+            alerta_cantidad: alerta_cantidad, 
+            alerta_descuento: alerta_descuento,
+            cambio_nombre: cambio_nombre, 
+            cambio_stock: cambio_stock, 
+            cambio_modelo: cambio_modelo, 
+            cambio_tiempo: cambio_tiempo, 
+            cambio_color: cambio_color, 
+            cambio_precio: cambio_precio,
+            cambio_medida: cambio_medida, 
+            cambio_unidad: cambio_unidad, 
+            cambio_api: cambio_api,
+            cambio_folio: cambio_folio,
+            alerta_eliminacion: alerta_eliminacion,
+            ajuste_busqueda: ajuste_busqueda,
+            ajuste_carrito: ajuste_carrito
 	});
 	
 });
@@ -912,29 +1261,49 @@ app.post('/cambio_tiempo/add', function(req,res){
 	});
 	
 	res.render('pages/3m', {
-		desplegar: total_nodos,
-		nombre: nombre,
-		empresa: empresa,
-		telefono: telefono,
-		mail: mail,
-		productos: productoArray,
-		prod_agregados: productoArray2,
-		vendedor: vendedor,
-		num_vendedor: num_vendedor,
-		num_cot: num_cot,
-		extension: extension,
-		email_vendedor: email_vendedor,
-		tiempo_entrega: tiempo_entrega,
-		tipo_cambio: tipo_cambio,
-		fecha: fecha, 
-		precio: precio,
-		stock_num: stock_num,
-		desc: desc,
-		modelo: modelo,
-		vendedorArray: vendedorArray,
-		dir: dir,
-        indexref: indexref,
-		folio: folio
+            desplegar: total_nodos,
+            nombre: nombre,
+            empresa: empresa,
+            telefono: telefono,
+            mail: mail,
+            productos: productoArray,
+            prod_agregados: productoArray2,
+            vendedor: vendedor,
+            num_vendedor: num_vendedor,
+            num_cot: num_cot,
+            extension: extension,
+            email_vendedor: email_vendedor,
+            tiempo_entrega: tiempo_entrega,
+            tipo_cambio: tipo_cambio,
+            fecha: fecha, 
+            precio: precio,
+            stock_num: stock_num,
+            desc: desc,
+            modelo: modelo,
+            vendedorArray: vendedorArray,
+            dir: dir,
+            indexref: indexref,
+            folio: folio,
+            alerta_cambio: alerta_cambio,
+            alerta_datos: alerta_datos,
+            alerta_busqueda: alerta_busqueda,
+            alerta_carrito: alerta_carrito,
+            alerta_datos2: alerta_datos2,
+            alerta_cantidad: alerta_cantidad, 
+            alerta_descuento: alerta_descuento,
+            cambio_nombre: cambio_nombre, 
+            cambio_stock: cambio_stock, 
+            cambio_modelo: cambio_modelo, 
+            cambio_tiempo: cambio_tiempo, 
+            cambio_color: cambio_color, 
+            cambio_precio: cambio_precio,
+            cambio_medida: cambio_medida, 
+            cambio_unidad: cambio_unidad, 
+            cambio_api: cambio_api,
+            cambio_folio: cambio_folio,
+            alerta_eliminacion: alerta_eliminacion,
+            ajuste_busqueda: ajuste_busqueda,
+            ajuste_carrito: ajuste_carrito
 	});
 	
 });
@@ -952,29 +1321,49 @@ app.post('/cambio_color_grano/add', function(req,res){
 	});
 	
 	res.render('pages/3m', {
-		desplegar: total_nodos,
-		nombre: nombre,
-		empresa: empresa,
-		telefono: telefono,
-		mail: mail,
-		productos: productoArray,
-		prod_agregados: productoArray2,
-		vendedor: vendedor,
-		num_vendedor: num_vendedor,
-		num_cot: num_cot,
-		extension: extension,
-		email_vendedor: email_vendedor,
-		tiempo_entrega: tiempo_entrega,
-		tipo_cambio: tipo_cambio,
-		fecha: fecha, 
-		precio: precio,
-		stock_num: stock_num,
-		desc: desc,
-		modelo: modelo,
-		vendedorArray: vendedorArray,
-		dir: dir,
-        indexref: indexref,
-		folio: folio
+            desplegar: total_nodos,
+            nombre: nombre,
+            empresa: empresa,
+            telefono: telefono,
+            mail: mail,
+            productos: productoArray,
+            prod_agregados: productoArray2,
+            vendedor: vendedor,
+            num_vendedor: num_vendedor,
+            num_cot: num_cot,
+            extension: extension,
+            email_vendedor: email_vendedor,
+            tiempo_entrega: tiempo_entrega,
+            tipo_cambio: tipo_cambio,
+            fecha: fecha, 
+            precio: precio,
+            stock_num: stock_num,
+            desc: desc,
+            modelo: modelo,
+            vendedorArray: vendedorArray,
+            dir: dir,
+            indexref: indexref,
+            folio: folio,
+            alerta_cambio: alerta_cambio,
+            alerta_datos: alerta_datos,
+            alerta_busqueda: alerta_busqueda,
+            alerta_carrito: alerta_carrito,
+            alerta_datos2: alerta_datos2,
+            alerta_cantidad: alerta_cantidad, 
+            alerta_descuento: alerta_descuento,
+            cambio_nombre: cambio_nombre, 
+            cambio_stock: cambio_stock, 
+            cambio_modelo: cambio_modelo, 
+            cambio_tiempo: cambio_tiempo, 
+            cambio_color: cambio_color, 
+            cambio_precio: cambio_precio,
+            cambio_medida: cambio_medida, 
+            cambio_unidad: cambio_unidad, 
+            cambio_api: cambio_api,
+            cambio_folio: cambio_folio,
+            alerta_eliminacion: alerta_eliminacion,
+            ajuste_busqueda: ajuste_busqueda,
+            ajuste_carrito: ajuste_carrito
 	});
 	
 });
@@ -1095,29 +1484,49 @@ app.post('/cambio_precio_usd/add', function(req,res){
 		});
 	
 	res.render('pages/3m', {
-		desplegar: total_nodos,
-		nombre: nombre,
-		empresa: empresa,
-		telefono: telefono,
-		mail: mail,
-		productos: productoArray,
-		prod_agregados: productoArray2,
-		vendedor: vendedor,
-		num_vendedor: num_vendedor,
-		num_cot: num_cot,
-		extension: extension,
-		email_vendedor: email_vendedor,
-		tiempo_entrega: tiempo_entrega,
-		tipo_cambio: tipo_cambio,
-		fecha: fecha, 
-		precio: precio,
-		stock_num: stock_num,
-		desc: desc,
-		modelo: modelo,
-		vendedorArray: vendedorArray,
-		dir: dir,
-        indexref: indexref,
-		folio: folio
+            desplegar: total_nodos,
+            nombre: nombre,
+            empresa: empresa,
+            telefono: telefono,
+            mail: mail,
+            productos: productoArray,
+            prod_agregados: productoArray2,
+            vendedor: vendedor,
+            num_vendedor: num_vendedor,
+            num_cot: num_cot,
+            extension: extension,
+            email_vendedor: email_vendedor,
+            tiempo_entrega: tiempo_entrega,
+            tipo_cambio: tipo_cambio,
+            fecha: fecha, 
+            precio: precio,
+            stock_num: stock_num,
+            desc: desc,
+            modelo: modelo,
+            vendedorArray: vendedorArray,
+            dir: dir,
+            indexref: indexref,
+            folio: folio,
+            alerta_cambio: alerta_cambio,
+            alerta_datos: alerta_datos,
+            alerta_busqueda: alerta_busqueda,
+            alerta_carrito: alerta_carrito,
+            alerta_datos2: alerta_datos2,
+            alerta_cantidad: alerta_cantidad, 
+            alerta_descuento: alerta_descuento,
+            cambio_nombre: cambio_nombre, 
+            cambio_stock: cambio_stock, 
+            cambio_modelo: cambio_modelo, 
+            cambio_tiempo: cambio_tiempo, 
+            cambio_color: cambio_color, 
+            cambio_precio: cambio_precio,
+            cambio_medida: cambio_medida, 
+            cambio_unidad: cambio_unidad, 
+            cambio_api: cambio_api,
+            cambio_folio: cambio_folio,
+            alerta_eliminacion: alerta_eliminacion,
+            ajuste_busqueda: ajuste_busqueda,
+            ajuste_carrito: ajuste_carrito
 	});
 	
 });
@@ -1135,29 +1544,49 @@ app.post('/cambio_medida/add', function(req,res){
 	});
 	
 	res.render('pages/3m', {
-		desplegar: total_nodos,
-		nombre: nombre,
-		empresa: empresa,
-		telefono: telefono,
-		mail: mail,
-		productos: productoArray,
-		prod_agregados: productoArray2,
-		vendedor: vendedor,
-		num_vendedor: num_vendedor,
-		num_cot: num_cot,
-		extension: extension,
-		email_vendedor: email_vendedor,
-		tiempo_entrega: tiempo_entrega,
-		tipo_cambio: tipo_cambio,
-		fecha: fecha, 
-		precio: precio,
-		stock_num: stock_num,
-		desc: desc,
-		modelo: modelo,
-		vendedorArray: vendedorArray,
-		dir: dir,
-        indexref: indexref,
-		folio: folio
+            desplegar: total_nodos,
+            nombre: nombre,
+            empresa: empresa,
+            telefono: telefono,
+            mail: mail,
+            productos: productoArray,
+            prod_agregados: productoArray2,
+            vendedor: vendedor,
+            num_vendedor: num_vendedor,
+            num_cot: num_cot,
+            extension: extension,
+            email_vendedor: email_vendedor,
+            tiempo_entrega: tiempo_entrega,
+            tipo_cambio: tipo_cambio,
+            fecha: fecha, 
+            precio: precio,
+            stock_num: stock_num,
+            desc: desc,
+            modelo: modelo,
+            vendedorArray: vendedorArray,
+            dir: dir,
+            indexref: indexref,
+            folio: folio,
+            alerta_cambio: alerta_cambio,
+            alerta_datos: alerta_datos,
+            alerta_busqueda: alerta_busqueda,
+            alerta_carrito: alerta_carrito,
+            alerta_datos2: alerta_datos2,
+            alerta_cantidad: alerta_cantidad, 
+            alerta_descuento: alerta_descuento,
+            cambio_nombre: cambio_nombre, 
+            cambio_stock: cambio_stock, 
+            cambio_modelo: cambio_modelo, 
+            cambio_tiempo: cambio_tiempo, 
+            cambio_color: cambio_color, 
+            cambio_precio: cambio_precio,
+            cambio_medida: cambio_medida, 
+            cambio_unidad: cambio_unidad, 
+            cambio_api: cambio_api,
+            cambio_folio: cambio_folio,
+            alerta_eliminacion: alerta_eliminacion,
+            ajuste_busqueda: ajuste_busqueda,   
+            ajuste_carrito: ajuste_carrito
 	});
 	
 });
@@ -1175,29 +1604,49 @@ app.post('/cambio_unidad/add', function(req,res){
 	});
 	
 	res.render('pages/3m', {
-		desplegar: total_nodos,
-		nombre: nombre,
-		empresa: empresa,
-		telefono: telefono,
-		mail: mail,
-		productos: productoArray,
-		prod_agregados: productoArray2,
-		vendedor: vendedor,
-		num_vendedor: num_vendedor,
-		num_cot: num_cot,
-		extension: extension,
-		email_vendedor: email_vendedor,
-		tiempo_entrega: tiempo_entrega,
-		tipo_cambio: tipo_cambio,
-		fecha: fecha, 
-		precio: precio,
-		stock_num: stock_num,
-		desc: desc,
-		modelo: modelo,
-		vendedorArray: vendedorArray,
-		dir: dir,
-        indexref: indexref,
-		folio: folio
+            desplegar: total_nodos,
+            nombre: nombre,
+            empresa: empresa,
+            telefono: telefono,
+            mail: mail,
+            productos: productoArray,
+            prod_agregados: productoArray2,
+            vendedor: vendedor,
+            num_vendedor: num_vendedor,
+            num_cot: num_cot,
+            extension: extension,
+            email_vendedor: email_vendedor,
+            tiempo_entrega: tiempo_entrega,
+            tipo_cambio: tipo_cambio,
+            fecha: fecha, 
+            precio: precio,
+            stock_num: stock_num,
+            desc: desc,
+            modelo: modelo,
+            vendedorArray: vendedorArray,
+            dir: dir,
+            indexref: indexref,
+            folio: folio,
+            alerta_cambio: alerta_cambio,
+            alerta_datos: alerta_datos,
+            alerta_busqueda: alerta_busqueda,
+            alerta_carrito: alerta_carrito,
+            alerta_datos2: alerta_datos2,
+            alerta_cantidad: alerta_cantidad, 
+            alerta_descuento: alerta_descuento,
+            cambio_nombre: cambio_nombre, 
+            cambio_stock: cambio_stock, 
+            cambio_modelo: cambio_modelo, 
+            cambio_tiempo: cambio_tiempo, 
+            cambio_color: cambio_color, 
+            cambio_precio: cambio_precio,
+            cambio_medida: cambio_medida, 
+            cambio_unidad: cambio_unidad, 
+            cambio_api: cambio_api,
+            cambio_folio: cambio_folio,
+            alerta_eliminacion: alerta_eliminacion,
+            ajuste_busqueda: ajuste_busqueda,
+            ajuste_carrito: ajuste_carrito
 	});
 	
 });
@@ -1255,7 +1704,27 @@ app.post('/api/photo', function(req,res){
 			vendedorArray: vendedorArray,
 			dir: dir,
             indexref: indexref,
-			folio: folio	
+			folio: folio,
+            alerta_cambio: alerta_cambio,
+            alerta_datos: alerta_datos,
+            alerta_busqueda: alerta_busqueda,
+            alerta_carrito: alerta_carrito,
+            alerta_datos2: alerta_datos2,
+            alerta_cantidad: alerta_cantidad, 
+            alerta_descuento: alerta_descuento,
+            cambio_nombre: cambio_nombre, 
+            cambio_stock: cambio_stock, 
+            cambio_modelo: cambio_modelo, 
+            cambio_tiempo: cambio_tiempo, 
+            cambio_color: cambio_color, 
+            cambio_precio: cambio_precio,
+            cambio_medida: cambio_medida, 
+            cambio_unidad: cambio_unidad, 
+            cambio_api: cambio_api,
+            cambio_folio: cambio_folio,
+            alerta_eliminacion: alerta_eliminacion,
+            ajuste_busqueda: ajuste_busqueda,
+            ajuste_carrito: ajuste_carrito
 	});
     });
 });
@@ -1322,7 +1791,27 @@ app.post('/folio', function(req, res){
 			vendedorArray: vendedorArray,
 			dir: dir,
             indexref: indexref,
-			folio: folio
+			folio: folio,
+            alerta_cambio: alerta_cambio,
+            alerta_datos: alerta_datos,
+            alerta_busqueda: alerta_busqueda,
+            alerta_carrito: alerta_carrito,
+            alerta_datos2: alerta_datos2,
+            alerta_cantidad: alerta_cantidad, 
+            alerta_descuento: alerta_descuento,
+            cambio_nombre: cambio_nombre, 
+            cambio_stock: cambio_stock, 
+            cambio_modelo: cambio_modelo, 
+            cambio_tiempo: cambio_tiempo, 
+            cambio_color: cambio_color, 
+            cambio_precio: cambio_precio,
+            cambio_medida: cambio_medida, 
+            cambio_unidad: cambio_unidad, 
+            cambio_api: cambio_api,
+            cambio_folio: cambio_folio,
+            alerta_eliminacion: alerta_eliminacion,
+            ajuste_busqueda: ajuste_busqueda,
+            ajuste_carrito: ajuste_carrito
 	});
 	
 });

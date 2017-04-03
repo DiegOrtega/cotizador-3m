@@ -1954,6 +1954,11 @@ app.post('/folio', function(req, res){
 app.post("/tiempo/entrega", function(req, res){
          tiempo_entrega = req.body.tiempo_entrega;
     
+        ajuste_busqueda = "";
+        ajuste_carrito = "";
+        ajusteVendedor = "";
+        ajusteCliente = "";
+    
         content = "Tiempo de entrega de " + tiempo_entrega + " días";    
          
          res.render('pages/3m', {

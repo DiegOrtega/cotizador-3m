@@ -90,8 +90,27 @@
 	top:1px;
 }
 #floating_alert {
-    position: absolute;
-    top: 65px;
+    position: fixed;
+    top: 75px;
     right: 350px;
     z-index: 5000;
+    height: 50px;
+}
+#floating_alert2 {
+    width: 500px;
+    position: fixed;
+    top: 300px;
+    right: 450px;
+    z-index: 5000;
+}
+.fondo {
+    background-image: url("/img/fondo.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: #EDDDD4;
+}
+.subfondo1 {
+    background-image: url("/img/subfondo2.png");
+    background-size: cover;
+    background-repeat: no-repeat;
 }

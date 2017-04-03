@@ -45,7 +45,7 @@ var graphenedbPass1 = process.env.GRAPHENEDB_COPPER_BOLT_PASSWORD;
 
 //Variables internas (No mover)
 
-var total_nodos, nombre = null, empresa, telefono, mail, productoArray = [], productoArray2 = [], vendedor = null, num_vendedor, num_cot = 0, descuento, extension, email_vendedor, tiempo_entrega, check, tipo_cambio=18, precio, stock_num, modelo, desc, nombre_p, stock_c, modelo_c, color_grano_c, tiempo_c, precio_c, medida_c, unidad_c, unidad_c, vendedorArray = [],  dir = [], ref=[], indexref = 0, folio = 0, alerta_cambio = false, alerta_datos = false, alerta_cantidad = false, alerta_descuento = false, cambio_nombre = false, cambio_stock = false, cambio_modelo = false, cambio_tiempo = false, cambio_color = false, cambio_precio = false, cambio_medida = false, cambio_unidad = false, cambio_api = false, cambio_folio = false, alerta_busqueda= false, alerta_carrito = false, alerta_datos2= false, alerta_eliminacion = false, ajuste_busqueda = "" , cont = 0, ajuste_carrito = "", hide1 = '-700px', content = '', alerta_tipo = 'success';
+var total_nodos, nombre = null, empresa, telefono, mail, productoArray = [], productoArray2 = [], vendedor = null, num_vendedor, num_cot = 0, descuento, extension, email_vendedor, tiempo_entrega, check, tipo_cambio=18, precio, stock_num, modelo, desc, nombre_p, stock_c, modelo_c, color_grano_c, tiempo_c, precio_c, medida_c, unidad_c, unidad_c, vendedorArray = [],  dir = [], ref=[], indexref = 0, folio = 0, alerta_cambio = false, alerta_datos = false, alerta_cantidad = false, alerta_descuento = false, cambio_nombre = false, cambio_stock = false, cambio_modelo = false, cambio_tiempo = false, cambio_color = false, cambio_precio = false, cambio_medida = false, cambio_unidad = false, cambio_api = false, cambio_folio = false, alerta_busqueda= false, alerta_carrito = false, alerta_datos2= false, alerta_eliminacion = false, ajuste_busqueda = "" , cont = 0, ajuste_carrito = "", hide1 = '-700px', content = '', alerta_tipo = 'success', ajusteVendedor = "", cont2 = 0, ajusteCliente;
 
 //Protocolo de conexión para servidor cloud heroku
 
@@ -107,7 +107,7 @@ app.get('/', function(request, response){
 app.get('/3m', function(req, res) {
     
     hide1 = '0px;';
-    content = "Bienvenido!";
+    content = "Bienvenido! Ahora puedes comenzar crear tu siguiente cotización.";
     alerta_tipo = "success";
     
 	session
@@ -164,7 +164,9 @@ app.get('/3m', function(req, res) {
                     ajuste_carrito: ajuste_carrito,
                     hide1: hide1,
                     content: content,
-                    alerta_tipo: alerta_tipo
+                    alerta_tipo: alerta_tipo,
+                    ajusteVendedor: ajusteVendedor,
+                    ajusteCliente: ajusteCliente
 				});
 		
 		})
@@ -179,14 +181,13 @@ app.post('/contacto/add', function(req, res){
 	telefono = req.body.contacto_tel;
 	mail = req.body.contacto_mail;
     
-    if( alerta_datos == true){
-        alerta_datos = false;
-    }else if( alerta_datos == false){  
-        alerta_datos = true;
-    };
+    ajuste_busqueda = "";
+    ajuste_carrito = "";
+    ajusteVendedor = "";
+    ajusteCliente = "show";
     
     hide1 = '0px;';
-    content = "Esta cotización es para " + nombre + "." + " Ahora busca los productos que necesites y seleccionalos!";
+    content = "Esta cotización es para " + nombre + " Ahora busca los productos que necesites y seleccionalos!";
     alerta_tipo = "success";
 	
 	console.log("nombre: "+nombre+" empresa: "+empresa+" telefono: "+telefono+" mail: "+mail);
@@ -237,12 +238,19 @@ app.post('/contacto/add', function(req, res){
                 ajuste_carrito: ajuste_carrito,
                 hide1: hide1,
                 content: content,
-                alerta_tipo: alerta_tipo
+                alerta_tipo: alerta_tipo,
+                ajusteVendedor: ajusteVendedor,
+                ajusteCliente: ajusteCliente
 		});
 });
 
 
 app.post('/busqueda/add', function(req, res){
+    
+    ajuste_carrito = "";
+    ajusteVendedor = "";
+    ajusteCliente = "";
+    ajuste_busqueda = "show";
     
 	var stock_num = req.body.stock;
 	var desc = req.body.desc;
@@ -255,16 +263,7 @@ app.post('/busqueda/add', function(req, res){
 	
     cont = 1 + cont;
     
-    if( ajuste_busqueda == "show" && cont > 1){
-        ajuste_busqueda = "";
-        cont = 0;
-    }else if( ajuste_busqueda == "" && cont == 1){  
-        ajuste_busqueda = "show";
-    };
-    
     hide1 = '0px;';
-    content = "Búsqueda exitosa!";
-    alerta_tipo = "success";
     
 	if(stock_num == ''){stock_num = null};
 	if(desc == ''){desc = null};
@@ -321,6 +320,14 @@ app.post('/busqueda/add', function(req, res){
 				});	
 			});
 		    console.log("tamaño de respuesta de busqueda = " + productoArray.length);
+        
+            if(productoArray.length < 1 ){
+                content = "No se encontró ningún producto con esa descripción";
+                alerta_tipo = "warning";
+            }else{
+                content = "Búsqueda exitosa! Selecciona los productos que quieres cotizar";
+                alerta_tipo = "success";
+            }
 		
 			res.render('pages/3m', {
 				desplegar: total_nodos,
@@ -368,7 +375,9 @@ app.post('/busqueda/add', function(req, res){
                 ajuste_carrito: ajuste_carrito,
                 hide1: hide1,
                 content: content,
-                alerta_tipo: alerta_tipo
+                alerta_tipo: alerta_tipo,
+                ajusteVendedor: ajusteVendedor,
+                ajusteCliente: ajusteCliente
 			});
 		
 			productoArray = [];
@@ -384,19 +393,19 @@ app.post('/busqueda/add', function(req, res){
 
 app.post('/carrito/add', function(req, res){
 	var carrito = req.body.agregar;
+    
+    ajuste_busqueda = "";
+    ajuste_carrito = "show";
+    ajusteVendedor = "";
+    ajusteCliente = "";
 	
 	if(check == carrito){
 		productoArray2.splice(productoArray2.length - 1, 1);
 	};
 	
 	check = carrito;
-	
-    if( ajuste_carrito == "show" && cont >= 1){
-        ajuste_carrito = "";
-        cont = 0;
-    }else if( ajuste_carrito == "" && cont == 1){  
-        ajuste_carrito = "show";
-    };
+    
+    cont = 0;
     
     if( ajuste_busqueda == "show"){
         ajuste_busqueda = "";
@@ -453,11 +462,12 @@ app.post('/carrito/add', function(req, res){
 					precio_cantidad: null,
 					mxn_ref: null
 				});	
+            
 			});
 		
 		productoArray2.forEach(function(producto2, index){
             
-            content = "Agregaste " + producto2.nombre + " a tu cotización";
+            content = "Agregaste " + (producto2.nombre).substring(0, 15) + "..." + " a tu cotización";
             
 			if(producto2.precio_lista_unidad_mxn != undefined){
 				producto2.mxn_ref = producto2.precio_lista_unidad_mxn;
@@ -530,7 +540,9 @@ app.post('/carrito/add', function(req, res){
                 ajuste_carrito: ajuste_carrito,
                 hide1: hide1,
                 content: content,
-                alerta_tipo: alerta_tipo
+                alerta_tipo: alerta_tipo,
+                ajusteVendedor: ajusteVendedor,
+                ajusteCliente: ajusteCliente
 		});
        
 		
@@ -546,6 +558,11 @@ app.post('/eliminacion/add', function(req, res){
 	//console.log("eliminar = " + eliminar);
 	console.log(productoArray2.length);
     
+    ajuste_busqueda = "";
+    ajuste_carrito = "show";
+    ajusteVendedor = "";
+    ajusteCliente = "";
+    
     hide1 = '0px;';
     
     alerta_tipo = "warning";
@@ -554,7 +571,7 @@ app.post('/eliminacion/add', function(req, res){
 	
 	while(i < productoArray2.length){
 		if(productoArray2[i].id == eliminar){
-            content = "Eliminaste " + productoArray2[i].nombre + " de tu cotización";
+            content = "Eliminaste " + (productoArray2[i].nombre).substring(0, 15) + "..." + " de tu cotización";
 			productoArray2.splice(i, 1);
 		};
 		console.log(i);
@@ -607,17 +624,25 @@ app.post('/eliminacion/add', function(req, res){
             ajuste_carrito: ajuste_carrito,
             hide1: hide1,
             content: content,
-            alerta_tipo: alerta_tipo
+            alerta_tipo: alerta_tipo,
+            ajusteVendedor: ajusteVendedor,
+            ajusteCliente: ajusteCliente
 		});
 });
 
+
 app.post('/datos/add', function(req, res){
 	index = req.body.index;
-	tiempo_entrega = req.body.tiempo_entrega;
+	
+    
+    ajuste_busqueda = "";
+    ajuste_carrito = "";
+    ajusteVendedor = "show";
+    ajusteCliente = "";
     
     hide1 = '0px;';
     alerta_tipo = "success";
-	
+    
 	vendedorArray.forEach(function(vendedores, indexRef){
 		if(index == indexRef){
 			vendedor = vendedores.nombre;
@@ -625,7 +650,7 @@ app.post('/datos/add', function(req, res){
 			num_cot = vendedores.folio;
 			extension = vendedores.extension;
 			email_vendedor = vendedores.correo;
-            content = 'Bienvenid@ ' + vendedor;
+            content = 'Bienvenid@ ' + vendedor + " Ahora crea el folio de la cotización";
 		};
 	});
 	
@@ -675,7 +700,9 @@ app.post('/datos/add', function(req, res){
             ajuste_carrito: ajuste_carrito,
             hide1: hide1,
             content: content,
-            alerta_tipo: alerta_tipo
+            alerta_tipo: alerta_tipo,
+            ajusteVendedor: ajusteVendedor,
+            ajusteCliente: ajusteCliente
 		});
 });
 
@@ -735,7 +762,9 @@ app.post('/download', function(req, res){
             cambio_folio: cambio_folio,
             alerta_eliminacion: alerta_eliminacion,
             ajuste_busqueda: ajuste_busqueda,
-            ajuste_carrito: ajuste_carrito
+            ajuste_carrito: ajuste_carrito,
+            ajusteVendedor: ajusteVendedor,
+            ajusteCliente: ajusteCliente
 		};
 	
 	var renderedhtml = ejs.render(html, obj);
@@ -749,8 +778,9 @@ app.post('/download', function(req, res){
 });
 
 app.get('/pdfprevio', function(req, res){
-	
 		productoArray2.forEach(function(producto2, index){
+            
+            alerta_tipo = "success";
 			
 			var mxn = producto2.precio_lista_unidad_mxn;
 			var usd = producto2.precio_lista_unidad_usd;
@@ -817,7 +847,7 @@ app.get('/pdfprevio', function(req, res){
 					
 					var cantidad_num = parseFloat(producto2.cantidad);
 					
-					producto2.precio_cantidad = producto2.precio_descuento*cantidad_num;
+					producto2.precio_cantidad = (producto2.precio_descuento*cantidad_num).toFixed(2);
 					
 					var tipo_cambio_ref = tipo_cambio;
 
@@ -878,18 +908,21 @@ app.get('/pdfprevio', function(req, res){
             cambio_folio: cambio_folio,
             alerta_eliminacion: alerta_eliminacion,
             ajuste_busqueda: ajuste_busqueda,
-            ajuste_carrito: ajuste_carrito
+            ajuste_carrito: ajuste_carrito,
+            ajusteVendedor: ajusteVendedor,
+            ajusteCliente: ajusteCliente,
+            hide1: hide1,
+            content: content,
+            alerta_tipo: alerta_tipo
    }); 
 });
 
 app.post('/tipo_cambio/add', function(req, res){
 	tipo_cambio = req.body.tipo_cambio;
     
-    if( alerta_cambio == true){
-        alerta_cambio = false;
-    }else if( alerta_cambio == false){  
-        alerta_cambio = true;
-    };
+    hide1 = '0px;';
+    alerta_tipo = "success";
+    content = "Tipo de cambio actualizado a " + tipo_cambio + "MXN";
     
     console.log('alerta_cambio: ' + alerta_cambio);
 	
@@ -937,7 +970,12 @@ app.post('/tipo_cambio/add', function(req, res){
             cambio_folio: cambio_folio,
             alerta_eliminacion: alerta_eliminacion,
             ajuste_busqueda: ajuste_busqueda,
-            ajuste_carrito: ajuste_carrito
+            ajuste_carrito: ajuste_carrito,
+            ajusteVendedor: ajusteVendedor,
+            ajusteCliente: ajusteCliente,
+            hide1: hide1,
+            content: content,
+            alerta_tipo: alerta_tipo
 		});
     
 });
@@ -951,10 +989,11 @@ app.post('/cantidad/add', function(req, res){
 		if(index == i){	
 			console.log("i: " + i );
 			producto2.cantidad = cantidad;
+            content = "Haz seleccionado " + cantidad + " unidades de " + (producto2.nombre).substring(0, 15);
 		}
 	});
 
-	
+    
 	res.render('pages/3m', {
 			desplegar: total_nodos,
 			nombre: nombre,
@@ -998,7 +1037,12 @@ app.post('/cantidad/add', function(req, res){
             cambio_folio: cambio_folio,
             alerta_eliminacion: alerta_eliminacion,
             ajuste_busqueda: ajuste_busqueda,
-            ajuste_carrito: ajuste_carrito
+            ajuste_carrito: ajuste_carrito,
+            ajusteVendedor: ajusteVendedor,
+            ajusteCliente: ajusteCliente,
+            hide1: hide1,
+            content: content,
+            alerta_tipo: alerta_tipo
 		});
 	
 });
@@ -1009,12 +1053,23 @@ app.post('/descuento/add', function(req, res){
 	var index = req.body.index;
 	
 	console.log("index: " + index);
+    
+    
+    
 	
 	productoArray2.forEach(function(producto2, i){
 		if(index == i){	
 			console.log("i: " + i );
 			console.log("descuento: " + descuento);
 			producto2.descuento = descuento;
+            
+            if( parseInt(descuento) < 10){
+                content = "Haz otorgado " + descuento + "% de descuento al producto " + (producto2.nombre).substring(0, 15) + "...";
+                alerta_tipo = "success";
+            }else{
+                content = "Haz otorgado " + descuento + "% de descuento al producto " + (producto2.nombre).substring(0, 15) + "...";
+                alerta_tipo = "warning";
+            }    
 		}
 	});
 	
@@ -1063,7 +1118,12 @@ app.post('/descuento/add', function(req, res){
             cambio_folio: cambio_folio,
             alerta_eliminacion: alerta_eliminacion,
             ajuste_busqueda: ajuste_busqueda,
-            ajuste_carrito: ajuste_carrito
+            ajuste_carrito: ajuste_carrito,
+            ajusteVendedor: ajusteVendedor,
+            ajusteCliente: ajusteCliente,
+            hide1: hide1,
+            content: content,
+            alerta_tipo: alerta_tipo
 		});
 	
 });
@@ -1072,11 +1132,14 @@ app.post('/cambio_nombre/add', function(req,res){
 	var nombre_p = req.body.nombre;
 	var index = req.body.index;
 	
+    alerta_tipo = "warning";
+    
 	productoArray2.forEach(function(producto2, i){
 		if(index == i){	
 			console.log("i: " + i );
 			console.log("nombre_p: " + nombre_p);
-			producto2.nombre = nombre_p;
+            content = "Cambiaste el nombre " + (product2.nombre).substring(0, 15) + "..." + " por " + nombre_p;
+			producto2.nombre = nombre_p; 
 		}
 	});
 	
@@ -1123,7 +1186,11 @@ app.post('/cambio_nombre/add', function(req,res){
             cambio_folio: cambio_folio,
             alerta_eliminacion: alerta_eliminacion,
             ajuste_busqueda: ajuste_busqueda,
-            ajuste_carrito: ajuste_carrito
+            ajuste_carrito: ajuste_carrito,
+            ajusteVendedor: ajusteVendedor,
+            ajusteCliente: ajusteCliente,
+            alerta_tipo: alerta_tipo,
+            content: content
 	});
 	
 });
@@ -1131,12 +1198,16 @@ app.post('/cambio_nombre/add', function(req,res){
 app.post('/cambio_stock/add', function(req,res){
 	var stock_c = req.body.stock;
 	var index = req.body.index;
+    
+    alerta_tipo = "warning"; 
 	
 	productoArray2.forEach(function(producto2, i){
 		if(index == i){	
 			console.log("i: " + i );
 			console.log("stock_c: " + stock_c);
 			producto2.stock = stock_c;
+            
+    content = "Cambiaste el nombre el # de stock de" + (product2.nombre).substring(0, 15) + "..." + " por " + stock_c;
 		}
 	});
 	
@@ -1183,7 +1254,11 @@ app.post('/cambio_stock/add', function(req,res){
             cambio_folio: cambio_folio,
             alerta_eliminacion: alerta_eliminacion,
             ajuste_busqueda: ajuste_busqueda,
-            ajuste_carrito: ajuste_carrito
+            ajuste_carrito: ajuste_carrito,
+            ajusteVendedor: ajusteVendedor,
+            ajusteCliente: ajusteCliente,
+            alerta_tipo: alerta_tipo,
+            content: content
 	});
 	
 });
@@ -1191,12 +1266,15 @@ app.post('/cambio_stock/add', function(req,res){
 app.post('/cambio_modelo/add', function(req,res){
 	var modelo_c = req.body.modelo;
 	var index = req.body.index;
+    
+     alerta_tipo = "warning";
 	
 	productoArray2.forEach(function(producto2, i){
 		if(index == i){	
 			console.log("i: " + i );
 			console.log("modelo_c: " + modelo_c);
 			producto2.modelo = modelo_c;
+            content = "Cambiaste el modelo de:" + (producto2.nombre).substring(0, 15) + "..." + " por " + modelo_c; 
 		}
 	});
 	
@@ -1243,7 +1321,11 @@ app.post('/cambio_modelo/add', function(req,res){
             cambio_folio: cambio_folio,
             alerta_eliminacion: alerta_eliminacion,
             ajuste_busqueda: ajuste_busqueda,
-            ajuste_carrito: ajuste_carrito
+            ajuste_carrito: ajuste_carrito,
+            ajusteVendedor: ajusteVendedor,
+            ajusteCliente: ajusteCliente,
+            alerta_tipo: alerta_tipo,
+            content: content
 	});
 	
 });
@@ -1251,12 +1333,15 @@ app.post('/cambio_modelo/add', function(req,res){
 app.post('/cambio_tiempo/add', function(req,res){
 	var tiempo_c = req.body.tiempo;
 	var index = req.body.index;
+    
+    alerta_tipo = "warning";
 	
 	productoArray2.forEach(function(producto2, i){
 		if(index == i){	
 			console.log("i: " + i );
 			console.log("tiempo_c: " + tiempo_c);
 			producto2.tiempo_entrega = tiempo_c;
+            content = "Cambiaste en " + tiempo_c + " días el tiempo de entrega de " + (producto2.nombre).substring(0, 15) + "..."; 
 		}
 	});
 	
@@ -1303,7 +1388,11 @@ app.post('/cambio_tiempo/add', function(req,res){
             cambio_folio: cambio_folio,
             alerta_eliminacion: alerta_eliminacion,
             ajuste_busqueda: ajuste_busqueda,
-            ajuste_carrito: ajuste_carrito
+            ajuste_carrito: ajuste_carrito,
+            ajusteVendedor: ajusteVendedor,
+            ajusteCliente: ajusteCliente,
+            alerta_tipo: alerta_tipo,
+            content: content
 	});
 	
 });
@@ -1311,12 +1400,15 @@ app.post('/cambio_tiempo/add', function(req,res){
 app.post('/cambio_color_grano/add', function(req,res){
 	var color_grano_c = req.body.color_grano;
 	var index = req.body.index;
+    
+    alerta_tipo: "warning";
 	
 	productoArray2.forEach(function(producto2, i){
 		if(index == i){	
 			console.log("i: " + i );
 			console.log("color_grano_c: " + color_grano_c);
 			producto2.color_grano = color_grano_c;
+            content: "Cambiaste el Color/grano de " + (producto2.nombre).substring(0, 15) + "..." +  " por " +  color_grano_c;
 		}
 	});
 	
@@ -1363,7 +1455,11 @@ app.post('/cambio_color_grano/add', function(req,res){
             cambio_folio: cambio_folio,
             alerta_eliminacion: alerta_eliminacion,
             ajuste_busqueda: ajuste_busqueda,
-            ajuste_carrito: ajuste_carrito
+            ajuste_carrito: ajuste_carrito,
+            ajusteVendedor: ajusteVendedor,
+            ajusteCliente: ajusteCliente,
+            content: content,
+            alerta_tipo: alerta_tipo
 	});
 	
 });
@@ -1371,13 +1467,16 @@ app.post('/cambio_color_grano/add', function(req,res){
 app.post('/cambio_precio_usd/add', function(req,res){
 	var precio_c = req.body.precio;
 	var index = req.body.index;
+    
+    alerta_tipo = "warning";
 	
 	productoArray2.forEach(function(producto2,i){
 			var mxn = producto2.precio_lista_unidad_mxn;
 			var usd = producto2.precio_lista_unidad_usd;
 			var desc_ref = producto2.descuento;	
 		
-		
+            content = "Cambiaste el precio al producto " + (producto2.nombre).substring(0, 15) + "...";
+        
 			if(index == i){	
 				console.log("i: " + i );
 				console.log("precio_c: " + precio_c);
@@ -1446,7 +1545,7 @@ app.post('/cambio_precio_usd/add', function(req,res){
 					
 					var cantidad_num = parseFloat(producto2.cantidad);
 					
-					producto2.precio_cantidad = producto2.precio_descuento*cantidad_num;
+					producto2.precio_cantidad = (producto2.precio_descuento*cantidad_num).toFixed(2);
 					
 					var tipo_cambio_ref = tipo_cambio;
 
@@ -1474,7 +1573,7 @@ app.post('/cambio_precio_usd/add', function(req,res){
 					
 					var cantidad_num = parseFloat(producto2.cantidad);
 					
-					producto2.precio_cantidad = producto2.precio_descuento*cantidad_num;
+					producto2.precio_cantidad = (producto2.precio_descuento*cantidad_num).toFixed(2);
 					
 					var tipo_cambio_ref = tipo_cambio;
 					 
@@ -1526,7 +1625,11 @@ app.post('/cambio_precio_usd/add', function(req,res){
             cambio_folio: cambio_folio,
             alerta_eliminacion: alerta_eliminacion,
             ajuste_busqueda: ajuste_busqueda,
-            ajuste_carrito: ajuste_carrito
+            ajuste_carrito: ajuste_carrito,
+            ajusteVendedor: ajusteVendedor,
+            ajusteCliente: ajusteCliente,
+            content: content,
+            alerta_tipo: alerta_tipo
 	});
 	
 });
@@ -1534,12 +1637,15 @@ app.post('/cambio_precio_usd/add', function(req,res){
 app.post('/cambio_medida/add', function(req,res){
 	var medida_c = req.body.medida;
 	var index = req.body.index;
+    
+    alerta_tipo = "warning";
 	
 	productoArray2.forEach(function(producto2, i){
 		if(index == i){	
 			console.log("i: " + i );
 			console.log("medida_c: " + medida_c);
 			producto2.presentacion_medida = medida_c;
+            content = "Cambiaste la medida del producto " + (producto2.nombre).substring(0, 15) + "..." + " por " + medida_c;
 		}
 	});
 	
@@ -1586,7 +1692,11 @@ app.post('/cambio_medida/add', function(req,res){
             cambio_folio: cambio_folio,
             alerta_eliminacion: alerta_eliminacion,
             ajuste_busqueda: ajuste_busqueda,   
-            ajuste_carrito: ajuste_carrito
+            ajuste_carrito: ajuste_carrito,
+            ajusteVendedor: ajusteVendedor,
+            ajusteCliente: ajusteCliente,
+            content: content,
+            alerta_tipo: alerta_tipo
 	});
 	
 });
@@ -1594,12 +1704,15 @@ app.post('/cambio_medida/add', function(req,res){
 app.post('/cambio_unidad/add', function(req,res){
 	var unidad_c = req.body.unidad;
 	var index = req.body.index;
+    
+    alerta_tipo = "warning";
 	
 	productoArray2.forEach(function(producto2, i){
 		if(index == i){	
 			console.log("i: " + i );
 			console.log("unidad_c: " + unidad_c);
 			producto2.unidad_medida = unidad_c;
+            content = "Cambiaste la unidad de " + (producto2.nombre).substring(0, 15) + "..." + " por " + unidad_c;
 		}
 	});
 	
@@ -1646,7 +1759,11 @@ app.post('/cambio_unidad/add', function(req,res){
             cambio_folio: cambio_folio,
             alerta_eliminacion: alerta_eliminacion,
             ajuste_busqueda: ajuste_busqueda,
-            ajuste_carrito: ajuste_carrito
+            ajuste_carrito: ajuste_carrito,
+            ajusteVendedor: ajusteVendedor,
+            ajusteCliente: ajusteCliente,
+            content: content,
+            alerta_tipo: alerta_tipo
 	});
 	
 });
@@ -1680,6 +1797,13 @@ app.post('/api/photo', function(req,res){
         ref[index] = 1;
         console.log('dir[index]: ' +  dir[index]);
         console.log('dir: ' +  dir);
+        
+            productoArray2.forEach(function(producto2, i){
+                if(index == i){	
+                   content = "Cambiaste la foto de " + (producto2.nombre).substring(0, 15) + "..." + " por " + indexref;
+                   alerta_tipo = "warning";    
+                }
+            });
     
         	res.render('pages/3m', {
 			desplegar: total_nodos,
@@ -1724,7 +1848,11 @@ app.post('/api/photo', function(req,res){
             cambio_folio: cambio_folio,
             alerta_eliminacion: alerta_eliminacion,
             ajuste_busqueda: ajuste_busqueda,
-            ajuste_carrito: ajuste_carrito
+            ajuste_carrito: ajuste_carrito,
+            ajusteVendedor: ajusteVendedor,
+            ajusteCliente: ajusteCliente,
+            alerta_tipo: alerta_tipo,
+            content: content    
 	});
     });
 });
@@ -1734,6 +1862,8 @@ app.post('/folio', function(req, res){
 	folio = folio + 1;
 	num_cot = folio;
 	
+    content = "El folio de esta cotización es " + folio + " Ahora ingresa los datos del cliente!";
+    
 	console.log('folio: ' + folio);
 	
 	if(graphenedbURL == undefined){
@@ -1811,9 +1941,71 @@ app.post('/folio', function(req, res){
             cambio_folio: cambio_folio,
             alerta_eliminacion: alerta_eliminacion,
             ajuste_busqueda: ajuste_busqueda,
-            ajuste_carrito: ajuste_carrito
+            ajuste_carrito: ajuste_carrito,
+            ajusteVendedor: ajusteVendedor,
+            ajusteCliente: ajusteCliente,
+            alerta_tipo: alerta_tipo,
+            hide1: hide1,
+            content:content
 	});
 	
+});
+
+app.post("/tiempo/entrega", function(req, res){
+         tiempo_entrega = req.body.tiempo_entrega;
+    
+        content = "Tiempo de entrega de " + tiempo_entrega + " días";    
+         
+         res.render('pages/3m', {
+			desplegar: total_nodos,
+			nombre: nombre,
+			empresa: empresa,
+			telefono: telefono,
+			mail: mail,
+			productos: productoArray,
+			prod_agregados: productoArray2,
+			vendedor: vendedor,
+			num_vendedor: num_vendedor,
+			num_cot: num_cot,
+			extension: extension,
+			email_vendedor: email_vendedor,
+			tiempo_entrega: tiempo_entrega,
+			tipo_cambio: tipo_cambio,
+			fecha: fecha, 
+			precio: precio,
+			stock_num: stock_num,
+			desc: desc,
+			modelo: modelo,
+			vendedorArray: vendedorArray,
+			dir: dir,
+            indexref: indexref,
+			folio: folio,
+            alerta_cambio: alerta_cambio,
+            alerta_datos: alerta_datos,
+            alerta_busqueda: alerta_busqueda,
+            alerta_carrito: alerta_carrito,
+            alerta_datos2: alerta_datos2,
+            alerta_cantidad: alerta_cantidad, 
+            alerta_descuento: alerta_descuento,
+            cambio_nombre: cambio_nombre, 
+            cambio_stock: cambio_stock, 
+            cambio_modelo: cambio_modelo, 
+            cambio_tiempo: cambio_tiempo, 
+            cambio_color: cambio_color, 
+            cambio_precio: cambio_precio,
+            cambio_medida: cambio_medida, 
+            cambio_unidad: cambio_unidad, 
+            cambio_api: cambio_api,
+            cambio_folio: cambio_folio,
+            alerta_eliminacion: alerta_eliminacion,
+            ajuste_busqueda: ajuste_busqueda,
+            ajuste_carrito: ajuste_carrito,
+            ajusteVendedor: ajusteVendedor,
+            ajusteCliente: ajusteCliente,
+            alerta_tipo: alerta_tipo,
+            hide1: hide1,
+            content:content
+	});
 });
 
 //Otras cotizadores

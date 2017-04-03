@@ -21,12 +21,12 @@
         
 		<div class="container-fluid">
 			<div class="row">
-				<h3 class="col-lg-6 col-md-6"> Productos en la Base de Datos: <%=desplegar%> </h3>
+				<h3 class="col-lg-6 col-md-6"> Records en la Base de Datos: <%=desplegar%> </h3>
 			
 				<div class="col-lg-5 col-md-4">
 					<h4 style="text-align: right">Tipo de cambio:</h4>
 					<form style="text-align: right" id="tipo_cambio" method="post" action="/tipo_cambio/add">
-						<input id="timpo_cambio" type="text" placeholder="<%= tipo_cambio %>" size="10" name="tipo_cambio">
+						<input id="tipo_cambio" type="text" placeholder="<%= tipo_cambio %>" size="10" name="tipo_cambio" data-toggle="tooltip" data-placement="top" title="Asegúrate de actualizar el tipo de cambio!">
 						<button class="boton3m3" form="tipo_cambio" type="submit">Ingresar</button>
                         
                         <script>
@@ -45,6 +45,95 @@
 	<!-- FIN DE EJEMPLO-->			
         <hr>
         	<div id="accordion" role="tablist" aria-multiselectable="false">
+                
+                <div class="card"> 
+                
+    <div class="card-header" role="tab" id="headingFour">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">  
+            <h5 class="mb-0">
+                Ingresa la información del vendedor
+            </h5>
+        </a>
+        </div>
+        
+        
+        <div id="collapseFour" class="collapse <%= ajusteVendedor %>" role="tabpanel" aria-labelledby="headingFour">
+      <div class="card-block">           
+        
+		<h3 class="centro">Ingresa la información del vendedor</h3>
+		
+        <hr>
+		<br/>		
+				<div class="container">
+                <div class="row">
+                    <form method="post" action="/datos/add" class="col-lg-12 centro">
+                        <div class="col-lg-12 dropdown">
+                            
+                              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Vendedores
+                              </button>
+                            
+                                <div class="dropdown-menu col-lg-12 centro" aria-labelledby="dropdownMenuButton">
+                                     <% vendedorArray.forEach(function(vendedor, index){ %> 
+                                    <button class="dropdown-item" name="index" value="<%=index%>" data-toggle="tooltip" data-placement="top" title="Ingresa tu usuario!"><%=vendedor.nombre%></button>
+                                   <% }) %>
+                                  </div>
+                            
+                        </div>
+                        </form>
+                       	
+                </div>
+				</div>	
+			 
+          
+		<div class="container">
+            <div class="row">
+                <div class="col-lg-12 contenedorDatos">
+                    <h4>Datos ingresados del vendedor</h4>
+                    <% console.log("vendedor: " + vendedor) 
+					if (vendedor != null) { %>
+                        <table class="table table-striped">
+                        <tr>
+                            <th>Vendedor</th>
+                            <th># vendedor</th>
+                            <th>Folio</th>
+                            <th>Extension</th>
+                            <th>email de vendedor</th>
+                            <th>Tiempo de entrega</th>
+                        </tr>
+                        <tr>
+                            <td><%=vendedor%></td>
+                            <td><%=num_vendedor%></td>
+							<% if (num_cot != 0 ){%>
+							<td><%=num_cot%></td>	
+							<%}else{ %>
+							<td></td>
+							<%}%>
+                            <td><%=extension%></td>
+                            <td><%=email_vendedor%></td>
+                            <td><%=tiempo_entrega%></td>
+                        </tr>    
+                        </table> 
+					<br>
+					
+					<form method="post" action="/folio" class="centro">
+						<button class="boton3m3 col-lg-4 col-md-4" type="submit" name="folio" value="<%=num_cot%>">Crear Nuevo Folio</button>
+					</form>
+					
+					
+                    <% } %>
+                </div>
+            </div>
+        </div>	
+            
+        <hr>
+          
+            </div>
+    </div>
+                </div>
+                
+            <div class="clearfix"></div> 
+                
                 <div class="card">
                     
                 <div class="card-header" role="tab" id="headingOne">
@@ -55,7 +144,7 @@
                      </a>    
                 </div>
                     
-            <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+            <div id="collapseOne" class="collapse <%=ajusteCliente%>" role="tabpanel" aria-labelledby="headingOne">
       <div class="card-block">
                 <div class="container">
                     <div class="row">
@@ -151,14 +240,14 @@
 
                         <form method="post" action="/busqueda/add" id="form1">	
 							<div class="form-control col-lg-12">
-								<input type="text" placeholder="&nbsp;Stock" size="25" name="stock" class="input">&ensp;
-								<input type="text" placeholder="Modelo" size="25" name="modelo" class="input" >&ensp;
-								<input type="text" placeholder="Palabra Clave" size="50" name="desc" class="input">
-								<input type="text" placeholder="Color/Grano" size="25" name="color_grano" class="input">
-								<input type="text" placeholder="Medida" size="25" name="medida" class="input">
-								<input type="text" placeholder="Área" size="25" name="area" class="input">
-								<input type="text" placeholder="División" size="25" name="division" class="input">
-								<input type="text" placeholder="Familia" size="25" name="familia" class="input">
+								<input type="text" placeholder="&nbsp;Stock" size="25" name="stock" class="input" data-toggle="tooltip" data-placement="top" title="Escribe un fragmento o el # de stock completo">&ensp;
+								<input type="text" placeholder="Modelo" size="25" name="modelo" class="input"  data-toggle="tooltip" data-placement="top" title="Escribe un fragmento o el modelo completo">&ensp;
+								<input type="text" placeholder="Palabra Clave" size="50" name="desc" class="input" data-toggle="tooltip" data-placement="top" title="Escríbe una frase o palabra relacionada con el producto">
+								<input type="text" placeholder="Color/Grano" size="25" name="color_grano" class="input"  data-toggle="tooltip" data-placement="top" title="Conoces el grano o el color del producto?">
+								<input type="text" placeholder="Medida" size="25" name="medida" class="input"  data-toggle="tooltip" data-placement="top" title="Tienes que ser muy exacto al escribir la medida!">
+								<input type="text" placeholder="Área" size="25" name="area" class="input"  data-toggle="tooltip" data-placement="top" title="A qué área de la industria pertenece el producto?">
+								<input type="text" placeholder="División" size="25" name="division" class="input"  data-toggle="tooltip" data-placement="top" title="A qué división de la industria pertenece el producto?">
+								<input type="text" placeholder="Familia" size="25" name="familia" class="input"  data-toggle="tooltip" data-placement="top" title="A qué familia de la industria pertenece el producto?">
 							</div>
                             <br/>
                         </form>	
@@ -475,114 +564,26 @@
                     </div>
                 </div>
         
-        <div class="clearfix"></div>
-   
-<div class="card"> 
-                
-    <div class="card-header" role="tab" id="headingFour">
-        <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">  
-            <h5 class="mb-0">
-                Ingresa la información del vendedor
-            </h5>
-        </a>
-        </div>
-        
-        
-        <div id="collapseFour" class="collapse" role="tabpanel" aria-labelledby="headingFour">
-      <div class="card-block">           
-        
-		<h3 class="centro">Ingresa la información del vendedor</h3>
-		
-		
-        <hr>
-		<br/>		
-	
-			<form method="post" action="/datos/add" class="col-lg-12 centro">
-				
-				<div class="container-fluid">
-            <div class="row">
-				
-				<div class="col-lg-6">
-					<input type="text" placeholder="Tiempo de entrega" name="tiempo_entrega">
-				</div>
-				
-				<div class="col-lg-6 dropdown">
-				  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					Vendedores
-				  </button>
-				  <div class="dropdown-menu col-lg-12 centro" aria-labelledby="dropdownMenuButton">
-					 <% vendedorArray.forEach(function(vendedor, index){ %> 
-					<button class="dropdown-item" name="index" value="<%=index%>"><%=vendedor.nombre%></button>
-				   <% }) %>
-				  </div>
-				</div>
-				</div>
-				</div>	
-			</form>	
-			  
-		
-        <hr>
-    
-		<div class="container">
-            <div class="row">
-                <div class="col-lg-12 contenedorDatos">
-                    <h4>Datos ingresados del vendedor</h4>
-                    <% console.log("vendedor: " + vendedor) 
-					if (vendedor != null) { %>
-                        <table class="table table-striped">
-                        <tr>
-                            <th>Vendedor</th>
-                            <th># vendedor</th>
-                            <th>Folio</th>
-                            <th>Extension</th>
-                            <th>email de vendedor</th>
-                            <th>Tiempo de entrega</th>
-                        </tr>
-                        <tr>
-                            <td><%=vendedor%></td>
-                            <td><%=num_vendedor%></td>
-							<% if (num_cot != 0 ){%>
-							<td><%=num_cot%></td>	
-							<%}else{ %>
-							<td></td>
-							<%}%>
-                            <td><%=extension%></td>
-                            <td><%=email_vendedor%></td>
-                            <td><%=tiempo_entrega%></td>
-                        </tr>    
-                        </table> 
-					<br>
-					
-					<form method="post" action="/folio" class="centro">
-						<button class="boton3m3 col-lg-4 col-md-4" type="submit" name="folio" value="<%=num_cot%>">Crear Nuevo Folio</button>
-					</form>
-					
-					
-                    <% } %>
-                </div>
-            </div>
-        </div>	
-            
-        <hr>
-          
-            </div>
-    </div>
-                </div>
-                
-            <div class="clearfix"></div>    
+        <div class="clearfix"></div>   
 
         <div class="container">
             <div class="row">
                 <h3 class="centro col-lg-12">Crea y guarda el PDF</h3>
                 <div class="clearfix"></div>
-                <br>
-                <hr>
                 
                 <!--<div class="col-lg-12 centro">
                 <form method="post" action="/download">
                     <button class="boton3m" type="submit">Crear PDF</button>
                 </form>
                 </div>-->
+                
+                <div class="col-lg-12 centro">
+                <form style="text-align: center" id="tiempo_entrega" method="post" action="/tiempo/entrega">
+						<input style="text-align: center" id="tiempoentrega" type="time" placeholder="Entrega en <%= tiempo_entrega%> días"  size="25" name="tiempo_entrega" data-toggle="tooltip" data-placement="top" title="Enter para aplicar tiempo de entrega a todos los productos!">
+                </form>
+                </div>
+                
+                <br>
                 
                 <div class="centro col-lg-12">
                 <a href="/pdfprevio" class="boton3m" target="_blank" onclick="folio()" ><h4>Vista previa</h4></a>
@@ -594,7 +595,7 @@
         
         <!--ALERTS!-->
         
-        <div class="alert alert-<%=alerta_tipo%> alert-dismissible fade show" role="alert" id="floating_alert" style="margin-right:<%=hide1%>;">
+        <div class="alert alert-<%=alerta_tipo%> alert-dismissible fade show" role="alert" id="floating_alert" >
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -607,6 +608,8 @@
 </html>
 
 
+<% include ../partials/3m_refs.ejs %>
+
 <script type="text/javascript">
     
             $(window).scroll(function() {
@@ -618,10 +621,10 @@
 				$(window).scrollTop(sessionStorage.scrollTop);
 			  }
 			});
-	
-			alert("Bienvenido al cotizador de 3M de Ail \n por IMI Diego Ortega");
+    
+            $(function () {
+                    $('[data-toggle="tooltip"]').tooltip()
+            })
     
 
 </script>
-
-<% include ../partials/3m_refs.ejs %>

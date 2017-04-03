@@ -7,7 +7,16 @@
 	
 </head>
 	
-<body>
+<body class="fondo">
+    <%prod_agregados.forEach(function(producto2, index){	
+    if(producto2.descuento > 30){ %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" >
+          Más de 30% de descuento!
+        </div>
+    <%}
+    });
+    %>
+    
 	<div class="container" style="margin:0 auto;">
 		<div class="row">
 			
@@ -18,8 +27,9 @@
 			<div class="col" align="center">
 				<img src="/img/logoleo.png" class="img-fluid" style="max-width: 100%; height: auto;" alt="Artículos Innovadores Leo Logo" title="Artículos Innovadores Leo">
 			</div>
-			<div class="col hidden-md-down" align="center">
+			<div class="col hidden-md-down" align="center" style="margin-top:25px;">
 				<h1>Cotización de Material</h1>
+                <h2># <%=folio%></h2>
 			</div>
 			<div class="col" align="center">
 				<img src="/img/3M.png" class="img-fluid" alt="3M Logo" title="Artículos Innovadores Leo" style="max-width: 100%; max-height: 124px;">
@@ -30,19 +40,20 @@
 	
 	<div class="container">
 		<div class="row">
-				<h3 class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: left; font-size:75%;">Tipo de cambio: $<%= tipo_cambio %> MXN</h3>
-				<h3 class="col-lg-5 col-md-6 col-sm-6 col-xs-6" style="text-align: right; font-size:75%;"><%= fecha %></h3>
+				<h3 class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: left; ">Tipo de cambio: $<%= tipo_cambio %> MXN</h3>
+				<h3 class="col-lg-5 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><%= fecha %></h3>
 		</div>
 	</div>
 	
     <div class="container centro" style="margin:0 auto;">
         <div class="row">
-			<div style="border: 1px solid gray; border-radius: 10px; margin:0 auto;" class="col-lg-12">
-				<table class="table table-striped" style="margin:0 auto;">
+			<div style="border: 1px solid gray; border-radius: 10px; margin:0 auto;" class="col-lg-12 subfondo1">
+				<table class="table table-striped " style="margin:0 auto;">
 					
 					<thead class="">
 						<tr>
-							<th colspan="4" class="celda-centro" ><h2>Cliente</h2></th>
+                            <th colspan="2" style="text-align:right;" ><img src="/img/user.png" class="thumbnail" style="height:50px;"></th>
+							<th colspan="2" style="text-align:left" ><h2>Cliente</h2></th>
 						</tr>
 					</thead>
 					
@@ -72,10 +83,10 @@
 	<div class="container">
         <div class="row">      
 			
-			<div style="border: 1px solid gray; border-radius: 10px; font-size:70%;" class="col-lg-12">
+			<div style="border: 1px solid gray; border-radius: 10px; font-size:70%;" class="col-lg-12 subfondo1">
 				<table class="table table-sm table-responsive">
 
-					<thead class="thead-default">
+					<thead class="">
 						<tr class="">
 							<th colspan="14" class="celda-centro" ><h2>Productos Agregados a Cotización</h2></th>
 						</tr>
@@ -163,9 +174,7 @@
 								<td>
 									$<%= producto2.precio_lista_unidad_mxn.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); %>
 								</td>
-								<%if(producto2.descuento > 30){ %>
-									<script>alert('Estás otorgando un descuento mayor a 30%!')</script>
-								<%}%>
+								
 								<td>
 									<%= producto2.descuento %> 
 								</td>
@@ -189,10 +198,10 @@
 			<br/>
 			<div class="container">
 				<div class="row">
-					<div class="offset-lg-6 col-lg-6 offset-md-6 col-md-6 offset-sm-0 col-sm-12 offset-xs-0 col-xs-12" style="border: 1px solid gray; border-radius: 10px;">
+					<div class="offset-lg-6 col-lg-6 offset-md-6 col-md-6 offset-sm-0 col-sm-12 offset-xs-0 col-xs-12 subfondo1" style="border: 1px solid gray; border-radius: 10px;">
 						<%IVA = parseFloat(suma_bruta*0.16);
 						 total_neto = (suma_bruta + IVA).toFixed(2);%>
-						<table class="table table-striped">
+						<table class="table table-striped ">
 							<tbody>
 								<tr>
 									<th>Total Bruto</th>
@@ -216,11 +225,12 @@
 			
 	<div class="container centro" style="margin:0 auto;">
         <div class="row">
-			<div style="border: 1px solid gray; border-radius: 10px; margin:0 auto; padding: 0 px;" class="col-lg-12">
-				<table class="table" style="margin:0 auto;">
-						<thead class="thead-default">
+			<div style="border: 1px solid gray; border-radius: 10px; margin:0 auto; padding: 0 px;" class="col-lg-12 subfondo1">
+				<table class="table " style="margin:0 auto;">
+						<thead class="">
 							<tr>
-								<th colspan="6" class="celda-centro">
+                                <th colspan="3" class="thumbnail" style="text-align:right;"><img src="/img/vendedor.png" style="height:50px;"></th>
+								<th colspan="3" style="text-align:left;">
 									<h2>Vendedor</h2>
 								</th>
 							</tr>
@@ -271,13 +281,22 @@
 			</div>	
 		</div>
 	</div>
-       
+    
+    <div class="alert alert-<%=alerta_tipo%> alert-dismissible fade show" role="alert" id="floating_alert2" >
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <h1><span aria-hidden="true">&times;</span></h1>
+          </button>
+            <h4 class="alert-heading">Vista previa de PDF</h4>
+            <p>Puedes descargar el PDF con</p>
+            <p>ctrl + p en <strong>Windows</strong> </p>
+            <p>cmd + p en <strong>Apple</strong> </p>
+    </div>
 
 </body>
 </html>
 
+<script>
+</script>
+
 <% include ../partials/3m_refs.ejs %>
 
-<script>
-	alert("Para guardar PDF: \n ctrl+p (Windows) \n cmd+p (Mac)");
-</script> 

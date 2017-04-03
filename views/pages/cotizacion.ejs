@@ -179,10 +179,10 @@
 									<%= producto2.descuento %> 
 								</td>
 								<td>
-									$<%= producto2.precio_descuento.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); %>
+									$<%= producto2.precio_descuento.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); %> MXN
 								</td>
 								<td>
-								   $<%= producto2.precio_cantidad.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); %> 
+								   $<%= producto2.precio_cantidad.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); %> MXN
 								</td>
 								<td>
 								    <%= producto2.tiempo_entrega %>
@@ -205,16 +205,16 @@
 							<tbody>
 								<tr>
 									<th>Total Bruto</th>
-									<td>$<%= (suma_bruta).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); %></td>
+									<td>$<%= (suma_bruta).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); %> MXN</td>
 								</tr>
 								
 								<tr>
 									<th>IVA (16%)</th>
-									<td>$<%=(IVA).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");%></td>
+									<td>$<%=(IVA).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");%> MXN</td>
 								</tr>
 								<tr>
 									<th>Total Neto</th>
-									<td>$<%=Math.round(total_neto).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");%></td>
+									<td>$<%=Math.round(total_neto).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");%> MXN</td>
 								</tr>
 							</tbody>
 						</table>
@@ -229,7 +229,9 @@
 				<table class="table " style="margin:0 auto;">
 						<thead class="">
 							<tr>
-                                <th colspan="3" class="thumbnail" style="text-align:right;"><img src="/img/vendedor.png" style="height:50px;"></th>
+                                <th colspan="3" class="thumbnail" style="text-align:right;">
+									<img src="/img/vendedor.png" style="height:50px;">
+								</th>
 								<th colspan="3" style="text-align:left;">
 									<h2>Vendedor</h2>
 								</th>
@@ -281,6 +283,98 @@
 			</div>	
 		</div>
 	</div>
+	
+	<hr>
+	
+	<div class="container">
+		<div class="row">
+			<table class="table centro"> 
+				<thead >
+					<tr>
+						<th colspan="3" style="text-align:center; margin: 0 auto;"><h3>Datos para transferencia bancaria</h3></th>
+					</tr>
+					<tr>
+						<th colspan="3" style="text-align:center; margin: 0 auto;"><h4>Artículos Innovadores Leo, S.A. de C.V.</h4></th>
+					</tr>
+					<tr>
+						<th colspan="3" style="text-align:center; margin: 0 auto;">Plaza: Ciudad de México, México.</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Banco</td>
+						<td>Cuenta</td>
+						<td>Clabe</td>
+					</tr>
+					<tr>
+						<td><img src="/img/Bancomer.png" style="height:75px;"></td>
+						<td>184605934</td>
+						<td>012180001846059342</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	
+	<hr>
+	
+	<div class="container">
+		<div class="row">
+			
+			<h2 class="col-lg-12" style="text-align:center; margin: 0 auto;">Condiciones de pago</h2>
+			<br>
+			<h4 class="col-lg-12" style="text-align:center; margin: 0 auto;">Contado</h4>
+			<hr>
+			
+			<div class="card">
+			  <div class="card-block">
+				<h4 class="card-title">Política de venta</h4>
+				<p class="card-text">
+				Se agregará el 16% del IVA.
+				Los precios marcados con USD están en Dólares Americanos y los marcados con MXN en Moneda Nacional (Pesos Mexicanos).
+				Todos nuestros productos cotizados en dólares serán facturados al tipo de cambio del Diario Oficial de la Federación o el establecido por Artículos Innovadores Leo el día de facturación, en caso de variación mayor al 2% entre el tipo de cambio del día de cotización y el tipo de cambio del día de facturación, Artículos Innovadores Leo se reserva el derecho de actualizar el tipo de cambio al momento de facturación.
+				Precios sujetos a cambio sin previo aviso.
+				Los precios son LAB en México, D.F. o zona metropolitana. Entregas a domicilio compras a partir de $1,500.00 MXN.
+				Entregas en el Territorio Nacional, distinto a la Ciudad de México y Zona Metropolitana es a cuenta del Cliente. El Cliente nos indicará el nombre del transportista de su preferencia. Si el Cliente no nos indica alguna transportista, la Empresa escogerá la que consideré la que de mejor servicio y a un precio accesible.
+				DISTRIBUIDORES, favor de recoger en nuestras oficinas o bodegas.
+				Materiales de Especiales o de Servicio de baja demanda están sujetos a que EL FABRICANTE decida fabricarlos o importarlos. Dependerá del volumen y existencias del país de origen.
+				Para pedidos de productos especiales o de servicio se requiere anticipo y pedido por escrito. En caso de que EL FABRICANTE decida no surtirlo, se regresará el anticipo en máximo 5 días hábiles.
+				No se aceptan cancelaciones ni cambios para pedidos especiales o de servicio ya habiendo sido aceptado por EL FABRICANTE.
+				Solo se aceptan devoluciones en materiales que normalmente se tengan en inventario solamente si se regresan sin ensuciar, ni maltratados, completos, sin usar. Estas devoluciones pueden ser sujetas a un cargo administrativo de $20.00 MXN ó 2% del valor de la factura, el que sea mayor y que no haya pasado 5 días hábiles de haberse entregado.</p>
+			  </div>
+			</div>
+			<div class="card">
+			  <div class="card-block">
+				<h4 class="card-title">Política de pagos</h4>
+				<p class="card-text">
+				Si el cliente no cuenta con línea de crédito, sus pagos deberán realizarse mediante depósito anticipado a nuestra cuenta o con efectivo. Le sugerimos que en caso de hacer un depósito, éste lo haga con cheque del mismo banco que el nuestro, o por SPEI, con el fin de que el pago se acredite inmediatamente a nuestra cuenta y sus pedido pueda ser liberado para su facturación y entrega de producto.
+				Todos los comprobantes de pago deben ser enviados con el detalle de facturas (números y cantidades que están pagando) al correo de gerencia@ail.com.mx y ventas@ail.com.mx. 
+				Los depósitos de cheques salvo buen fin se pueden tardar de 2 a 3 días hábiles para que se confirme que haya pasado en firme.
+				No se aceptan cheques, solamente si tienen aceptado crédito previamente.
+				Pago con tarjeta de crédito tendrá un cargo adicional de 2.84%. Pago con tarjeta de débito es sin cargo adicional si el pago es realizado en nuestras instalaciones.
+				Los pagos serán procesados Lunes a Viernes en el horario de las 08:30 y hasta las 17:30; después de ese horario se procesará hasta el siguiente día hábil, al igual que los pagos realizados durante el fin de semana o días festivos.
+				El material se entrega hasta que se compruebe la transferencia bancaria o el depósito en firme.
+				</p>
+				</div>
+			</div>
+			
+			<div class="clearfix"></div> 
+			
+			<div class="card card-outline-danger mb-3 text-center col-lg-12">
+			  <div class="card-block">
+				<blockquote class="card-blockquote">
+				  	<h2><i class="fa fa-globe" aria-hidden="true"></i><a href="http://www.ail.com.mx" 	style="color:red;" target="_blank"> www.ail.com.mx</a></h2>
+				  	<h3><i class="fa fa-map-marker" aria-hidden="true"></i> Cafetal 368. Col. Granjas 	México, Iztacalco.</h3>
+				  	<h3><i class="fa fa-phone" aria-hidden="true"></i> 2235-5565 || 4749-3370</h3>
+					<h3><i class="fa fa-facebook-square" aria-hidden="true"></i> @ArticulosInnLeo</h3>
+					<h3><i class="fa fa-twitter" aria-hidden="true"></i> @leo.articulos</h3>
+				</blockquote>
+			  </div>
+			</div>
+			
+		</div>
+	</div>
+	
     
     <div class="alert alert-<%=alerta_tipo%> alert-dismissible fade show" role="alert" id="floating_alert2" >
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -291,6 +385,7 @@
             <p>ctrl + p en <strong>Windows</strong> </p>
             <p>cmd + p en <strong>Apple</strong> </p>
     </div>
+
 
 </body>
 </html>

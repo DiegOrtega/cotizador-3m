@@ -256,9 +256,14 @@
 
                                         <div class="col-lg-12 contenedorDatos">
                                             <h4>Resultados de Búsqueda:  
-												<% if(stock_num != null){ %> Stock: <%=stock_num%> <% } %> 
-												<% if(modelo != null){ %> Modelo: <%= modelo %> <% } %>
-												<% if(desc != null){ %> palabra clave: <%=desc%> <% } %>
+												<% if(stock_num != null){ %> Stock "<%=stock_num%>" <% } %> 
+												<% if(modelo != null){ %> Modelo "<%= modelo %>" <% } %>
+												<% if(desc != null){ %> Palabra clave "<%=desc%>" <% } %>
+												<% if(color_grano != null){ %> Color/Grano "<%=color_grano%>" <% } %>
+												<% if(medida != null){ %> Medida "<%=medida%>" <% } %>
+												<% if(area != null){ %> Área "<%=area%>" <% } %>
+												<% if(division != null){ %> División "<%=division%>" <% } %>
+												<% if(familia != null){ %> Familia "<%=familia%>" <% } %>
 											</h4>
 
                                             
@@ -592,9 +597,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
           <%=content%>
-        </div>
-        
-        
+        </div>   
         
 	</body>
 </html>

@@ -45,7 +45,7 @@ var graphenedbPass1 = process.env.GRAPHENEDB_COPPER_BOLT_PASSWORD;
 
 //Variables internas (No mover)
 
-var total_nodos, nombre = null, empresa, telefono, mail, productoArray = [], productoArray2 = [], vendedor = null, num_vendedor, num_cot = 0, descuento, extension, email_vendedor, tiempo_entrega, check, tipo_cambio=18, precio, stock_num, modelo, desc, nombre_p, stock_c, modelo_c, color_grano_c, tiempo_c, precio_c, medida_c, unidad_c, unidad_c, vendedorArray = [],  dir = [], ref=[], indexref = 0, folio = 0, alerta_cambio = false, alerta_datos = false, alerta_cantidad = false, alerta_descuento = false, cambio_nombre = false, cambio_stock = false, cambio_modelo = false, cambio_tiempo = false, cambio_color = false, cambio_precio = false, cambio_medida = false, cambio_unidad = false, cambio_api = false, cambio_folio = false, alerta_busqueda= false, alerta_carrito = false, alerta_datos2= false, alerta_eliminacion = false, ajuste_busqueda = "" , cont = 0, ajuste_carrito = "", hide1 = '-700px', content = '', alerta_tipo = 'success', ajusteVendedor = "", cont2 = 0, ajusteCliente;
+var total_nodos, nombre = null, empresa, telefono, mail, productoArray = [], productoArray2 = [], vendedor = null, num_vendedor, num_cot = 0, descuento, extension, email_vendedor, tiempo_entrega, check, tipo_cambio=18, precio, stock_num, modelo, desc, nombre_p, stock_c, modelo_c, color_grano_c, tiempo_c, precio_c, medida_c, unidad_c, unidad_c, vendedorArray = [],  dir = [], ref=[], indexref = 0, folio = 0, alerta_cambio = false, alerta_datos = false, alerta_cantidad = false, alerta_descuento = false, cambio_nombre = false, cambio_stock = false, cambio_modelo = false, cambio_tiempo = false, cambio_color = false, cambio_precio = false, cambio_medida = false, cambio_unidad = false, cambio_api = false, cambio_folio = false, alerta_busqueda= false, alerta_carrito = false, alerta_datos2= false, alerta_eliminacion = false, ajuste_busqueda = "" , cont = 0, ajuste_carrito = "", hide1 = '-700px', content = '', alerta_tipo = 'success', ajusteVendedor = "", cont2 = 0, ajusteCliente, color_grano, medida, area, division, familia;
 
 //Protocolo de conexión para servidor cloud heroku
 
@@ -107,7 +107,7 @@ app.get('/', function(request, response){
 app.get('/3m', function(req, res) {
     
     hide1 = '0px;';
-    content = "Bienvenido! Ahora puedes comenzar crear tu siguiente cotización.";
+    content = "Bienvenid@! Ahora puedes comenzar crear tu siguiente cotización.";
     alerta_tipo = "success";
     
 	session
@@ -166,7 +166,12 @@ app.get('/3m', function(req, res) {
                     content: content,
                     alerta_tipo: alerta_tipo,
                     ajusteVendedor: ajusteVendedor,
-                    ajusteCliente: ajusteCliente
+                    ajusteCliente: ajusteCliente,
+					color_grano: color_grano,
+					medida: medida,
+					area: area,
+					division: division,
+					familia: familia
 				});
 		
 		})
@@ -240,7 +245,12 @@ app.post('/contacto/add', function(req, res){
                 content: content,
                 alerta_tipo: alerta_tipo,
                 ajusteVendedor: ajusteVendedor,
-                ajusteCliente: ajusteCliente
+                ajusteCliente: ajusteCliente,
+				color_grano: color_grano,
+				medida: medida,
+				area: area,
+				division: division,
+				familia: familia
 		});
 });
 
@@ -377,7 +387,12 @@ app.post('/busqueda/add', function(req, res){
                 content: content,
                 alerta_tipo: alerta_tipo,
                 ajusteVendedor: ajusteVendedor,
-                ajusteCliente: ajusteCliente
+                ajusteCliente: ajusteCliente,
+				color_grano: color_grano,
+				medida: medida,
+				area: area,
+				division: division,
+				familia: familia
 			});
 		
 			productoArray = [];
@@ -542,7 +557,12 @@ app.post('/carrito/add', function(req, res){
                 content: content,
                 alerta_tipo: alerta_tipo,
                 ajusteVendedor: ajusteVendedor,
-                ajusteCliente: ajusteCliente
+                ajusteCliente: ajusteCliente,
+				color_grano: color_grano,
+				medida: medida,
+				area: area,
+				division: division,
+				familia: familia
 		});
        
 		
@@ -626,7 +646,12 @@ app.post('/eliminacion/add', function(req, res){
             content: content,
             alerta_tipo: alerta_tipo,
             ajusteVendedor: ajusteVendedor,
-            ajusteCliente: ajusteCliente
+            ajusteCliente: ajusteCliente,
+			color_grano: color_grano,
+			medida: medida,
+			area: area,
+			division: division,
+			familia: familia
 		});
 });
 
@@ -702,7 +727,12 @@ app.post('/datos/add', function(req, res){
             content: content,
             alerta_tipo: alerta_tipo,
             ajusteVendedor: ajusteVendedor,
-            ajusteCliente: ajusteCliente
+            ajusteCliente: ajusteCliente,
+			color_grano: color_grano,
+			medida: medida,
+			area: area,
+			division: division,
+			familia: familia
 		});
 });
 
@@ -764,7 +794,12 @@ app.post('/download', function(req, res){
             ajuste_busqueda: ajuste_busqueda,
             ajuste_carrito: ajuste_carrito,
             ajusteVendedor: ajusteVendedor,
-            ajusteCliente: ajusteCliente
+            ajusteCliente: ajusteCliente,
+			color_grano: color_grano,
+			medida: medida,
+			area: area,
+			division: division,
+			familia: familia
 		};
 	
 	var renderedhtml = ejs.render(html, obj);
@@ -913,7 +948,12 @@ app.get('/pdfprevio', function(req, res){
             ajusteCliente: ajusteCliente,
             hide1: hide1,
             content: content,
-            alerta_tipo: alerta_tipo
+            alerta_tipo: alerta_tipo,
+	   		color_grano: color_grano,
+			medida: medida,
+			area: area,
+			division: division,
+			familia: familia
    }); 
 });
 
@@ -975,7 +1015,12 @@ app.post('/tipo_cambio/add', function(req, res){
             ajusteCliente: ajusteCliente,
             hide1: hide1,
             content: content,
-            alerta_tipo: alerta_tipo
+            alerta_tipo: alerta_tipo,
+			color_grano: color_grano,
+			medida: medida,
+			area: area,
+			division: division,
+			familia: familia
 		});
     
 });
@@ -1042,7 +1087,12 @@ app.post('/cantidad/add', function(req, res){
             ajusteCliente: ajusteCliente,
             hide1: hide1,
             content: content,
-            alerta_tipo: alerta_tipo
+            alerta_tipo: alerta_tipo,
+			color_grano: color_grano,
+			medida: medida,
+			area: area,
+			division: division,
+			familia: familia
 		});
 	
 });
@@ -1123,7 +1173,12 @@ app.post('/descuento/add', function(req, res){
             ajusteCliente: ajusteCliente,
             hide1: hide1,
             content: content,
-            alerta_tipo: alerta_tipo
+            alerta_tipo: alerta_tipo,
+			color_grano: color_grano,
+			medida: medida,
+			area: area,
+			division: division,
+			familia: familia
 		});
 	
 });
@@ -1190,7 +1245,12 @@ app.post('/cambio_nombre/add', function(req,res){
             ajusteVendedor: ajusteVendedor,
             ajusteCliente: ajusteCliente,
             alerta_tipo: alerta_tipo,
-            content: content
+            content: content,
+			color_grano: color_grano,
+			medida: medida,
+			area: area,
+			division: division,
+			familia: familia
 	});
 	
 });
@@ -1258,7 +1318,12 @@ app.post('/cambio_stock/add', function(req,res){
             ajusteVendedor: ajusteVendedor,
             ajusteCliente: ajusteCliente,
             alerta_tipo: alerta_tipo,
-            content: content
+            content: content,
+			color_grano: color_grano,
+			medida: medida,
+			area: area,
+			division: division,
+			familia: familia
 	});
 	
 });
@@ -1325,7 +1390,12 @@ app.post('/cambio_modelo/add', function(req,res){
             ajusteVendedor: ajusteVendedor,
             ajusteCliente: ajusteCliente,
             alerta_tipo: alerta_tipo,
-            content: content
+            content: content,
+			color_grano: color_grano,
+			medida: medida,
+			area: area,
+			division: division,
+			familia: familia
 	});
 	
 });
@@ -1392,7 +1462,12 @@ app.post('/cambio_tiempo/add', function(req,res){
             ajusteVendedor: ajusteVendedor,
             ajusteCliente: ajusteCliente,
             alerta_tipo: alerta_tipo,
-            content: content
+            content: content,
+			color_grano: color_grano,
+			medida: medida,
+			area: area,
+			division: division,
+			familia: familia
 	});
 	
 });
@@ -1459,7 +1534,12 @@ app.post('/cambio_color_grano/add', function(req,res){
             ajusteVendedor: ajusteVendedor,
             ajusteCliente: ajusteCliente,
             content: content,
-            alerta_tipo: alerta_tipo
+            alerta_tipo: alerta_tipo,
+			color_grano: color_grano,
+			medida: medida,
+			area: area,
+			division: division,
+			familia: familia
 	});
 	
 });
@@ -1629,7 +1709,12 @@ app.post('/cambio_precio_usd/add', function(req,res){
             ajusteVendedor: ajusteVendedor,
             ajusteCliente: ajusteCliente,
             content: content,
-            alerta_tipo: alerta_tipo
+            alerta_tipo: alerta_tipo,
+			color_grano: color_grano,
+			medida: medida,
+			area: area,
+			division: division,
+			familia: familia
 	});
 	
 });
@@ -1696,7 +1781,12 @@ app.post('/cambio_medida/add', function(req,res){
             ajusteVendedor: ajusteVendedor,
             ajusteCliente: ajusteCliente,
             content: content,
-            alerta_tipo: alerta_tipo
+            alerta_tipo: alerta_tipo,
+			color_grano: color_grano,
+				medida: medida,
+				area: area,
+				division: division,
+				familia: familia
 	});
 	
 });
@@ -1763,7 +1853,12 @@ app.post('/cambio_unidad/add', function(req,res){
             ajusteVendedor: ajusteVendedor,
             ajusteCliente: ajusteCliente,
             content: content,
-            alerta_tipo: alerta_tipo
+            alerta_tipo: alerta_tipo,
+			color_grano: color_grano,
+			medida: medida,
+			area: area,
+			division: division,
+			familia: familia
 	});
 	
 });
@@ -1852,7 +1947,12 @@ app.post('/api/photo', function(req,res){
             ajusteVendedor: ajusteVendedor,
             ajusteCliente: ajusteCliente,
             alerta_tipo: alerta_tipo,
-            content: content    
+            content: content,
+			color_grano: color_grano,
+			medida: medida,
+			area: area,
+			division: division,
+			familia: familia
 	});
     });
 });
@@ -1946,13 +2046,25 @@ app.post('/folio', function(req, res){
             ajusteCliente: ajusteCliente,
             alerta_tipo: alerta_tipo,
             hide1: hide1,
-            content:content
+            content:content,
+			color_grano: color_grano,
+				medida: medida,
+				area: area,
+				division: division,
+				familia: familia
 	});
 	
 });
 
 app.post("/tiempo/entrega", function(req, res){
-         tiempo_entrega = req.body.tiempo_entrega;
+        tiempo_entrega = req.body.tiempo_entrega;
+	
+		productoArray2.forEach(function(producto2, i){
+				console.log("i: " + i );
+				console.log("tiempo_c: " + tiempo_entrega);
+				producto2.tiempo_entrega = tiempo_entrega;
+				content = "Cambiaste en " + tiempo_entrega + " días el tiempo de entrega de " + (producto2.nombre).substring(0, 15) + "..."; 
+		});
     
         ajuste_busqueda = "";
         ajuste_carrito = "";
@@ -2009,7 +2121,12 @@ app.post("/tiempo/entrega", function(req, res){
             ajusteCliente: ajusteCliente,
             alerta_tipo: alerta_tipo,
             hide1: hide1,
-            content:content
+            content:content,
+			color_grano: color_grano,
+			medida: medida,
+			area: area,
+			division: division,
+			familia: familia
 	});
 });
 

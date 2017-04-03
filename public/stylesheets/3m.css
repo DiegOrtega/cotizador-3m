@@ -19,6 +19,7 @@
 }
 .boton3m:hover {
 	background-color:#db5314;
+    color:#ffffff;
 }
 .boton3m:active {
 	position:relative;

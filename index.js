@@ -107,7 +107,7 @@ app.get('/', function(request, response){
 app.get('/3m', function(req, res) {
     
     hide1 = '0px;';
-    content = "Bienvenid@! Ahora puedes comenzar crear tu siguiente cotización.";
+    content = "Bienvenid@! Ahora puedes crear tu siguiente cotización.";
     alerta_tipo = "success";
     
 	session

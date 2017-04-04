@@ -66,6 +66,9 @@
 
 .clearfix{
     margin: 10px; 
+	display: block;
+    content: "";
+    clear: both;
 }
 
 .boton3m3{
@@ -105,12 +108,11 @@
     z-index: 5000;
 }
 .fondo {
-    background-image: url("/img/fondo.png");
-    background-size: cover;
-    background-repeat: no-repeat;
+    background-image: url("/img/fondo.png"), url("/img/subfondo2.jpeg");
+    background-size: auto;
 }
 .subfondo1 {
-    background-image: url("/img/subfondo2.jpeg");
+    background-image: 
     background-size: cover;
     background-repeat: no-repeat;
 }

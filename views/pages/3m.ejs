@@ -229,7 +229,33 @@
 							}
 						
 						</style>
+							
+						<div class="clearfix"></div>
+						
+						<div class="container">
+							<div class="row">
+								
+								<form method="post" action="/marca/add" class="col-lg-12 centro">
+										<div class="col-lg-12 dropdown" data-toggle="tooltip" data-placement="top" title="Sólo puedes cotizar una marca a la vez!">
 
+										   <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											Selecciona la marca
+										   </button>
+
+											<div class="dropdown-menu col-lg-12 centro" aria-labelledby="dropdownMenuButton">
+												<button class="dropdown-item" name="marca" value="3M" >3M</button>
+												<button class="dropdown-item" name="marca" value="Sika">Sika</button>
+											</div>
+											
+										</div>
+									</form>
+							</div>
+						</div>
+						
+						<h3 class="col-lg-12 centro clearfix"><%=marca%></h3>
+						
+						<% if(marca == "3M"){ %>
+						
                         <form method="post" action="/busqueda/add" id="form1">	
 							<div class="form-control col-lg-12">
 								<input type="text" placeholder="&nbsp;Stock" size="25" name="stock" class="input" data-toggle="tooltip" data-placement="top" title="Escribe un fragmento o el # de stock completo">&ensp;
@@ -244,13 +270,37 @@
                             <br/>
                         </form>	
 
-                        <button class="boton3m" type="submit" form="form1">Buscar</button>    
-                        </div>
+                        <div class="col-lg-12 centro">
+							<button class="boton3m centro" type="submit" form="form1" style="text-align:center; margin: 0 auto;">Buscar</button> 
+						</div>
+						
+						<% }else if(marca == "Sika"){ %>
+						
+							<br/>
+							<div class="clearfix"></div>
+						
+							 <form method="post" action="/busqueda/add" id="form1">	
+							<div class="form-control col-lg-12">
+								<input type="text" placeholder="Código" size="25" name="stock" class="input" data-toggle="tooltip" data-placement="top" title="Escribe un fragmento o el # de stock completo">&ensp;
+								<input type="text" placeholder="Palabra Clave" size="50" name="desc" class="input" data-toggle="tooltip" data-placement="top" title="Escríbe una frase o palabra relacionada con el producto">
+								<input type="text" placeholder="Medida" size="25" name="medida" class="input"  data-toggle="tooltip" data-placement="top" title="Tienes que ser muy exacto al escribir la medida!">
+							</div>
+                            <br/>
+                        </form>	
+						
+						<div class="col-lg-12 centro">
+							<button class="boton3m centro" type="submit" form="form1" style="text-align:center; margin: 0 auto;">Buscar</button> 
+						</div>
+						
+						
+						<% } %>
+						
+					</div>
                 </div>
         
 				
                 <div class="container">
-                        <row class="row">            
+                        <div class="row">            
                             <% if(productos.length > 0) { %>
 
 
@@ -268,10 +318,47 @@
 
                                             
                                             <% productos.forEach(function(producto){ %>
-                                                <div id="centro">
-													<form class="centro" method="post" action="/carrito/add">
-														<button class="boton3m2" name="agregar" type="submit" value="<%=producto.stock%>">
+                                                
 
+											<% if(marca == "Sika"){ %>
+											
+											<div id="centro">
+													<form class="centro" method="post" action="/carrito/add">
+														<button class="boton3m2" name="agregar" type="submit" value="<%=producto.codigo%>">
+															
+															<table class="table table-striped" style="margin:0px;">
+																<thead>
+																	<tr class="table-active">
+																		<th>Producto</th>
+																		<th>Código</th>
+																		<th>Divisa</th>
+																		<th>KG/MTS</th>
+																		<th>Descripción</th>
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr>
+																		<td><%=producto.nombre%></td>
+																		<td><%=producto.codigo%></td>
+																		<td><%=producto.divisa%></td>
+																		<td><%=producto.kg_mts%></td>
+																		<td><%=producto.descripcion%></td>
+																	</tr>
+																</tbody>
+															</table>
+														<br/>
+														</button>
+													</form>	
+                                                </div>
+															<% } %>
+															
+															
+												<% if(marca == "3M"){ %>
+															
+												<div id="centro">
+													<form class="centro" method="post" action="/carrito/add">
+													<button class="boton3m2" name="agregar" type="submit" value="<%=producto.stock%>">
+															
 															<table class="table table-striped" style="margin:0px;">
 																<thead>
 																	<tr class="table-active">
@@ -291,12 +378,14 @@
 																		<td><%=producto.presentacion_medida%></td>
 																	</tr>
 																</tbody>
-															</table>	
-
+															</table>
 														<br/>
 														</button>
 													</form>	
                                                 </div>
+															<% } %>
+															
+														
 												<br/>
                                             <%}) %>
                                             
@@ -307,7 +396,7 @@
                             
                <div class="clearfix col-lg-12"></div>
                  
-				 </row>
+				 </div>
                 </div>
         
 				<hr>
@@ -352,6 +441,8 @@
                         
                         <% prod_agregados.forEach(function(producto2, index){ %>
                         
+						<% if(marca == "3M"){ %>
+						
                         <div class="col-lg-12 centro">
 							
 							<table class="table table-responsive table-hover">
@@ -540,13 +631,151 @@
 							</table>
 					
                         </div>
+						 
+						<% }else if(marca == "Sika"){ %>
+						
+							<div class="col-lg-12 centro">
+							
+							<table class="table table-responsive table-hover">
+								
+								<tbody >
+									
+										<tr> 
+											<th>Nombre</th>
+											<td class="clickable" data-toggle="collapse" data-target="#collapse<%=index%>"><%=producto2.nombre%></td>
+											<td>
+												<form class="centro" method="post" id="<%=index%>1" action="/cambio_nombre/add">
+													<input type="text" placeholder="<%=producto2.nombre%>" size="30" name="nombre">
+												</form>
+											</td>
+											<td><button class="boton3m3" type="submit" form="<%=index%>1" name="index" value="<%=index%>">Cambiar Nombre</button></td>
+										</tr>
+									
+								</tbody>
+									
+								<tbody id="collapse<%=index%>" class="collapse">
+									
+									<tr>
+										<th>Cantidad</th>
+										<td><%= producto2.cantidad %></td>
+										<td>
+											<form class="centro" method="post" action="/cantidad/add" id="<%= index %>6">
+											<input type="text" placeholder="<%= producto2.cantidad %>" size="10" name="cantidad">
+											</form>
+										</td>
+										<td>
+											<button class="boton3m3" type="submit" form="<%= index %>6" name="index" value="<%=index%>">Cambiar Cantidad</button>
+										</td>
+									</tr>
+									<tr>
+										<th>Stock</th>
+										<td><%=producto2.codigo%></td>
+										<td>
+											<form class="centro" method="post" id="<%=index%>2" action="/cambio_stock/add">
+											<input type="text" placeholder="<%=producto2.codigo%>" size="10" name="stock">
+											</form>
+										</td>
+										<td>
+											<button class="boton3m3" type="submit" form="<%=index%>2" name="index" value="<%=index%>">Cambiar Código</button>
+										</td>
+									</tr>
+									<tr>
+										<th>Medida Kg/Mts</th>
+										<td><%=producto2.kg_mts%></td>
+										<td>
+											<form class="centro" method="post" action="/cambio_color_grano/add" id="<%=index%>7">
+											<input type="text" placeholder="<%=producto2.kg_mts%>" size="10" name="color_grano">
+											</form>
+										</td>
+										<td>
+											<button class="boton3m3" type="submit" form="<%=index%>7" name="index" value="<%=index%>">Cambiar Kg/Mts</button>
+										</td>
+									</tr>
+									<tr>
+										<th>Medida de Litros</th>
+										<td><%= producto2.litros%></td>
+										<td>
+											<form class="centro" method="post" action="/cambio_medida/add" id="<%=index%>9">
+											<input type="text" placeholder="<%= producto2.litros%>" size="10" name="medida">
+											</form>
+										</td>
+										<td>
+											<button class="boton3m3" type="submit" form="<%=index%>9" name="index" value="<%=index%>">Cambiar Medida Litros</button>
+										</td>
+									</tr>
+									<tr>
+										<th>Precio de lista por unidad</th>
+										<td><%=producto2.precio_lista%></td>
+										<td>
+											<form class="centro" method="post" action="/cambio_precio_usd/add" id="<%=index%>8">
+											<input type="text" placeholder="<%=producto2.precio_lista%>" size="10" name="precio">
+											</form>
+										</td>
+										<td>
+											<button class="boton3m3" type="submit" form="<%=index%>8" name="index" value="<%=index%>">Cambiar Precio en USD</button>
+										</td>
+									</tr>
+									<tr>
+										<th>Descuento</th>
+										<td><%= producto2.descuento %></td>
+										<td>
+											<form class="centro" method="post" id="<%=index%>5" action="/descuento/add">
+											<input type="text" placeholder="<%=producto2.descuento %>" size="10" name="descuento">
+											</form>
+										</td>
+										<td>
+											<button class="boton3m3" type="submit" form="<%=index%>5" name="index" value="<%=index%>" >Cambiar Descuento</button>
+										</td>
+									</tr>
+									<tr>
+										<th>Tiempo de entrega</th>
+										<td><%= producto2.tiempo_entrega %></td>
+										<td>
+											<form class="centro" method="post" id="<%=index%>4" action="/cambio_tiempo/add">
+											<input type="text" placeholder="<%=producto2.tiempo_entrega%>" size="10" name="tiempo">
+											</form>
+										</td>
+										<td>
+                                        <button class="boton3m3" type="submit" form="<%=index%>4" name="index" value="<%=index%>">Cambiar Tiempo de entrega</button>
+										</td>
+									</tr>
+									<tr>
+										<th>Fotografía</th>
+										<td> 
+											<img src="<%=dir[index]%>" style="max-height:50px;" >
+										</td>
+										<td>
+											<form method="post" id="uploadForm<%=index%>" action="/api/photo" enctype="multipart/form-data">   
+											<input type="file" name="producto" />  
+											</form>	
+										</td>
+										<td>
+                                            <button class="boton3m3" type="submit" form="uploadForm<%=index%>" name="index" value="<%=index%>">Cargar Imagen</button>
+										</td>
+									</tr>
+									<tr>
+										<th>Divisa</th>
+										<td><%= producto2.divisa %></td>
+									</tr>
+									<tr>
+										<th>Piezas por caja</th>
+										<td><%=producto2.piezas_caja %></td>
+									</tr>
+										
+								</tbody>		
+							</table>
+					
+                        </div>
+							
+						<% }; %>
                         
                         <hr>
                         <br/>
                         <form method="post" action="/eliminacion/add"> 
                             <button class="boton3m3" name="eliminar" type="submit" value="<%=producto2.id%>">Eliminar producto</button>
                         </form>
-                        <hr>                
+                        <hr>    
+						
                         <% }); %>
                     
                 </div>    

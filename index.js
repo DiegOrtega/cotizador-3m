@@ -107,8 +107,8 @@ app.get('/', function(request, response){
 app.get('/3m', function(req, res) {
     
     hide1 = '0px;';
-    content = "Bienvenid@! Ahora puedes crear tu siguiente cotización.";
-    alerta_tipo = "success";
+    content = "Bienvenid@! Por el momento la base de datos está en mantenimiento, el próximo viernes 8 de abril se reestablecerá el servicio.";
+    alerta_tipo = "danger";
     
 	session
 		.run('MATCH (n:Producto3M) RETURN count(n)')

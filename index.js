@@ -111,7 +111,7 @@ app.get('/3m', function(req, res) {
     alerta_tipo = "danger";
     
 	session
-		.run('MATCH (n:Producto3M) RETURN count(n)')
+		.run('MATCH (n) RETURN count(n)')
 		.then(function(result){
         
 			  	result.records.forEach(function(record){
@@ -362,7 +362,7 @@ app.post('/busqueda/add', function(req, res){
 	console.log(stock_num +" "+ desc+" "+modelo+" "+color_grano+" "+medida);
 	
 	session
-		.run("MATCH (n:Producto3M) WHERE n.STOCK =~ {stock_1} OR n.AREA =~ {area} OR n.COLOR_GRANO =~ {color_grano} OR n.AIL_CODIGO_SAE =~ {key} OR n.CORMA_CODIGO_SAE =~{key} OR n.DESCRIPCION_AMPLIA1 =~{key} OR n.DESCRIPCION_AMPLIA2 =~{key} OR n.DESCRIPCION_AMPLIA3 =~{key} OR n.DESCUENTO =~{key} OR n.DIVISION =~{division} OR n.FAMILIA =~{familia} OR n.MODELO =~ {modelo} OR n.NOMBRE =~{key} OR n.PIEZAS_CAJA =~{key} OR n.STOCK2 =~ {stock_1} OR n.UPC =~ {key} OR n.PRESENTACION_MEDIDA  =~ {medida} RETURN n LIMIT 10", {stock_1: ".*"+stock_num+".*", key: ".*(?i)"+desc+".*", modelo:".*(?i)"+modelo+".*", color_grano:".*(?i)"+color_grano+".*", medida:".*(?i)"+medida+".*", area:".*(?i)"+area+".*", division:".*(?i)"+division+".*", familia:".*(?i)"+familia+".*"  })
+		.run("MATCH (n {LABEL:'Producto3M'}) WHERE n.STOCK =~ {stock_1} OR n.AREA =~ {area} OR n.COLOR_GRANO =~ {color_grano} OR n.AIL_CODIGO_SAE =~ {key} OR n.CORMA_CODIGO_SAE =~{key} OR n.DESCRIPCION_AMPLIA1 =~{key} OR n.DESCRIPCION_AMPLIA2 =~{key} OR n.DESCRIPCION_AMPLIA3 =~{key} OR n.DESCUENTO =~{key} OR n.DIVISION =~{division} OR n.FAMILIA =~{familia} OR n.MODELO =~ {modelo} OR n.NOMBRE =~{key} OR n.PIEZAS_CAJA =~{key} OR n.STOCK2 =~ {stock_1} OR n.UPC =~ {key} OR n.PRESENTACION_MEDIDA  =~ {medida} RETURN n LIMIT 10", {stock_1: ".*"+stock_num+".*", key: ".*(?i)"+desc+".*", modelo:".*(?i)"+modelo+".*", color_grano:".*(?i)"+color_grano+".*", medida:".*(?i)"+medida+".*", area:".*(?i)"+area+".*", division:".*(?i)"+division+".*", familia:".*(?i)"+familia+".*"  })
 		.then(function(result2){
 			result2.records.forEach(function(record){
 				productoArray.push({
@@ -505,7 +505,7 @@ app.post('/busqueda/add', function(req, res){
 		console.log(stock_num +" "+ desc+" "+modelo+" "+color_grano+" "+medida);
 		
 		session
-		.run("MATCH (n:ProductoSika) WHERE n.STOCK =~ {stock_1} OR n.AREA =~ {area} OR n.COLOR_GRANO =~ {color_grano} OR n.AIL_CODIGO_SAE =~ {key} OR n.CORMA_CODIGO_SAE =~{key} OR n.DESCRIPCION_AMPLIA1 =~{key} OR n.DESCRIPCION_AMPLIA2 =~{key} OR n.DESCRIPCION_AMPLIA3 =~{key} OR n.DESCUENTO =~{key} OR n.DIVISION =~{division} OR n.FAMILIA =~{familia} OR n.MODELO =~ {modelo} OR n.NOMBRE =~{key} OR n.PIEZAS_CAJA =~{key} OR n.STOCK2 =~ {stock_1} OR n.UPC =~ {key} OR n.PRESENTACION_MEDIDA  =~ {medida} RETURN n LIMIT 10", {stock_1: ".*"+stock_num+".*", key: ".*(?i)"+desc+".*", modelo:".*(?i)"+modelo+".*", color_grano:".*(?i)"+color_grano+".*", medida:".*(?i)"+medida+".*", area:".*(?i)"+area+".*", division:".*(?i)"+division+".*", familia:".*(?i)"+familia+".*"  })
+		.run("MATCH (n {LABEL:'ProductoSika'}) WHERE n.STOCK =~ {stock_1} OR n.AREA =~ {area} OR n.COLOR_GRANO =~ {color_grano} OR n.AIL_CODIGO_SAE =~ {key} OR n.CORMA_CODIGO_SAE =~{key} OR n.DESCRIPCION_AMPLIA1 =~{key} OR n.DESCRIPCION_AMPLIA2 =~{key} OR n.DESCRIPCION_AMPLIA3 =~{key} OR n.DESCUENTO =~{key} OR n.DIVISION =~{division} OR n.FAMILIA =~{familia} OR n.MODELO =~ {modelo} OR n.NOMBRE =~{key} OR n.PIEZAS_CAJA =~{key} OR n.STOCK2 =~ {stock_1} OR n.UPC =~ {key} OR n.PRESENTACION_MEDIDA  =~ {medida} RETURN n LIMIT 10", {stock_1: ".*"+stock_num+".*", key: ".*(?i)"+desc+".*", modelo:".*(?i)"+modelo+".*", color_grano:".*(?i)"+color_grano+".*", medida:".*(?i)"+medida+".*", area:".*(?i)"+area+".*", division:".*(?i)"+division+".*", familia:".*(?i)"+familia+".*"  })
 		.then(function(result2){
 			result2.records.forEach(function(record){
 				productoArray.push({
@@ -633,7 +633,7 @@ app.post('/carrito/add', function(req, res){
     if ( marca == "3M"){
 		
 	session	
-		.run("MATCH (n:Producto3M {STOCK: {carrito}}) RETURN n LIMIT 1 ", {carrito: carrito})
+		.run("MATCH (n {STOCK: {carrito}, LABEL:'Producto3M'}) RETURN n LIMIT 1 ", {carrito: carrito})
 		.then(function(result3){
 		result3.records.forEach(function(record){
 				productoArray2.push({
@@ -775,7 +775,7 @@ app.post('/carrito/add', function(req, res){
 	}else if(marca == "Sika"){
 		
 		session	
-		.run("MATCH (n:ProductoSika {CODIGO: {carrito}}) RETURN n LIMIT 1 ", {carrito: carrito})
+		.run("MATCH (n {CODIGO: {carrito}, LABEL:'ProductoSika'}) RETURN n LIMIT 1 ", {carrito: carrito})
 		.then(function(result3){
 		result3.records.forEach(function(record){
 				productoArray2.push({

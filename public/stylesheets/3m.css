@@ -108,7 +108,7 @@
     z-index: 5000;
 }
 .fondo {
-    background-image: url("/img/fondo.png"), url("/img/subfondo2.jpeg");
+    background-image: url("/img/fondo.jpg"), url("/img/subfondo2.jpeg");
     background-size: auto;
 }
 .subfondo1 {

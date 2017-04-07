@@ -107,7 +107,7 @@ app.get('/', function(request, response){
 app.get('/3m', function(req, res) {
     
     hide1 = '0px;';
-    content = "Bienvenid@! Por el momento la base de datos está en mantenimiento, el próximo viernes 8 de abril se reestablecerá el servicio.";
+    content = "Bienvenid@! Puedes comenzar a hacer tu nueva cotización de productos Sika o 3M!";
     alerta_tipo = "danger";
     
 	session

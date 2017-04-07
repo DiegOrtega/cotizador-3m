@@ -101,6 +101,19 @@ if(graphenedbURL == undefined){
 };
 
 app.get('/', function(request, response){
+	
+	 hide1 = '0px;';
+    content = "Bienvenid@! Puedes comenzar a hacer tu nueva cotización de productos Sika o 3M!";
+    alerta_tipo = "success";
+    
+	session
+		.run('MATCH (n) RETURN count(n)')
+		.then(function(result){
+        
+			  	result.records.forEach(function(record){
+				total_nodos = record._fields[[0]].low; 
+				}); 
+	
 	response.render('pages/3m', {
 					desplegar: total_nodos,
 					nombre: nombre,
@@ -157,6 +170,11 @@ app.get('/', function(request, response){
 					familia: familia,
 					marca: marca
 				});
+		
+		})
+		.catch(function(err){
+		console.log(err);
+		})
 });
 
 app.get('/3m', function(req, res) {

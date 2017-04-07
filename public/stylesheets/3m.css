@@ -108,8 +108,12 @@
     z-index: 5000;
 }
 .fondo {
-    background-image: url("/img/fondo.jpg"), url("/img/subfondo2.jpeg");
+    background-image: url(/img/fondo.png), url(/img/subfondo2.jpg);
     background-size: auto;
+	position: relative;
+	margin: 0;
+  padding-bottom: 6rem;
+  min-height: 100%;
 }
 .subfondo1 {
     background-image: 
@@ -117,5 +121,16 @@
     background-repeat: no-repeat;
 }
 .subfondo2 {
-    background-image: url("/img/fondo.jpg");
+    background-image: url("/img/fondo.jpg"), url("/img/subfondo2.jpeg");
+	background-size: auto;
+}
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
 }

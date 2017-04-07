@@ -64,38 +64,40 @@
         
 	</head>
     
-	<body class="subfondo2" onload="myFunction()" style="margin:0;">
+	<body class="fondo" onload="myFunction()" style="margin:0;">
 		
 		<div id="loader"></div>
 		
 		<div style="display:none;" id="myDiv" class="animate-bottom">
         
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-12 col-md-12">
-						<h1 class="centro">Cotizador AIL</h1>
+			
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-12 col-md-12">
+							<h1 class="centro">Cotizador de Materiales</h1>
+						</div>
 					</div>
 				</div>
-			</div>
 
-			<div class="container-fluid">
-				<div class="row">
-					<h3 class="col-lg-6 col-md-6"> Records en la Base de Datos: <%=desplegar%> </h3>
+				<div class="container-fluid">
+					<div class="row">
+						<h3 class="col-lg-6 col-md-6"> Records en la Base de Datos: <%=desplegar%> </h3>
 
-					<div class="col-lg-5 col-md-4">
-						<h4 style="text-align: right">Tipo de cambio:</h4>
-						<form style="text-align: right" id="tipo_cambio" method="post" action="/tipo_cambio/add">
-							<input id="tipo_cambio" type="text" placeholder="<%= tipo_cambio %>" size="10" name="tipo_cambio" data-toggle="tooltip" data-placement="top" title="Asegúrate de actualizar el tipo de cambio!">
-							<button class="boton3m3" form="tipo_cambio" type="submit">Ingresar</button>
-						</form>
+						<div class="col-lg-5 col-md-4">
+							<h4 style="text-align: right">Tipo de cambio:</h4>
+							<form style="text-align: right" id="tipo_cambio" method="post" action="/tipo_cambio/add">
+								<input id="tipo_cambio" type="text" placeholder="<%= tipo_cambio %>" size="10" name="tipo_cambio" data-toggle="tooltip" data-placement="top" title="Asegúrate de actualizar el tipo de cambio!">
+								<button class="boton3m3" form="tipo_cambio" type="submit">Ingresar</button>
+							</form>
+						</div>
+
 					</div>
-
 				</div>
-			</div>
+				
 
 		<!-- FIN DE EJEMPLO-->			
 			<hr>
-				<div id="accordion" role="tablist" aria-multiselectable="false">
+				<div id="accordion" role="tablist" aria-multiselectable="false" style="padding-bottom: 120px;">
 
 					<div class="card"> 
 
@@ -877,6 +879,32 @@
 				</div>
 			</div>    
 		</div>
+			
+			<style>
+				#footer {
+				      position: absolute;
+					  right: 0;
+					  bottom: 0;
+					  left: 0;
+					  height: 100px;
+					  padding: 1rem;
+					  text-align: center;
+					  background:#197278;
+				}
+
+			</style>
+			
+			<footer id="footer">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-lg-12">
+							<p>El cotizador se encuentra en fase de prueba. <br>En caso de encontrar un error puedes enviar una captura de pantalla con una descripción del error a sistemas@ail.com.mx <br>
+							Por Diego Ortega
+							</p>
+						</div>
+					</div>
+				</div>
+			</footer>
 
 			<!--ALERTS!-->
 
@@ -892,7 +920,7 @@
 			var myVar;
 
 			function myFunction() {
-				myVar = setTimeout(showPage, 300);
+				myVar = setTimeout(showPage, 1);
 			}
 
 			function showPage() {

@@ -108,7 +108,7 @@ app.get('/3m', function(req, res) {
     
     hide1 = '0px;';
     content = "Bienvenid@! Puedes comenzar a hacer tu nueva cotización de productos Sika o 3M!";
-    alerta_tipo = "danger";
+    alerta_tipo = "success";
     
 	session
 		.run('MATCH (n) RETURN count(n)')

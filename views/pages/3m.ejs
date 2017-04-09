@@ -7,7 +7,6 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         
         <% include ../partials/header.ejs %>
-		<% include ../partials/3m_refs.ejs %>
 		
 		<style>
 			/* Center the loader */
@@ -75,34 +74,42 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-lg-12 col-md-12">
-							<h1 class="centro" style="color:#6f1a07;">Cotizador de Materiales AIL</h1>
+							<h1 class="centro" style="color:#6f1a07;">Cotizador de Materiales</h1>
 						</div>
 					</div>
 				</div>
             
                 <div class="clearfix"></div>
 
-				<div class="container-fluid">
+				<div class="container">
 					<div class="row">
-						<h3 class="col-lg-6 col-md-6" style="color:#2b2118;"> Records en la Base de Datos: <span style="color:#6f1a07;"><%=desplegar%></span> </h3>
-
-						<div class="col-lg-5 col-md-4">
-							<h4 style="text-align: right; color:#2b2118;">Tipo de cambio:</h4>
+                        
+                        <div class="col-lg-4 col-md-4">
+                            <h3 style="color:#2b2118;"><span style="color:#6f1a07;"><%=desplegar%></span> Records en la Base de Datos </h3>
+                        </div>
+                        
+                        <div class="col-lg-4">
+                            <img src="/img/logoleo.png" style="height:80px; text-align:center;">
+                        </div>
+                        
+						<div class="col-lg-4 col-md-4">
+							<h4 style="text-align: right; color:#2b2118;">Tipo de cambio</h4>
 							<form style="text-align: right" id="tipo_cambio" method="post" action="/tipo_cambio/add">
-								<input id="tipo_cambio" type="text" placeholder="<%= tipo_cambio %>" size="10" name="tipo_cambio" data-toggle="tooltip" data-placement="top" title="Asegúrate de actualizar el tipo de cambio!">
+								<input id="tipo_cambio" type="text" placeholder="<%= tipo_cambio %> MXN" size="10" name="tipo_cambio" data-toggle="tooltip" data-placement="top" title="Asegúrate de actualizar el tipo de cambio!">
 								<button class="boton3m3" form="tipo_cambio" type="submit">Ingresar</button>
 							</form>
 						</div>
 
 					</div>
 				</div>
+           
 				
 
 		<!-- FIN DE EJEMPLO-->			
 			<hr>
 				<div id="accordion" role="tablist" aria-multiselectable="false" style="padding-bottom: 120px;">
 
-					<div class="card1"> 
+					<div class="card1 card"> 
                     <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour"> 
                         <div class="card-header" role="tab" id="headingFour">
 
@@ -146,6 +153,7 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-12 contenedorDatos">
+                        <br>
 						<h4>Datos ingresados del vendedor</h4>
 						<% console.log("vendedor: " + vendedor) 
 						if (vendedor != null) { %>
@@ -154,9 +162,9 @@
 								<th>Vendedor</th>
 								<th># vendedor</th>
 								<th>Folio</th>
-								<th>Extension</th>
-								<th>email de vendedor</th>
-								<th>Tiempo de entrega</th>
+								<th>Extensión</th>
+								<th>Email de vendedor</th>
+								<th>Tiempo de entrega (días)</th>
 							</tr>
 							<tr>
 								<td><%=vendedor%></td>
@@ -174,16 +182,15 @@
 						<br>
 
 						<form method="post" action="/folio" class="centro">
-							<button class="boton3m3 col-lg-4 col-md-4" type="submit" name="folio" value="<%=num_cot%>">Crear Nuevo Folio</button>
+							<button class="boton3m3" type="submit" name="folio" value="<%=num_cot%>">Crear Nuevo Folio</button>
 						</form>
-
+                        
+                        <br>
 
 						<% } %>
 					</div>
 				</div>
 			</div>	
-
-			<hr>
 
 				</div>
 		</div>
@@ -191,7 +198,7 @@
 
 				<div class="clearfix"></div> 
 
-					<div class="card1">
+					<div class="card1 card">
                     <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
 					<div class="card-header" role="tab" id="headingOne">
 						
@@ -259,7 +266,7 @@
 						</div>
 					</div>
 
-				<hr>
+				
 
 					</div>
 				</div>
@@ -267,7 +274,7 @@
 
 					<div class="clearfix"></div>
 
-		<div class="card1">
+		<div class="card1 card">
             <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseOne">
 			<div class="card-header" role="tab" id="headingTwo">
 				 
@@ -466,8 +473,6 @@
 					 </div>
 					</div>
 
-					<hr>
-
 				</div>
 			</div>
 
@@ -475,7 +480,7 @@
 
 					<div class="clearfix"></div>
 
-					<div class="card1">
+					<div class="card1 card">
             <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">  
 			<div class="card-header" role="tab" id="headingThree">
 				
@@ -512,9 +517,9 @@
 							<% if(marca == "3M"){ %>
 
 							<div class="col-lg-12 centro">
-
-								<table class="table">
-
+                                <hr>
+								<table class="table" style="background-color:fffffa; border-radius:3px;">
+                                    
 									<tbody>
 
 											<tr> 
@@ -522,12 +527,17 @@
 												<td><%=producto2.nombre%></td>
 												<td>
 													<form class="centro" method="post" id="<%=index%>1" action="/cambio_nombre/add">
-														<input type="text" placeholder="<%=producto2.nombre%>" size="30" name="nombre">
+														<input type="text" placeholder="<%=producto2.nombre%>" size="50" name="nombre">
 													</form>
 												</td>
-												<td><button class="boton3m3" type="submit" form="<%=index%>1" name="index" value="<%=index%>">Cambiar Nombre</button></td>
-                                                <td>
-                                                <button class="editar" data-toggle="collapse" data-target="#collapse<%=index%>" aria-expanded="true" aria-controls="collapse<%=index%>1"><i class="fa fa-info-circle" aria-hidden="true"></i> Información</button>
+                                                
+												<td ><button class="boton3m3" type="submit" form="<%=index%>1" name="index" value="<%=index%>">Cambiar Nombre</button>
+                                                </td>
+                                                
+                                                <td data-toggle="tooltip" data-placement="top" title="Información del producto!">
+                                                    
+                                                <button class="editar" data-toggle="collapse" data-target="#collapse<%=index%>" aria-expanded="true" aria-controls="collapse<%=index%>1" ><i class="fa fa-info-circle" aria-hidden="true"></i> Información</button>
+                                                    
                                                 </td>
 											</tr>
 
@@ -548,24 +558,12 @@
 												<button class="boton3m3" type="submit" form="uploadForm<%=index%>" name="index" value="<%=index%>">Cargar Imagen</button>
 											</td>
 										</tr>
-										<tr>
-											<th>Cantidad</th>
-											<td><%= producto2.cantidad %></td>
-											<td>
-												<form class="centro" method="post" action="/cantidad/add" id="<%= index %>6">
-												<input type="text" placeholder="<%= producto2.cantidad %>" size="10" name="cantidad">
-												</form>
-											</td>
-											<td>
-												<button class="boton3m3" type="submit" form="<%= index %>6" name="index" value="<%=index%>">Cambiar Cantidad</button>
-											</td>
-										</tr>
-										<tr>
+                                        <tr>
 											<th>Stock</th>
 											<td><%=producto2.stock%></td>
 											<td>
 												<form class="centro" method="post" id="<%=index%>2" action="/cambio_stock/add">
-												<input type="text" placeholder="<%=producto2.stock%>" size="10" name="stock">
+												<input type="text" placeholder="<%=producto2.stock%>" size="50" name="stock">
 												</form>
 											</td>
 											<td>
@@ -573,11 +571,24 @@
 											</td>
 										</tr>
 										<tr>
+											<th>Cantidad</th>
+											<td><%= producto2.cantidad %></td>
+											<td>
+												<form class="centro" method="post" action="/cantidad/add" id="<%= index %>6">
+												<input type="text" placeholder="<%= producto2.cantidad %>" size="50" name="cantidad">
+												</form>
+											</td>
+											<td>
+												<button class="boton3m3" type="submit" form="<%= index %>6" name="index" value="<%=index%>">Cambiar Cantidad</button>
+											</td>
+										</tr>
+										
+										<tr>
 											<th>Modelo</th>
 											<td><%=producto2.modelo%></td>
 											<td>
 												<form class="centro" method="post" id="<%=index%>3" action="/cambio_modelo/add">
-												<input type="text" placeholder="<%=producto2.modelo%>" size="10" name="modelo">
+												<input type="text" placeholder="<%=producto2.modelo%>" size="50" name="modelo">
 												</form>
 											</td>
 											<td>
@@ -589,7 +600,7 @@
 											<td><%=producto2.color_grano%></td>
 											<td>
 												<form class="centro" method="post" action="/cambio_color_grano/add" id="<%=index%>7">
-												<input type="text" placeholder="<%=producto2.color_grano%>" size="10" name="color_grano">
+												<input type="text" placeholder="<%=producto2.color_grano%>" size="50" name="color_grano">
 												</form>
 											</td>
 											<td>
@@ -601,7 +612,7 @@
 											<td><%= producto2.presentacion_medida%></td>
 											<td>
 												<form class="centro" method="post" action="/cambio_medida/add" id="<%=index%>9">
-												<input type="text" placeholder="<%= producto2.presentacion_medida%>" size="10" name="medida">
+												<input type="text" placeholder="<%= producto2.presentacion_medida%>" size="50" name="medida">
 												</form>
 											</td>
 											<td>
@@ -613,7 +624,7 @@
 											<td><%=producto2.unidad_medida%></td>
 											<td>
 												<form class="centro" method="post" action="/cambio_unidad/add" id="<%=index%>10">
-												<input type="text" placeholder="<%=producto2.unidad_medida%>" size="10" name="unidad">
+												<input type="text" placeholder="<%=producto2.unidad_medida%>" size="50" name="unidad">
 												</form>
 											</td>
 											<td>
@@ -625,7 +636,7 @@
 											<td><%=producto2.precio_lista_unidad_usd%></td>
 											<td>
 												<form class="centro" method="post" action="/cambio_precio_usd/add" id="<%=index%>8">
-												<input type="text" placeholder="<%=producto2.precio_lista_unidad_usd%>" size="10" name="precio">
+												<input type="text" placeholder="<%=producto2.precio_lista_unidad_usd%>" size="50" name="precio">
 												</form>
 											</td>
 											<td>
@@ -637,7 +648,7 @@
 											<td><%= producto2.descuento %></td>
 											<td>
 												<form class="centro" method="post" id="<%=index%>5" action="/descuento/add">
-												<input type="text" placeholder="<%=producto2.descuento %>" size="10" name="descuento">
+												<input type="text" placeholder="<%=producto2.descuento %>" size="50" name="descuento">
 												</form>
 											</td>
 											<td>
@@ -645,11 +656,11 @@
 											</td>
 										</tr>
 										<tr>
-											<th>Tiempo de entrega</th>
+											<th>Tiempo de entrega (días)</th>
 											<td><%= producto2.tiempo_entrega %></td>
 											<td>
 												<form class="centro" method="post" id="<%=index%>4" action="/cambio_tiempo/add">
-												<input type="text" placeholder="<%=producto2.tiempo_entrega%>" size="10" name="tiempo">
+												<input type="text" placeholder="<%=producto2.tiempo_entrega%>" size="50" name="tiempo">
 												</form>
 											</td>
 											<td>
@@ -716,7 +727,7 @@
 												<td><%=producto2.nombre%></td>
 												<td>
 													<form class="centro" method="post" id="<%=index%>1" action="/cambio_nombre/add">
-														<input type="text" placeholder="<%=producto2.nombre%>" size="30" name="nombre">
+														<input type="text" placeholder="<%=producto2.nombre%>" size="50" name="nombre">
 													</form>
 												</td>
 												<td><button class="boton3m3" type="submit" form="<%=index%>1" name="index" value="<%=index%>">Cambiar Nombre</button></td>
@@ -743,24 +754,12 @@
 												<button class="boton3m3" type="submit" form="uploadForm<%=index%>" name="index" value="<%=index%>">Cargar Imagen</button>
 											</td>
 										</tr>
-										<tr>
-											<th>Cantidad</th>
-											<td><%= producto2.cantidad %></td>
-											<td>
-												<form class="centro" method="post" action="/cantidad/add" id="<%= index %>6">
-												<input type="text" placeholder="<%= producto2.cantidad %>" size="10" name="cantidad">
-												</form>
-											</td>
-											<td>
-												<button class="boton3m3" type="submit" form="<%= index %>6" name="index" value="<%=index%>">Cambiar Cantidad</button>
-											</td>
-										</tr>
-										<tr>
+                                        <tr>
 											<th>Stock</th>
 											<td><%=producto2.codigo%></td>
 											<td>
 												<form class="centro" method="post" id="<%=index%>2" action="/cambio_stock/add">
-												<input type="text" placeholder="<%=producto2.codigo%>" size="10" name="stock">
+												<input type="text" placeholder="<%=producto2.codigo%>" size="50" name="stock">
 												</form>
 											</td>
 											<td>
@@ -768,11 +767,24 @@
 											</td>
 										</tr>
 										<tr>
+											<th>Cantidad</th>
+											<td><%= producto2.cantidad %></td>
+											<td>
+												<form class="centro" method="post" action="/cantidad/add" id="<%= index %>6">
+												<input type="text" placeholder="<%= producto2.cantidad %>" size="50" name="cantidad">
+												</form>
+											</td>
+											<td>
+												<button class="boton3m3" type="submit" form="<%= index %>6" name="index" value="<%=index%>">Cambiar Cantidad</button>
+											</td>
+										</tr>
+										
+										<tr>
 											<th>Medida Kg/Mts</th>
 											<td><%=producto2.kg_mts%></td>
 											<td>
 												<form class="centro" method="post" action="/cambio_color_grano/add" id="<%=index%>7">
-												<input type="text" placeholder="<%=producto2.kg_mts%>" size="10" name="color_grano">
+												<input type="text" placeholder="<%=producto2.kg_mts%>" size="50" name="color_grano">
 												</form>
 											</td>
 											<td>
@@ -784,7 +796,7 @@
 											<td><%= producto2.litros%></td>
 											<td>
 												<form class="centro" method="post" action="/cambio_medida/add" id="<%=index%>9">
-												<input type="text" placeholder="<%= producto2.litros%>" size="10" name="medida">
+												<input type="text" placeholder="<%= producto2.litros%>" size="50" name="medida">
 												</form>
 											</td>
 											<td>
@@ -796,7 +808,7 @@
 											<td><%=producto2.precio_lista%></td>
 											<td>
 												<form class="centro" method="post" action="/cambio_precio_usd/add" id="<%=index%>8">
-												<input type="text" placeholder="<%=producto2.precio_lista%>" size="10" name="precio">
+												<input type="text" placeholder="<%=producto2.precio_lista%>" size="50" name="precio">
 												</form>
 											</td>
 											<td>
@@ -808,7 +820,7 @@
 											<td><%= producto2.descuento %></td>
 											<td>
 												<form class="centro" method="post" id="<%=index%>5" action="/descuento/add">
-												<input type="text" placeholder="<%=producto2.descuento %>" size="10" name="descuento">
+												<input type="text" placeholder="<%=producto2.descuento %>" size="50" name="descuento">
 												</form>
 											</td>
 											<td>
@@ -816,11 +828,11 @@
 											</td>
 										</tr>
 										<tr>
-											<th>Tiempo de entrega</th>
+											<th>Tiempo de entrega (días)</th>
 											<td><%= producto2.tiempo_entrega %></td>
 											<td>
 												<form class="centro" method="post" id="<%=index%>4" action="/cambio_tiempo/add">
-												<input type="text" placeholder="<%=producto2.tiempo_entrega%>" size="10" name="tiempo">
+												<input type="text" placeholder="<%=producto2.tiempo_entrega%>" size="50" name="tiempo">
 												</form>
 											</td>
 											<td>
@@ -860,7 +872,6 @@
 
 			<br/>
 
-			  <hr>
 				</div>
 						</div>
 					</div>
@@ -914,7 +925,7 @@
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-lg-12">
-							<p>El cotizador de Artículos Innovadores Leo &#174; se encuentra en fase de prueba. <br>En caso de encontrar un error puedes enviar una captura de pantalla con una descripción del error a sistemas@ail.com.mx <br>
+							<p>El cotizador de Artículos Innovadores Leo &#174; se encuentra en versión <em>Alpha</em>. <br>En caso de encontrar un error puedes enviar una captura de pantalla con una descripción del error a sistemas@ail.com.mx <br>
 							</p>
 						</div>
 					</div>
@@ -946,6 +957,9 @@
 		
 	</body>
 </html>
+
+
+		<% include ../partials/3m_refs.ejs %>
 
 <script type="text/javascript">
     

@@ -333,6 +333,8 @@ app.post('/marca/add', function(req, res){
 	marca = req.body.marca;
 	
 	productoArray2 = [];
+    
+    dir = [];
 	
 	ajuste_busqueda = "show";
     ajuste_carrito = "";
@@ -480,10 +482,10 @@ app.post('/busqueda/add', function(req, res){
 	console.log("tamaño de respuesta de busqueda = " + productoArray.length);
 
 			if(productoArray.length < 1 ){
-				content = "No se encontró ningún producto con esa descripción";
+				content = "No se encontró ningún producto con esa descripción.";
 				alerta_tipo = "warning";
 			}else{
-				content = "Búsqueda exitosa! Selecciona los productos que quieres cotizar";
+				content = "Búsqueda exitosa! Selecciona los productos que quieres cotizar.";
 				alerta_tipo = "success";
 			}
 
@@ -755,7 +757,7 @@ app.post('/carrito/add', function(req, res){
 		
 		productoArray2.forEach(function(producto2, index){
             
-            content = "Agregaste " + (producto2.nombre).substring(0, 15) + "..." + " a tu cotización";
+            content = "Agregaste " + (producto2.nombre).substring(0, 75) + "..." + " a tu cotización";
             
 			if(producto2.precio_lista_unidad_mxn != undefined){
 				producto2.mxn_ref = producto2.precio_lista_unidad_mxn;
@@ -877,7 +879,7 @@ app.post('/carrito/add', function(req, res){
 		
 		productoArray2.forEach(function(producto2, index){
             
-            content = "Agregaste " + (producto2.nombre).substring(0, 15) + "..." + " a tu cotización";
+            content = "Agregaste " + (producto2.nombre).substring(0, 75) + "..." + " a tu cotización";
             
 			if(producto2.precio_lista_unidad_mxn != undefined){
 				producto2.mxn_ref = producto2.precio_lista_unidad_mxn;
@@ -1452,7 +1454,7 @@ app.post('/tipo_cambio/add', function(req, res){
     
     hide1 = '0px;';
     alerta_tipo = "success";
-    content = "Tipo de cambio actualizado a " + tipo_cambio + "MXN";
+    content = "Tipo de cambio actualizado a " + tipo_cambio + " MXN por cada dólar.";
     
     console.log('alerta_cambio: ' + alerta_cambio);
 	
@@ -2585,7 +2587,7 @@ app.post("/tiempo/entrega", function(req, res){
     
         ajuste_busqueda = "";
         ajuste_carrito = "";
-        ajusteVendedor = "";
+        ajusteVendedor = "show";
         ajusteCliente = "";
     
         content = "Tiempo de entrega de " + tiempo_entrega + " días";    

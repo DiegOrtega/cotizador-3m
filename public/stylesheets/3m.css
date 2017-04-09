@@ -48,10 +48,10 @@
 
 
 .contenedorDatos {
-    background-color: #EDDDD4;
+    background-color: #ffeedb;
     min-height: 100px;
     min-height: 100px !important;
-    border-radius: 20px;
+    border-radius: 5px;
     margin-top: 20px;
     color: #772E25
 }
@@ -136,10 +136,12 @@
 
 #floating_alert {
     position: fixed;
-    top: 75px;
-    right: 350px;
+    top: 200px;
+    right: 10px;
     z-index: 5000;
-    height: 50px;
+    height: 100px;
+    width: 450px;
+    text-align: center;    
 }
 #floating_alert2 {
     width: 500px;
@@ -179,11 +181,12 @@ html {
 }
 
 .card1 {
-	background-color: #f7f3e3;
+	background-color: #a0ca92;
+    border-color: lightgray;
 	display:inline-block;
 	cursor:pointer;
 	text-decoration:none;
-    margin: 10px;
+    margin: 5px;
 }
 
 .card-header {
@@ -306,6 +309,26 @@ html {
 	position:relative;
 	top:1px;
 }
+input[type=text],input[type=email], select {
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
 
+input[type=submit] {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
 
-
+input[type=submit]:hover {
+    background-color: #45a049;
+}

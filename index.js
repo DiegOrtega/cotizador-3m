@@ -764,7 +764,8 @@ app.post('/carrito/add', function(req, res){
             if(producto2.nombre != undefined){
             content = "Agregaste " + (producto2.nombre).substring(0, 75) + "..." + " a tu cotización";
             }else{
-                producto2.nombre = content = "Agregaste un producto a tu cotización";
+                producto2.nombre = "No definido";
+                content = "Agregaste un producto a tu cotización";
             }
             
             
@@ -889,8 +890,9 @@ app.post('/carrito/add', function(req, res){
 		productoArray2.forEach(function(producto2, index){
             
             if(producto2.nombre != undefined){
-            content = "Agregaste " + (producto2.nombre).substring(0, 75) + "..." + " a tu cotización";
+                content = "Agregaste " + (producto2.nombre).substring(0, 75) + "..." + " a tu cotización";
             }else{
+                producto2.nombre = "No definido";
                 producto2.nombre = content = "Agregaste un producto a tu cotización";
             }
             

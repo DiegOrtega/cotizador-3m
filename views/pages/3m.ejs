@@ -358,6 +358,7 @@
 									<input type="text" placeholder="Código" size="25" name="stock" class="input" data-toggle="tooltip" data-placement="top" title="Escribe un fragmento o el # de stock completo">&ensp;
 									<input type="text" placeholder="Palabra Clave" size="50" name="desc" class="input" data-toggle="tooltip" data-placement="top" title="Escríbe una frase o palabra relacionada con el producto">
 									<input type="text" placeholder="Medida" size="25" name="medida" class="input"  data-toggle="tooltip" data-placement="top" title="Tienes que ser muy exacto al escribir la medida!">
+                                    <input type="text" placeholder="Modelo" size="25" name="modelo" class="input"  data-toggle="tooltip" data-placement="top" title="Escribe un fragmento o el modelo completo">&ensp;
 								</div>
 								<br/>
 							</form>	
@@ -757,7 +758,7 @@
 											</td>
 										</tr>
                                         <tr>
-											<th>Stock</th>
+											<th>Código</th>
 											<td><%=producto2.codigo%></td>
 											<td>
 												<form class="centro" method="post" id="<%=index%>2" action="/cambio_stock/add">
@@ -766,6 +767,18 @@
 											</td>
 											<td>
 												<button class="boton3m3" type="submit" form="<%=index%>2" name="index" value="<%=index%>">Cambiar Código</button>
+											</td>
+										</tr>
+                                        <tr>
+											<th>Modelo</th>
+											<td><%=producto2.modelo%></td>
+											<td>
+												<form class="centro" method="post" id="<%=index%>3" action="/cambio_modelo/add">
+												<input type="text" placeholder="<%=producto2.modelo%>" size="50" name="modelo">
+												</form>
+											</td>
+											<td>
+												<button class="boton3m3" type="submit" form="<%=index%>3" name="index" value="<%=index%>">Cambiar Modelo</button>
 											</td>
 										</tr>
 										<tr>
@@ -841,7 +854,10 @@
 											<button class="boton3m3" type="submit" form="<%=index%>4" name="index" value="<%=index%>">Cambiar Tiempo de entrega</button>
 											</td>
 										</tr>
-										
+										<tr>
+											<th>Divisa</th>
+											<td><%= producto2.descripcion %></td>
+										</tr>
 										<tr>
 											<th>Divisa</th>
 											<td><%= producto2.divisa %></td>

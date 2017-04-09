@@ -408,7 +408,10 @@
 																		<tr class="table-active">
 																			<th>Producto</th>
 																			<th>Código</th>
-																			<th>Divisa</th>
+                                                                            <th>Modelo</th>
+                                                                            <th>Precio de ista</th>
+                                                                            <th>Divisa</th>
+																			<th>Litros</th>
 																			<th>KG/MTS</th>
 																			<th>Descripción</th>
 																		</tr>
@@ -417,7 +420,10 @@
 																		<tr>
 																			<td><%=producto.nombre%></td>
 																			<td><%=producto.codigo%></td>
+																			<td><%=producto.precio_lista%></td>
 																			<td><%=producto.divisa%></td>
+																			<td><%=producto.modelo%></td>
+																			<td><%=producto.litros%></td>
 																			<td><%=producto.kg_mts%></td>
 																			<td><%=producto.descripcion%></td>
 																		</tr>
@@ -441,6 +447,8 @@
 																		<tr class="table-active">
 																			<th >Producto</th>
 																			<th>Stock</th>
+                                                                            <th>Precio de Lista Unitario USD</th>
+                                                                            <th>Precio de Lista Unitario MXN</th>
 																			<th>Modelo</th>
 																			<th>Color/Grano</th>
 																			<th>Medida</th>
@@ -450,6 +458,8 @@
 																		<tr>
 																			<td><%=producto.nombre%></td>
 																			<td><%=producto.stock%></td>
+																			<td><%=producto.precio_lista_unidad_usd%></td>
+																			<td><%=producto.precio_lista_unidad_mxn%></td>
 																			<td><%=producto.modelo%></td>
 																			<td><%=producto.color_grano%></td>
 																			<td><%=producto.presentacion_medida%></td>
@@ -667,7 +677,7 @@
 												</form>
 											</td>
 											<td>
-											<button class="boton3m3" type="submit" form="<%=index%>4" name="index" value="<%=index%>">Cambiar Tiempo de entrega</button>
+											<button class="boton3m3" type="submit" form="<%=index%>4" name="index" value="<%=index%>">Cambiar Tiempo de Entrega</button>
 											</td>
 										</tr>
 										
@@ -815,7 +825,7 @@
 												</form>
 											</td>
 											<td>
-												<button class="boton3m3" type="submit" form="<%=index%>9" name="index" value="<%=index%>">Cambiar Medida Litros</button>
+												<button class="boton3m3" type="submit" form="<%=index%>9" name="index" value="<%=index%>">Cambiar Litros</button>
 											</td>
 										</tr>
 										<tr>
@@ -851,11 +861,11 @@
 												</form>
 											</td>
 											<td>
-											<button class="boton3m3" type="submit" form="<%=index%>4" name="index" value="<%=index%>">Cambiar Tiempo de entrega</button>
+											<button class="boton3m3" type="submit" form="<%=index%>4" name="index" value="<%=index%>">Cambiar Tiempo de Entrega</button>
 											</td>
 										</tr>
 										<tr>
-											<th>Divisa</th>
+											<th>Descripción</th>
 											<td><%= producto2.descripcion %></td>
 										</tr>
 										<tr>

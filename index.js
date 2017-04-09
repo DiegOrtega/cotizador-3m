@@ -761,7 +761,12 @@ app.post('/carrito/add', function(req, res){
 		
 		productoArray2.forEach(function(producto2, index){
             
+            if(producto2.nombre != undefined){
             content = "Agregaste " + (producto2.nombre).substring(0, 75) + "..." + " a tu cotización";
+            }else{
+                producto2.nombre = content = "Agregaste un producto a tu cotización";
+            }
+            
             
 			if(producto2.precio_lista_unidad_mxn != undefined){
 				producto2.mxn_ref = producto2.precio_lista_unidad_mxn;
@@ -883,7 +888,11 @@ app.post('/carrito/add', function(req, res){
 		
 		productoArray2.forEach(function(producto2, index){
             
+            if(producto2.nombre != undefined){
             content = "Agregaste " + (producto2.nombre).substring(0, 75) + "..." + " a tu cotización";
+            }else{
+                producto2.nombre = content = "Agregaste un producto a tu cotización";
+            }
             
 			if(producto2.precio_lista_unidad_mxn != undefined){
 				producto2.mxn_ref = producto2.precio_lista_unidad_mxn;
@@ -994,8 +1003,14 @@ app.post('/eliminacion/add', function(req, res){
 	var i = 0;
 	
 	while(i < productoArray2.length){
+        
 		if(productoArray2[i].id == eliminar){
+            if(producto2.nombre != undefined){
             content = "Eliminaste " + (productoArray2[i].nombre).substring(0, 15) + "..." + " de tu cotización";
+            }else{
+                content = "Eliminaste un producto de tu cotización";
+            }
+            
 			productoArray2.splice(i, 1);
 		};
 		console.log(i);
@@ -1570,7 +1585,12 @@ app.post('/cantidad/add', function(req, res){
 		if(index == i){	
 			console.log("i: " + i );
 			producto2.cantidad = cantidad;
+            if(producto2.nombre != undefined){
             content = "Haz seleccionado " + cantidad + " unidades de " + (producto2.nombre).substring(0, 15);
+            }else{
+             content = "Haz seleccionado " + cantidad + " unidades de un producto.;"
+            }
+            
 		}
 	});
 
@@ -1731,7 +1751,12 @@ app.post('/cambio_nombre/add', function(req,res){
 		if(index == i){	
 			console.log("i: " + i );
 			console.log("nombre_p: " + nombre_p);
-            content = "Cambiaste el nombre " + (producto2.nombre).substring(0, 15) + "..." + " por " + nombre_p;
+            if(producto2.nombre != undefined){
+            content = "Cambiaste el nombre " + (producto2.nombre).substring(0, 75) + "..." + " por " + nombre_p;
+            }else{
+                content = "Cambiaste el nombre a un producto por " + nombre_p;
+            }
+            
 			producto2.nombre = nombre_p; 
 		}
 	});

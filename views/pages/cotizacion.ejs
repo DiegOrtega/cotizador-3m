@@ -176,17 +176,25 @@
 										<%= producto2.unidad_medida %>
 									</td>
 									<td>
-										<%= producto2.precio_lista_unidad_usd.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); %>
+                                         <% if(producto2.precio_lista_unidad_usd != undefined){ %>
+										  <%= producto2.precio_lista_unidad_usd.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); %> %>
+                                       <% }else{ %>
+                                            No definido
+                                        <% } %>
 									</td>
 									<td>
-										$<%= producto2.precio_lista_unidad_mxn.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); %>
+                                        <% if(producto2.precio_lista_unidad_mxn != undefined){ %>
+										  <%= producto2.precio_lista_unidad_mxn.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); %>
+                                       <% }else{ %>
+                                            No definido
+                                        <% } %>
 									</td>
 
 									<td>
 										<%= producto2.descuento %> 
 									</td>
 									<td>
-										$<%= producto2.precio_descuento.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); %> MXN
+										 $<%= producto2.precio_descuento.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); %> MXN
 									</td>
 									<td>
 									   $<%= producto2.precio_cantidad.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); %> MXN
@@ -314,10 +322,18 @@
 										<%=producto2.kg_mts%>
 									</td>
 									<td>
-										<%= producto2.precio_lista_unidad_usd.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); %>
+                                         <% if(producto2.precio_lista_unidad_usd != undefined){ %>
+										  <%= producto2.precio_lista_unidad_usd.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); %> %>
+                                       <% }else{ %>
+                                            No definido
+                                        <% } %>
 									</td>
 									<td>
-										<%= producto2.precio_lista_unidad_mxn.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); %>
+                                        <% if(producto2.precio_lista_unidad_mxn != undefined){ %>
+										  <%= producto2.precio_lista_unidad_mxn.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","); %>
+                                       <% }else{ %>
+                                            No definido
+                                        <% } %>
 									</td>
 
 									<td>

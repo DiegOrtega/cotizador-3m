@@ -334,6 +334,9 @@ app.post('/marca/add', function(req, res){
 	
 	productoArray2 = [];
     
+    content = "Estarás cotizando la marca " + marca + "!";
+    alerta_tipo = "success";
+    
     dir = [];
 	
 	ajuste_busqueda = "show";
@@ -1227,8 +1230,8 @@ app.get('/pdfprevio', function(req, res){
 				var desc_ref = producto2.descuento;
 				
 				if(usd != undefined){
-				var n = usd.indexOf('$');
-				
+				var n = usd.indexOf('$');   
+                    
 				console.log("mxn: " + mxn);
 				console.log("usd: " + usd);
 				console.log('$:' + n);
@@ -1262,6 +1265,7 @@ app.get('/pdfprevio', function(req, res){
 					producto2.precio_cantidad = ((mxn - diferencia)*cantidad_num).toFixed(2);
 
 			 	}else if(n != -1 && producto2.mxn_ref == undefined){
+                    
 
 					var usd2 = usd.substring(n+1, usd.length);
 					
@@ -1291,8 +1295,46 @@ app.get('/pdfprevio', function(req, res){
 					
 					var tipo_cambio_ref = tipo_cambio;
 
-				 };	
+				 }else if(usd == undefined){
+                     var m = mxn.indexOf('$');
+
+					console.log("precio: " + mxn);
+					
+					mxn = mxn.substring(m+1, mxn.length );
+					
+					var desc_ref2 = parseFloat(desc_ref);
+					
+					console.log("desc_ref2: " + desc_ref2); 
+					
+					var diferencia = (parseFloat(mxn)*((desc_ref2)/100));
+					
+					console.log("diferencia:"+ diferencia);
+					
+					console.log("mxn: " + mxn);
+					
+					producto2.precio_descuento = (mxn - diferencia).toFixed(2);
+					
+					console.log("precio c/ descuento: " + producto2.precio_descuento);
+					
+					console.log("cantidad: " + producto2.cantidad);
+					
+					var cantidad_num = parseFloat(producto2.cantidad);
+					
+					producto2.precio_cantidad = ((mxn - diferencia)*cantidad_num).toFixed(2);
+                 };	
 			};
+                
+            if(producto2.precio_cantidad == undefined){
+               producto2.precio_cantidad = "No definido"; 
+            };
+                
+            if(producto2.precio_distribuidor_especial == undefined){
+                producto2.precio_distribuidor_especial = "No definido";
+            };
+                
+            if(producto2.precio_descuento == undefined){
+                producto2.precio_descuento = "No definido";
+            }      
 				
 			}else if(marca == "Sika"){
 				

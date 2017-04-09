@@ -289,22 +289,19 @@
 			<div id="collapseTwo" class="collapse <%= ajuste_busqueda %>" role="tabpanel" aria-labelledby="headingTwo">
 		  <div class="card-block">
 
+              <h3 class="col-lg-12 centro" style="color:#2b2118;">Busca el producto y seleccionalo</h3>
+
+                <hr>
+              
 				<!--segunda parte //BUSCADOR-->
 					<div class="container">
 						<div class="row">
-
-							<h3 class="col-lg-12 centro" style="color:#2b2118;">Busca el producto y seleccionalo</h3>
-
-							<hr>
-
 							<style>
 								.input{
 									margin: 5px;
 								}
 
 							</style>
-
-							<div class="clearfix"></div>
 
 							<div class="container">
 								<div class="row">
@@ -317,8 +314,8 @@
 											   </button>
 
 												<div class="dropdown-menu col-lg-12 centro" aria-labelledby="dropdownMenuButton">
-													<button class="dropdown-item" name="marca" value="3M" >3M</button>
-													<button class="dropdown-item" name="marca" value="Sika">Sika</button>
+													<button class="dropdown-item" name="marca" value="3M" ><img src="/img/3M.png" style="height:25px;"></button>
+													<button class="dropdown-item" name="marca" value="Sika"><img src="/img/sika.png" style="height:25px;"></button>
 												</div>
 
 											</div>
@@ -326,9 +323,12 @@
 								</div>
 							</div>
 
-							<h3 class="col-lg-12 centro clearfix"><%=marca%></h3>
+							
 
 							<% if(marca == "3M"){ %>
+                            
+                            <h3 class="col-lg-12 centro clearfix"><img src="/img/3M.png" style="height:75px;"></h3>
+                            
 
 							<form method="post" action="/busqueda/add" id="form1">	
 								<div class="form-control col-lg-12">
@@ -349,7 +349,7 @@
 							</div>
 
 							<% }else if(marca == "Sika"){ %>
-
+                                <h3 class="col-lg-12 centro clearfix"><img src="/img/sika.png" style="height:75px;"></h3>
 								<br/>
 								<div class="clearfix"></div>
 
@@ -395,6 +395,8 @@
 
 
 												<% if(marca == "Sika"){ %>
+                                                
+                                                
 
 												<div id="centro">
 														<form class="centro" method="post" action="/carrito/add">
@@ -913,7 +915,7 @@
 					  right: 0;
 					  bottom: 0;
 					  left: 0;
-					  height: 80px;
+					  height: 75px;
 					  padding: 1rem;
 					  text-align: center;
 					  background:#ecf0f1;

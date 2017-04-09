@@ -893,7 +893,7 @@ app.post('/carrito/add', function(req, res){
                 content = "Agregaste " + (producto2.nombre).substring(0, 75) + "..." + " a tu cotización";
             }else{
                 producto2.nombre = "No definido";
-                producto2.nombre = content = "Agregaste un producto a tu cotización";
+                content = "Agregaste un producto a tu cotización";
             }
             
 			if(producto2.precio_lista_unidad_mxn != undefined){
@@ -1007,11 +1007,7 @@ app.post('/eliminacion/add', function(req, res){
 	while(i < productoArray2.length){
         
 		if(productoArray2[i].id == eliminar){
-            if(producto2.nombre != undefined){
             content = "Eliminaste " + (productoArray2[i].nombre).substring(0, 15) + "..." + " de tu cotización";
-            }else{
-                content = "Eliminaste un producto de tu cotización";
-            }
             
 			productoArray2.splice(i, 1);
 		};

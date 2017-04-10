@@ -240,7 +240,8 @@
 							<div class="container">
 								<div class="row">
 									<div class="col-lg-12 contenedorDatos">
-										<h4>Datos de cliente ingresados:</h4>
+										<br>
+										<h4>Datos de cliente ingresados</h4>
 										<% if (nombre != null) { %>
 											<table class="table table-striped">
 											<thead class="thead-default">
@@ -903,6 +904,48 @@
 				</div>
 						</div>
 					</div>
+					
+			<div class="clearfix"></div> 
+					
+			<div class="card1 card">
+				<a data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+				<div class="card-header" role="tab" id="headingFive">
+
+						<h5 class="mb-0" style="color:#2b2118;">
+							Agrega Publicidad
+						</h5>
+
+				</div>
+				</a>
+
+
+				<div id="collapseFive" class="collapse <%= ajuste_publicidad %>" role="tabpanel" aria-labelledby="headingFive">
+					<div class="card-block">
+						
+						<div class="container">
+							<div class="row">
+								<div class="col-lg-12">
+									<h3>Agrega un Banner</h3>
+								</div>
+								<div class="col-lg-12"><br></div>
+								<div class="clearfix"><br/></div>
+								<div class="col">
+									<img src="<%=banner%>" style="max-height:50px;" >
+								</div>
+								<div class="col">
+									<form method="post" id="uploadFormBanner" action="/api/photo" enctype="multipart/form-data">   
+										<input type="file" name="producto" />  
+									</form>	
+								</div>
+								<div class="col">
+									<button class="boton3m3" type="submit" form="uploadFormBanner" name="index" value="Banner">Cargar Imagen</button>
+								</div>
+							</div>
+						</div>
+					
+					</div>
+				</div>
+			</div>
 
 			<div class="clearfix"></div>   
 
@@ -928,11 +971,13 @@
 					<br>
 
 					<div class="centro col-lg-12">
-					<a href="/pdfprevio" class="boton3m" target="_blank" ><h4>Vista previa</h4></a>
+						<a href="/pdfprevio" class="boton3m" target="_blank" ><h4>Vista previa</h4></a>
 					</div>
 
 				</div>
-			</div>    
+			</div> 
+					
+					
 		</div>
 			
 			<style>
@@ -953,7 +998,7 @@
 				<div class="container-fluid">
 					<div class="row">
 						<div class="col-lg-12">
-							<p>El cotizador de Artículos Innovadores Leo &#174; se encuentra en versión <em>Alpha</em>. <br>En caso de encontrar un error puedes enviar una captura de pantalla con una descripción del error a sistemas@ail.com.mx <br>
+							<p>El cotizador de Artículos Innovadores Leo &#174; se encuentra en versión <em>Alpha</em>. <br>En caso de encontrar un error puedes enviar una captura de pantalla con una descripción a sistemas@ail.com.mx <br>
 							</p>
 						</div>
 					</div>

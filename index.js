@@ -45,7 +45,7 @@ var graphenedbPass1 = process.env.GRAPHENEDB_COPPER_BOLT_PASSWORD;
 
 //Variables internas (No mover)
 
-var total_nodos, nombre = null, empresa, telefono, mail, productoArray = [], productoArray2 = [], vendedor = null, num_vendedor, num_cot = 0, descuento, extension, email_vendedor, tiempo_entrega, check, tipo_cambio=18, precio, stock_num, modelo, desc, nombre_p, stock_c, modelo_c, color_grano_c, tiempo_c, precio_c, medida_c, unidad_c, unidad_c, vendedorArray = [],  dir = [], ref=[], indexref = 0, folio = 0, alerta_cambio = false, alerta_datos = false, alerta_cantidad = false, alerta_descuento = false, cambio_nombre = false, cambio_stock = false, cambio_modelo = false, cambio_tiempo = false, cambio_color = false, cambio_precio = false, cambio_medida = false, cambio_unidad = false, cambio_api = false, cambio_folio = false, alerta_busqueda= false, alerta_carrito = false, alerta_datos2= false, alerta_eliminacion = false, ajuste_busqueda = "" , cont = 0, ajuste_carrito = "", hide1 = '-700px', content = '', alerta_tipo = 'success', ajusteVendedor = "", cont2 = 0, ajusteCliente, color_grano, medida, area, division, familia, marca;
+var total_nodos, nombre = null, empresa, telefono, mail, productoArray = [], productoArray2 = [], vendedor = null, num_vendedor, num_cot = 0, descuento, extension, email_vendedor, tiempo_entrega, check, tipo_cambio=18, precio, stock_num, modelo, desc, nombre_p, stock_c, modelo_c, color_grano_c, tiempo_c, precio_c, medida_c, unidad_c, unidad_c, vendedorArray = [],  dir = [], ref=[], indexref = 0, folio = 0, alerta_cambio = false, alerta_datos = false, alerta_cantidad = false, alerta_descuento = false, cambio_nombre = false, cambio_stock = false, cambio_modelo = false, cambio_tiempo = false, cambio_color = false, cambio_precio = false, cambio_medida = false, cambio_unidad = false, cambio_api = false, cambio_folio = false, alerta_busqueda= false, alerta_carrito = false, alerta_datos2= false, alerta_eliminacion = false, ajuste_busqueda = "" , cont = 0, ajuste_carrito = "", hide1 = '-700px', content = '', alerta_tipo = 'success', ajusteVendedor = "", cont2 = 0, ajusteCliente, color_grano, medida, area, division, familia, marca, banner, ajuste_publicidad;
 
 //Protocolo de conexión para servidor cloud heroku
 
@@ -102,9 +102,15 @@ if(graphenedbURL == undefined){
 
 app.get('/', function(request, response){
 	
-	 hide1 = '0px;';
+	hide1 = '0px;';
     content = "Bienvenid@! Puedes comenzar a hacer tu nueva cotización de productos Sika o 3M!";
     alerta_tipo = "success";
+	
+	ajuste_busqueda = "";
+    ajuste_carrito = "";
+    ajusteVendedor = "";
+    ajusteCliente = "";
+	ajuste_publicidad = "";
     
 	session
 		.run('MATCH (n) RETURN count(n)')
@@ -168,7 +174,9 @@ app.get('/', function(request, response){
 					area: area,
 					division: division,
 					familia: familia,
-					marca: marca
+					marca: marca,
+					banner: banner,
+					ajuste_publicidad: ajuste_publicidad
 				});
 		
 		})
@@ -182,6 +190,12 @@ app.get('/3m', function(req, res) {
     hide1 = '0px;';
     content = "Bienvenid@! Puedes comenzar a hacer tu nueva cotización de productos Sika o 3M!";
     alerta_tipo = "success";
+	
+	ajuste_busqueda = "";
+    ajuste_carrito = "";
+    ajusteVendedor = "";
+    ajusteCliente = "";
+	ajuste_publicidad = "";
     
 	session
 		.run('MATCH (n) RETURN count(n)')
@@ -245,7 +259,9 @@ app.get('/3m', function(req, res) {
 					area: area,
 					division: division,
 					familia: familia,
-					marca: marca
+					marca: marca,
+					banner: banner,
+					ajuste_publicidad: ajuste_publicidad
 				});
 		
 		})
@@ -264,6 +280,7 @@ app.post('/contacto/add', function(req, res){
     ajuste_carrito = "";
     ajusteVendedor = "";
     ajusteCliente = "show";
+	ajuste_publicidad = "";
     
     hide1 = '0px;';
     content = "Esta cotización es para " + nombre + " Ahora busca los productos que necesites y seleccionalos!";
@@ -325,7 +342,9 @@ app.post('/contacto/add', function(req, res){
 				area: area,
 				division: division,
 				familia: familia,
-				marca: marca
+				marca: marca,
+				banner: banner,
+				ajuste_publicidad: ajuste_publicidad
 		});
 });
 
@@ -343,6 +362,7 @@ app.post('/marca/add', function(req, res){
     ajuste_carrito = "";
     ajusteVendedor = "";
     ajusteCliente = "";
+	ajuste_publicidad = "";
 	
 	console.log('marca: ' + marca );
 	
@@ -400,7 +420,9 @@ app.post('/marca/add', function(req, res){
 				area: area,
 				division: division,
 				familia: familia,
-				marca: marca
+				marca: marca,
+				banner: banner,
+				ajuste_publicidad: ajuste_publicidad
 		});
 	
 });
@@ -411,6 +433,7 @@ app.post('/busqueda/add', function(req, res){
     ajusteVendedor = "";
     ajusteCliente = "";
     ajuste_busqueda = "show";
+	ajuste_publicidad = "";
 	
 	if(marca == "3M"){
 		
@@ -546,7 +569,9 @@ app.post('/busqueda/add', function(req, res){
 				area: area,
 				division: division,
 				familia: familia,
-				marca: marca
+				marca: marca,
+				banner: banner,
+				ajuste_publicidad: ajuste_publicidad
 			});
 
 			productoArray = [];
@@ -668,7 +693,9 @@ app.post('/busqueda/add', function(req, res){
 				area: area,
 				division: division,
 				familia: familia,
-				marca: marca
+				marca: marca,
+				banner: banner,
+				ajuste_publicidad: ajuste_publicidad
 			});
 
 			productoArray = [];
@@ -691,6 +718,7 @@ app.post('/carrito/add', function(req, res){
     ajuste_carrito = "show";
     ajusteVendedor = "";
     ajusteCliente = "";
+	ajuste_publicidad = "";
 	
 	if(check == carrito){
 		productoArray2.splice(productoArray2.length - 1, 1);
@@ -848,7 +876,9 @@ app.post('/carrito/add', function(req, res){
 				area: area,
 				division: division,
 				familia: familia,
-				marca: marca
+				marca: marca,
+				banner: banner,
+				ajuste_publicidad: ajuste_publicidad
 		});
        
 		
@@ -975,7 +1005,9 @@ app.post('/carrito/add', function(req, res){
 				area: area,
 				division: division,
 				familia: familia,
-				marca: marca
+				marca: marca,
+				banner: banner,
+				ajuste_publicidad: ajuste_publicidad
 		});
        
 		
@@ -997,6 +1029,7 @@ app.post('/eliminacion/add', function(req, res){
     ajuste_carrito = "show";
     ajusteVendedor = "";
     ajusteCliente = "";
+	ajuste_publicidad = "";
     
     hide1 = '0px;';
     
@@ -1069,7 +1102,9 @@ app.post('/eliminacion/add', function(req, res){
 			area: area,
 			division: division,
 			familia: familia,
-			marca: marca
+			marca: marca,
+			banner: banner,
+			ajuste_publicidad: ajuste_publicidad
 		});
 });
 
@@ -1082,6 +1117,7 @@ app.post('/datos/add', function(req, res){
     ajuste_carrito = "";
     ajusteVendedor = "show";
     ajusteCliente = "";
+	ajuste_publicidad = "";
     
     hide1 = '0px;';
     alerta_tipo = "success";
@@ -1151,7 +1187,9 @@ app.post('/datos/add', function(req, res){
 			area: area,
 			division: division,
 			familia: familia,
-			marca: marca
+			marca: marca,
+			banner: banner,
+			ajuste_publicidad: ajuste_publicidad
 		});
 });
 
@@ -1219,7 +1257,9 @@ app.post('/download', function(req, res){
 			area: area,
 			division: division,
 			familia: familia,
-			marca: marca
+			marca: marca,
+			banner: banner,
+			ajuste_publicidad: ajuste_publicidad
 		};
 	
 	var renderedhtml = ejs.render(html, obj);
@@ -1501,7 +1541,9 @@ app.get('/pdfprevio', function(req, res){
 			area: area,
 			division: division,
 			familia: familia,
-	   		marca: marca
+	   		marca: marca,
+	   		banner: banner,
+	   		ajuste_publicidad: ajuste_publicidad
    }); 
 });
 
@@ -1511,6 +1553,12 @@ app.post('/tipo_cambio/add', function(req, res){
     hide1 = '0px;';
     alerta_tipo = "success";
     content = "Tipo de cambio actualizado a " + tipo_cambio + " MXN por cada dólar.";
+	
+	ajuste_busqueda = "";
+    ajuste_carrito = "";
+    ajusteVendedor = "";
+    ajusteCliente = "";
+	ajuste_publicidad = "";
     
     console.log('alerta_cambio: ' + alerta_cambio);
 	
@@ -1569,7 +1617,9 @@ app.post('/tipo_cambio/add', function(req, res){
 			area: area,
 			division: division,
 			familia: familia,
-			marca: marca
+			marca: marca,
+			banner: banner,
+			ajuste_publicidad: ajuste_publicidad
 		});
     
 });
@@ -1578,6 +1628,12 @@ app.post('/cantidad/add', function(req, res){
 	
 	cantidad = req.body.cantidad;
 	var index = req.body.index;
+	
+	ajuste_busqueda = "";
+    ajuste_carrito = "show";
+    ajusteVendedor = "";
+    ajusteCliente = "";
+	ajuste_publicidad = "";
 	
 	productoArray2.forEach(function(producto2, i){
 		if(index == i){	
@@ -1647,7 +1703,9 @@ app.post('/cantidad/add', function(req, res){
 			area: area,
 			division: division,
 			familia: familia,
-			marca: marca
+			marca: marca,
+			banner: banner,
+			ajuste_publicidad: ajuste_publicidad
 		});
 	
 });
@@ -1660,7 +1718,11 @@ app.post('/descuento/add', function(req, res){
 	console.log("index: " + index);
     
     
-    
+    ajuste_busqueda = "";
+    ajuste_carrito = "show";
+    ajusteVendedor = "";
+    ajusteCliente = "";
+	ajuste_publicidad = "";
 	
 	productoArray2.forEach(function(producto2, i){
 		if(index == i){	
@@ -1734,7 +1796,9 @@ app.post('/descuento/add', function(req, res){
 			area: area,
 			division: division,
 			familia: familia,
-			marca: marca
+			marca: marca,
+			banner: banner,
+			ajuste_publicidad: ajuste_publicidad
 		});
 	
 });
@@ -1744,6 +1808,12 @@ app.post('/cambio_nombre/add', function(req,res){
 	var index = req.body.index;
 	
     alerta_tipo = "warning";
+	
+	ajuste_busqueda = "";
+    ajuste_carrito = "show";
+    ajusteVendedor = "";
+    ajusteCliente = "";
+	ajuste_publicidad = "";
     
 	productoArray2.forEach(function(producto2, i){
 		if(index == i){	
@@ -1812,7 +1882,9 @@ app.post('/cambio_nombre/add', function(req,res){
 			area: area,
 			division: division,
 			familia: familia,
-			marca: marca
+			marca: marca,
+			banner: banner,
+			ajuste_publicidad: ajuste_publicidad
 	});
 	
 });
@@ -1821,7 +1893,13 @@ app.post('/cambio_stock/add', function(req,res){
 	var stock_c = req.body.stock;
 	var index = req.body.index;
     
-    alerta_tipo = "warning"; 
+    alerta_tipo = "warning";
+	
+	ajuste_busqueda = "";
+    ajuste_carrito = "show";
+    ajusteVendedor = "";
+    ajusteCliente = "";
+	ajuste_publicidad = "";
 	
 	productoArray2.forEach(function(producto2, i){
 		if(index == i){	
@@ -1890,7 +1968,9 @@ app.post('/cambio_stock/add', function(req,res){
 			area: area,
 			division: division,
 			familia: familia,
-			marca: marca
+			marca: marca,
+			banner: banner,
+			ajuste_publicidad: ajuste_publicidad
 	});
 	
 });
@@ -1899,7 +1979,13 @@ app.post('/cambio_modelo/add', function(req,res){
 	var modelo_c = req.body.modelo;
 	var index = req.body.index;
     
-     alerta_tipo = "warning";
+    alerta_tipo = "warning";
+	
+	ajuste_busqueda = "";
+    ajuste_carrito = "show";
+    ajusteVendedor = "";
+    ajusteCliente = "";
+	ajuste_publicidad = "";
 	
 	productoArray2.forEach(function(producto2, i){
 		if(index == i){	
@@ -1963,7 +2049,9 @@ app.post('/cambio_modelo/add', function(req,res){
 			area: area,
 			division: division,
 			familia: familia,
-			marca: marca
+			marca: marca,
+			banner: banner,
+			ajuste_publicidad: ajuste_publicidad
 	});
 	
 });
@@ -1973,6 +2061,12 @@ app.post('/cambio_tiempo/add', function(req,res){
 	var index = req.body.index;
     
     alerta_tipo = "warning";
+	
+	ajuste_busqueda = "";
+    ajuste_carrito = "show";
+    ajusteVendedor = "";
+    ajusteCliente = "";
+	ajuste_publicidad = "";
 	
 	productoArray2.forEach(function(producto2, i){
 		if(index == i){	
@@ -2036,7 +2130,9 @@ app.post('/cambio_tiempo/add', function(req,res){
 			area: area,
 			division: division,
 			familia: familia,
-			marca: marca
+			marca: marca,
+			banner: banner,
+			ajuste_publicidad: ajuste_publicidad
 	});
 	
 });
@@ -2046,6 +2142,12 @@ app.post('/cambio_color_grano/add', function(req,res){
 	var index = req.body.index;
     
     alerta_tipo: "warning";
+	
+	ajuste_busqueda = "";
+    ajuste_carrito = "show";
+    ajusteVendedor = "";
+    ajusteCliente = "";
+	ajuste_publicidad = "";
 	
 	productoArray2.forEach(function(producto2, i){
 		if(index == i){	
@@ -2114,7 +2216,9 @@ app.post('/cambio_color_grano/add', function(req,res){
 			area: area,
 			division: division,
 			familia: familia,
-			marca: marca
+			marca: marca,
+			banner: banner,
+			ajuste_publicidad: ajuste_publicidad
 	});
 	
 });
@@ -2124,6 +2228,12 @@ app.post('/cambio_precio_usd/add', function(req,res){
 	var index = req.body.index;
     
     alerta_tipo = "warning";
+	
+	ajuste_busqueda = "";
+    ajuste_carrito = "show";
+    ajusteVendedor = "";
+    ajusteCliente = "";
+	ajuste_publicidad = "";
 	
 	productoArray2.forEach(function(producto2,i){
 			var mxn = producto2.precio_lista_unidad_mxn;
@@ -2290,7 +2400,9 @@ app.post('/cambio_precio_usd/add', function(req,res){
 			area: area,
 			division: division,
 			familia: familia,
-			marca: marca
+			marca: marca,
+			banner: banner,
+			ajuste_publicidad: ajuste_publicidad
 	});
 	
 });
@@ -2300,6 +2412,12 @@ app.post('/cambio_medida/add', function(req,res){
 	var index = req.body.index;
     
     alerta_tipo = "warning";
+	
+	ajuste_busqueda = "";
+    ajuste_carrito = "show";
+    ajusteVendedor = "";
+    ajusteCliente = "";
+	ajuste_publicidad = "";
 	
 	productoArray2.forEach(function(producto2, i){
 		if(index == i){	
@@ -2368,7 +2486,9 @@ app.post('/cambio_medida/add', function(req,res){
 			area: area,
 			division: division,
 			familia: familia,
-			marca: marca
+			marca: marca,
+			banner: banner,
+			ajuste_publicidad: ajuste_publicidad
 	});
 	
 });
@@ -2378,6 +2498,12 @@ app.post('/cambio_unidad/add', function(req,res){
 	var index = req.body.index;
     
     alerta_tipo = "warning";
+	
+	ajuste_busqueda = "";
+    ajuste_carrito = "show";
+    ajusteVendedor = "";
+    ajusteCliente = "";
+	ajuste_publicidad = "";
 	
 	productoArray2.forEach(function(producto2, i){
 		if(index == i){	
@@ -2441,7 +2567,9 @@ app.post('/cambio_unidad/add', function(req,res){
 			area: area,
 			division: division,
 			familia: familia,
-			marca: marca
+			marca: marca,
+			banner: banner,
+			ajuste_publicidad: ajuste_publicidad
 	});
 	
 });
@@ -2468,20 +2596,37 @@ app.post('/api/photo', function(req,res){
             return res.end("Error uploading file.");
         }
         var index = req.body.index;
-    
-        console.log('index: ' + index);
+		
+		if(index == "Banner"){
+			
+			banner =  '/img/uploads/'+indexref+'.jpg';
+			
+			content = "Agregaste el Banner " + indexref;
+		   	alerta_tipo = "warning";  
+			
+			ajuste_busqueda = "";
+			ajuste_carrito = "";
+			ajusteVendedor = "";
+			ajusteCliente = "";
+			ajuste_publicidad = "show";
+			
+		}else{
+			
+			console.log('index: ' + index);
         
-        dir[index] = '/img/uploads/'+indexref+'.jpg';
-        ref[index] = 1;
-        console.log('dir[index]: ' +  dir[index]);
-        console.log('dir: ' +  dir);
-        
-            productoArray2.forEach(function(producto2, i){
-                if(index == i){	
-                   content = "Cambiaste la foto de " + (producto2.nombre).substring(0, 15) + "..." + " por " + indexref;
-                   alerta_tipo = "warning";    
-                }
-            });
+			dir[index] = '/img/uploads/'+indexref+'.jpg';
+			ref[index] = 1;
+			console.log('dir[index]: ' +  dir[index]);
+			console.log('dir: ' +  dir);
+
+			productoArray2.forEach(function(producto2, i){
+				if(index == i){	
+				   content = "Cambiaste la foto de " + (producto2.nombre).substring(0, 15) + "..." + " por " + indexref;
+				   alerta_tipo = "warning";    
+				}
+			});
+			
+		};
     
         	res.render('pages/3m', {
 			desplegar: total_nodos,
@@ -2536,7 +2681,9 @@ app.post('/api/photo', function(req,res){
 			area: area,
 			division: division,
 			familia: familia,
-			marca: marca
+			marca: marca,
+			banner: banner,
+			ajuste_publicidad: ajuste_publicidad
 	});
     });
 });
@@ -2545,6 +2692,12 @@ app.post('/folio', function(req, res){
 	folio = parseInt(req.body.folio);
 	folio = folio + 1;
 	num_cot = folio;
+	
+	ajuste_busqueda = "";
+    ajuste_carrito = "";
+    ajusteVendedor = "show";
+    ajusteCliente = "";
+	ajuste_publicidad = "";
 	
     content = "El folio de esta cotización es " + folio + " Ahora ingresa los datos del cliente!";
     
@@ -2636,7 +2789,9 @@ app.post('/folio', function(req, res){
 			area: area,
 			division: division,
 			familia: familia,
-			marca: marca
+			marca: marca,
+			banner: banner,
+			ajuste_publicidad: ajuste_publicidad
 	});
 	
 });
@@ -2655,6 +2810,7 @@ app.post("/tiempo/entrega", function(req, res){
         ajuste_carrito = "";
         ajusteVendedor = "show";
         ajusteCliente = "";
+		ajuste_publicidad = ""
     
         content = "Tiempo de entrega de " + tiempo_entrega + " días";    
          
@@ -2712,7 +2868,9 @@ app.post("/tiempo/entrega", function(req, res){
 			area: area,
 			division: division,
 			familia: familia,
-			marca: marca
+			marca: marca,
+			banner: banner,
+			ajuste_publicidad: ajuste_publicidad
 	});
 });
 

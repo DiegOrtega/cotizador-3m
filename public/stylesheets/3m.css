@@ -151,7 +151,7 @@
     z-index: 5000;
 }
 .fondo {
-    background-image: url(/img/fondo.png);
+    background-image:  url(/img/fondo.jpg);
     background-size: auto;
 	position: relative;
 	margin: 0;

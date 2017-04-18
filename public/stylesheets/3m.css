@@ -44,7 +44,14 @@
     color: white;
 }
 
-
+.contenedorDatos1 {
+    background-color: #ffeedb;
+    min-height: 100px;
+    min-height: 100px !important;
+    border-radius: 5px;
+    margin-top: 20px;
+    color: #772E25;
+}
 
 
 .contenedorDatos {
@@ -53,7 +60,9 @@
     min-height: 100px !important;
     border-radius: 5px;
     margin-top: 20px;
-    color: #772E25
+    color: #772E25;
+	overflow:auto; 
+	height:500px;	
 }
 
 	.celda-centro{

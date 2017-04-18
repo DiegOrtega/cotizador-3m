@@ -338,14 +338,14 @@
 							<div class="col-lg-12 dropdown" data-toggle="tooltip" data-placement="top">
 								
 								<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-toggle="tooltip" data-placement="top" title="Realiza la búsqueda de productos!">
-								Opciones de búsqueda
-							   </button>
+								Búsqueda
+							   	</button>
 								
 								<form method="post" action="/busqueda/add" id="form1" class="dropdown-menu centro" aria-labelledby="dropdownMenuButton">	
-									<div class="form-control col-lg-12">
+									<div class="form-control col-lg-12" style="border-style: none;">
 										<input type="text" placeholder="Palabra Clave" size="50" name="desc" class="input" data-toggle="tooltip" data-placement="top" title="Escríbe una frase exacta o palabra relacionada con el producto">
 									</div>
-									<div class="form-control col-lg-12">
+									<div class="form-control col-lg-12" style="border-style: none;">
 										<input type="text" placeholder="&nbsp;Stock" size="25" name="stock" class="input" data-toggle="tooltip" data-placement="top" title="Escribe un fragmento o el # de stock completo">&ensp;
 										<input type="text" placeholder="Modelo" size="25" name="modelo" class="input"  data-toggle="tooltip" data-placement="top" title="Escribe un fragmento o el modelo completo">&ensp;
 										<input type="text" placeholder="Color/Grano" size="25" name="color_grano" class="input"  data-toggle="tooltip" data-placement="top" title="Conoces el grano o el color del producto?">
@@ -432,6 +432,7 @@
 																			<th>Litros</th>
 																			<th>KG/MTS</th>
 																			<th>Descripción</th>
+																			
 																		</tr>
 																	</thead>
 																	<tbody>
@@ -444,6 +445,7 @@
 																			<td><%=producto.litros%></td>
 																			<td><%=producto.kg_mts%></td>
 																			<td><%=producto.descripcion%></td>
+																			
 																		</tr>
 																	</tbody>
 																</table>
@@ -472,6 +474,9 @@
 																			<th>Modelo</th>
 																			<th>Color/Grano</th>
 																			<th>Medida</th>
+																			<th>Área</th>
+																			<th>División</th>
+																			<th>Familia</th>
 																		</tr>
 																	</thead>
 																	<tbody>
@@ -483,6 +488,9 @@
 																			<td><%=producto.modelo%></td>
 																			<td><%=producto.color_grano%></td>
 																			<td><%=producto.presentacion_medida%></td>
+																			<td><%=producto.area%></td>
+																			<td><%=producto.division%></td>
+																			<td><%=producto.familia%></td>
 																		</tr>
 																	</tbody>
 																</table>

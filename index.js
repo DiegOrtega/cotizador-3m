@@ -511,7 +511,8 @@ app.post('/busqueda/add', function(req, res){
 				content = "No se encontró ningún producto con esa descripción.";
 				alerta_tipo = "warning";
 			}else{
-				content = "Búsqueda exitosa! Selecciona los productos que quieres cotizar.";
+				content = "Búsqueda exitosa! Selecciona los productos que quieres cotizar. El tamaño del resultado es de " + productoArray.length + " productos.";
+				
 				alerta_tipo = "success";
 			}
 

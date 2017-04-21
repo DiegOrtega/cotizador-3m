@@ -45,7 +45,7 @@ var graphenedbPass1 = process.env.GRAPHENEDB_COPPER_BOLT_PASSWORD;
 
 //Variables internas (No mover)
 
-var total_nodos, nombre = null, empresa, telefono, mail, productoArray = [], productoArray2 = [], vendedor = null, num_vendedor, num_cot = 0, descuento, extension, email_vendedor, tiempo_entrega, check, tipo_cambio=18, precio, stock_num, modelo, desc, nombre_p, stock_c, modelo_c, color_grano_c, tiempo_c, precio_c, medida_c, unidad_c, unidad_c, vendedorArray = [],  dir = [], ref=[], indexref = 0, folio = 0, alerta_cambio = false, alerta_datos = false, alerta_cantidad = false, alerta_descuento = false, cambio_nombre = false, cambio_stock = false, cambio_modelo = false, cambio_tiempo = false, cambio_color = false, cambio_precio = false, cambio_medida = false, cambio_unidad = false, cambio_api = false, cambio_folio = false, alerta_busqueda= false, alerta_carrito = false, alerta_datos2= false, alerta_eliminacion = false, ajuste_busqueda = "" , cont = 0, ajuste_carrito = "", hide1 = '-700px', content = '', alerta_tipo = 'success', ajusteVendedor = "", cont2 = 0, ajusteCliente, color_grano, medida, area, division, familia, marca, banner, ajuste_publicidad;
+var total_nodos, nombre = null, empresa, telefono, mail, productoArray = [], productoArray2 = [], vendedor = null, num_vendedor, num_cot = 0, descuento, extension, email_vendedor, tiempo_entrega, check, tipo_cambio=18, precio, stock_num, modelo, desc, nombre_p, stock_c, modelo_c, color_grano_c, tiempo_c, precio_c, medida_c, unidad_c, unidad_c, vendedorArray = [],  dir = [], ref=[], indexref = 0, indexref2 = 0,  folio = 0, alerta_cambio = false, alerta_datos = false, alerta_cantidad = false, alerta_descuento = false, cambio_nombre = false, cambio_stock = false, cambio_modelo = false, cambio_tiempo = false, cambio_color = false, cambio_precio = false, cambio_medida = false, cambio_unidad = false, cambio_api = false, cambio_folio = false, alerta_busqueda= false, alerta_carrito = false, alerta_datos2= false, alerta_eliminacion = false, ajuste_busqueda = "" , cont = 0, ajuste_carrito = "", hide1 = '-700px', content = '', alerta_tipo = 'success', ajusteVendedor = "", cont2 = 0, ajusteCliente, color_grano, medida, area, division, familia, marca, banner, ajuste_publicidad;
 
 //Protocolo de conexión para servidor cloud heroku
 
@@ -143,6 +143,7 @@ app.get('/', function(request, response){
 					vendedorArray: vendedorArray,
 					dir: dir,
                     indexref: indexref,
+                    indexref2: indexref2,
 					folio: folio,
                     alerta_cambio: alerta_cambio,
                     alerta_datos: alerta_datos,
@@ -228,6 +229,7 @@ app.get('/3m', function(req, res) {
 					vendedorArray: vendedorArray,
 					dir: dir,
                     indexref: indexref,
+					indexref2: indexref2,
 					folio: folio,
                     alerta_cambio: alerta_cambio,
                     alerta_datos: alerta_datos,
@@ -311,6 +313,7 @@ app.post('/contacto/add', function(req, res){
 				vendedorArray: vendedorArray,
 				dir: dir,
                 indexref: indexref,
+				indexref2: indexref2,
 				folio: folio,
                 alerta_cambio: alerta_cambio,
                 alerta_datos: alerta_datos,
@@ -463,7 +466,7 @@ app.post('/busqueda/add', function(req, res){
 	console.log(stock_num +" "+ desc+" "+modelo+" "+color_grano+" "+medida);
 	
 	session
-		.run("MATCH (n {LABEL:'Producto3M'}) WHERE n.STOCK =~ {stock_1} OR n.AREA =~ {area} OR n.COLOR_GRANO =~ {color_grano} OR n.AIL_CODIGO_SAE =~ {key} OR n.CORMA_CODIGO_SAE =~{key} OR n.DESCRIPCION_AMPLIA1 =~{key} OR n.DESCRIPCION_AMPLIA2 =~{key} OR n.DESCRIPCION_AMPLIA3 =~{key} OR n.DESCUENTO =~{key} OR n.DIVISION =~{division} OR n.FAMILIA =~{familia} OR n.MODELO =~ {modelo} OR n.NOMBRE =~{key} OR n.PIEZAS_CAJA =~{key} OR n.STOCK2 =~ {stock_1} OR n.UPC =~ {key} OR n.PRESENTACION_MEDIDA  =~ {medida} RETURN n LIMIT 100", {stock_1: ".*"+stock_num+".*", key: ".*(?i)"+desc+".*", modelo:".*(?i)"+modelo+".*", color_grano:".*(?i)"+color_grano+".*", medida:".*(?i)"+medida+".*", area:".*(?i)"+area+".*", division:".*(?i)"+division+".*", familia:".*(?i)"+familia+".*"  })
+		.run("MATCH (n {LABEL:'Producto3M'}) WHERE n.STOCK =~ {stock_1} OR n.AREA =~ {area} OR n.COLOR_GRANO =~ {color_grano} OR n.AIL_CODIGO_SAE =~ {key} OR n.CORMA_CODIGO_SAE =~{key} OR n.DESCRIPCION_AMPLIA1 =~{key} OR n.DESCRIPCION_AMPLIA2 =~{key} OR n.DESCRIPCION_AMPLIA3 =~{key} OR n.DESCUENTO =~{key} OR n.DIVISION =~{division} OR n.FAMILIA =~{familia} OR n.MODELO =~ {modelo} OR n.NOMBRE =~{key} OR n.PIEZAS_CAJA =~{key} OR n.STOCK2 =~ {stock_1} OR n.UPC =~ {key} OR n.PRESENTACION_MEDIDA  =~ {medida} RETURN n ORDER BY n.NOMBRE LIMIT 100", {stock_1: ".*"+stock_num+".*", key: ".*(?i)"+desc+".*", modelo:".*(?i)"+modelo+".*", color_grano:".*(?i)"+color_grano+".*", medida:".*(?i)"+medida+".*", area:".*(?i)"+area+".*", division:".*(?i)"+division+".*", familia:".*(?i)"+familia+".*"  })
 		.then(function(result2){
 			result2.records.forEach(function(record){
 				productoArray.push({
@@ -539,6 +542,7 @@ app.post('/busqueda/add', function(req, res){
 				vendedorArray: vendedorArray,
 				dir: dir,
 				indexref: indexref,
+				indexref2: indexref2,
 				folio: folio,
 				alerta_cambio: alerta_cambio,
 				alerta_datos: alerta_datos,
@@ -663,6 +667,7 @@ app.post('/busqueda/add', function(req, res){
 				vendedorArray: vendedorArray,
 				dir: dir,
 				indexref: indexref,
+				indexref2: indexref2,
 				folio: folio,
 				alerta_cambio: alerta_cambio,
 				alerta_datos: alerta_datos,
@@ -846,6 +851,7 @@ app.post('/carrito/add', function(req, res){
 				vendedorArray: vendedorArray,
 				dir: dir,
                 indexref: indexref,
+				indexref2: indexref2,
 				folio: folio,
                 alerta_cambio: alerta_cambio,
                 alerta_datos: alerta_datos,
@@ -975,6 +981,7 @@ app.post('/carrito/add', function(req, res){
 				vendedorArray: vendedorArray,
 				dir: dir,
                 indexref: indexref,
+				indexref2: indexref2,
 				folio: folio,
                 alerta_cambio: alerta_cambio,
                 alerta_datos: alerta_datos,
@@ -1072,6 +1079,7 @@ app.post('/eliminacion/add', function(req, res){
 			vendedorArray: vendedorArray,
 			dir: dir,
             indexref: indexref,
+			indexref2: indexref2,
 			folio: folio,
             alerta_cambio: alerta_cambio,
             alerta_datos: alerta_datos,
@@ -1157,6 +1165,7 @@ app.post('/datos/add', function(req, res){
 			vendedorArray: vendedorArray,
 			dir: dir,
             indexref: indexref,
+			indexref2: indexref2,
 			folio: folio,
             alerta_cambio: alerta_cambio,
             alerta_datos: alerta_datos,
@@ -1230,6 +1239,7 @@ app.post('/download', function(req, res){
 			vendedorArray: vendedorArray,
 			dir: dir,
             indexref: indexref,
+			indexref2: indexref2,
 			folio: folio,
             alerta_cambio: alerta_cambio,
             alerta_datos: alerta_datos,
@@ -1482,7 +1492,7 @@ app.get('/pdfprevio', function(req, res){
                 var dir_min = 'http://www.ail.com.mx/imgprod/'+producto2.id_db+'-'+producto2.modelo+'.jpg';
                 dir[index] = dir_min.toLowerCase().replace(/\s+/g, '');
             }else if(ref[index] == 1){
-                dir[index] = '/img/uploads/'+indexref+'.jpg';
+                dir[index] = '/img/uploads/'+indexref2+'.jpg';
             }; 
             console.log('dir['+ index +']:' + dir[index]);
 				 
@@ -1511,6 +1521,7 @@ app.get('/pdfprevio', function(req, res){
             vendedorArray: vendedorArray,
             dir: dir,
             indexref: indexref,
+            indexref2: indexref2,
             folio: folio,
             alerta_cambio: alerta_cambio,
             alerta_datos: alerta_datos,
@@ -1586,6 +1597,7 @@ app.post('/tipo_cambio/add', function(req, res){
 			vendedorArray: vendedorArray,
 			dir: dir,
             indexref: indexref,
+			indexref2: indexref2,
 			folio: folio,
             alerta_cambio: alerta_cambio,
             alerta_cambio: alerta_cambio,
@@ -1673,6 +1685,7 @@ app.post('/cantidad/add', function(req, res){
 			vendedorArray: vendedorArray,
 			dir: dir,
             indexref: indexref,
+			indexref2: indexref2,
 			folio: folio,
             alerta_cambio: alerta_cambio,
             alerta_datos: alerta_datos,
@@ -1766,6 +1779,7 @@ app.post('/descuento/add', function(req, res){
 			vendedorArray: vendedorArray,
 			dir: dir,
             indexref: indexref,
+			indexref2: indexref2,
 			folio: folio,
             alerta_cambio: alerta_cambio,
             alerta_datos: alerta_datos,
@@ -1853,6 +1867,7 @@ app.post('/cambio_nombre/add', function(req,res){
             vendedorArray: vendedorArray,
             dir: dir,
             indexref: indexref,
+			indexref2: indexref2,
             folio: folio,
             alerta_cambio: alerta_cambio,
             alerta_datos: alerta_datos,
@@ -1939,6 +1954,7 @@ app.post('/cambio_stock/add', function(req,res){
             vendedorArray: vendedorArray,
             dir: dir,
             indexref: indexref,
+			indexref2: indexref2,
             folio: folio,
             alerta_cambio: alerta_cambio,
             alerta_datos: alerta_datos,
@@ -2020,6 +2036,7 @@ app.post('/cambio_modelo/add', function(req,res){
             vendedorArray: vendedorArray,
             dir: dir,
             indexref: indexref,
+			indexref2: indexref2,
             folio: folio,
             alerta_cambio: alerta_cambio,
             alerta_datos: alerta_datos,
@@ -2101,6 +2118,7 @@ app.post('/cambio_tiempo/add', function(req,res){
             vendedorArray: vendedorArray,
             dir: dir,
             indexref: indexref,
+			indexref2: indexref2,
             folio: folio,
             alerta_cambio: alerta_cambio,
             alerta_datos: alerta_datos,
@@ -2187,6 +2205,7 @@ app.post('/cambio_color_grano/add', function(req,res){
             vendedorArray: vendedorArray,
             dir: dir,
             indexref: indexref,
+			indexref2: indexref2,
             folio: folio,
             alerta_cambio: alerta_cambio,
             alerta_datos: alerta_datos,
@@ -2371,6 +2390,7 @@ app.post('/cambio_precio_usd/add', function(req,res){
             vendedorArray: vendedorArray,
             dir: dir,
             indexref: indexref,
+			indexref2: indexref2,
             folio: folio,
             alerta_cambio: alerta_cambio,
             alerta_datos: alerta_datos,
@@ -2457,6 +2477,7 @@ app.post('/cambio_medida/add', function(req,res){
             vendedorArray: vendedorArray,
             dir: dir,
             indexref: indexref,
+			indexref2: indexref2,
             folio: folio,
             alerta_cambio: alerta_cambio,
             alerta_datos: alerta_datos,
@@ -2538,6 +2559,7 @@ app.post('/cambio_unidad/add', function(req,res){
             vendedorArray: vendedorArray,
             dir: dir,
             indexref: indexref,
+			indexref2: indexref2,
             folio: folio,
             alerta_cambio: alerta_cambio,
             alerta_datos: alerta_datos,
@@ -2576,29 +2598,34 @@ app.post('/cambio_unidad/add', function(req,res){
 });
 
 //Image upload
+	var storage = multer.diskStorage({
+	  destination: function (req, file, callback) {
+		callback(null, './public/img/uploads');
+	  },
+	  filename: function (req, file, callback) {  
+		callback(null, file.originalname + '.jpg')
+		indexref = file.originalname;
+		 console.log('indexref ' + indexref); 
+	  }
+	});
 
-var storage = multer.diskStorage({
-  destination: function (req, file, callback) {
-    callback(null, './public/img/uploads');
-  },
-  filename: function (req, file, callback) {  
-    callback(null, file.originalname + '.jpg')
-    indexref = file.originalname;
-  }
-});
+	var upload = multer({ storage : storage}).single('producto');
 
-console.log('indexref: ' + indexref)
-var upload = multer({ storage : storage}).single('producto');
 
-app.post('/api/photo', function(req,res){
+app.post('/publicidad/photo', function(req,res){
 
     upload(req,res,function(err) {
         if(err) {
             return res.end("Error uploading file.");
         }
+		
         var index = req.body.index;
 		
+		console.log('index ' + index);
+		
 		if(index == "Banner"){
+			
+			console.log('indexref2 = ' + indexref  );
 			
 			banner =  '/img/uploads/'+indexref+'.jpg';
 			
@@ -2611,11 +2638,89 @@ app.post('/api/photo', function(req,res){
 			ajusteCliente = "";
 			ajuste_publicidad = "show";
 			
-		}else{
+			console.log("Banner!!");
+			
+		}
+    
+        	res.render('pages/3m', {
+			desplegar: total_nodos,
+			nombre: nombre,
+			empresa: empresa,
+			telefono: telefono,
+			mail: mail,
+			productos: productoArray,
+			prod_agregados: productoArray2,
+			vendedor: vendedor,
+			num_vendedor: num_vendedor,
+			num_cot: num_cot,
+			extension: extension,
+			email_vendedor: email_vendedor,
+			tiempo_entrega: tiempo_entrega,
+			tipo_cambio: tipo_cambio,
+			fecha: fecha, 
+			precio: precio,
+			stock_num: stock_num,
+			desc: desc,
+			modelo: modelo,
+			vendedorArray: vendedorArray,
+			dir: dir,
+            indexref: indexref,
+			indexref2: indexref2,
+			folio: folio,
+            alerta_cambio: alerta_cambio,
+            alerta_datos: alerta_datos,
+            alerta_busqueda: alerta_busqueda,
+            alerta_carrito: alerta_carrito,
+            alerta_datos2: alerta_datos2,
+            alerta_cantidad: alerta_cantidad, 
+            alerta_descuento: alerta_descuento,
+            cambio_nombre: cambio_nombre, 
+            cambio_stock: cambio_stock, 
+            cambio_modelo: cambio_modelo, 
+            cambio_tiempo: cambio_tiempo, 
+            cambio_color: cambio_color, 
+            cambio_precio: cambio_precio,
+            cambio_medida: cambio_medida, 
+            cambio_unidad: cambio_unidad, 
+            cambio_api: cambio_api,
+            cambio_folio: cambio_folio,
+            alerta_eliminacion: alerta_eliminacion,
+            ajuste_busqueda: ajuste_busqueda,
+            ajuste_carrito: ajuste_carrito,
+            ajusteVendedor: ajusteVendedor,
+            ajusteCliente: ajusteCliente,
+            alerta_tipo: alerta_tipo,
+            content: content,
+			color_grano: color_grano,
+			medida: medida,
+			area: area,
+			division: division,
+			familia: familia,
+			marca: marca,
+			banner: banner,
+			ajuste_publicidad: ajuste_publicidad
+	});
+    }); 
+	
+});
+	
+	app.post('/api/photo', function(req,res){
+	
+	upload(req,res,function(err) {
+        if(err) {
+            return res.end("Error uploading file.");
+        }
+		
+        var index = req.body.index;
+		
+		console.log('index ' + index);
+		
+		if(index != "Banner"){
 			
 			console.log('index: ' + index);
         
 			dir[index] = '/img/uploads/'+indexref+'.jpg';
+			indexref2 = indexref;
 			ref[index] = 1;
 			console.log('dir[index]: ' +  dir[index]);
 			console.log('dir: ' +  dir);
@@ -2627,6 +2732,8 @@ app.post('/api/photo', function(req,res){
 				}
 			});
 			
+			
+			console.log("FOTO!!");
 		};
     
         	res.render('pages/3m', {
@@ -2652,6 +2759,7 @@ app.post('/api/photo', function(req,res){
 			vendedorArray: vendedorArray,
 			dir: dir,
             indexref: indexref,
+			indexref2: indexref2,
 			folio: folio,
             alerta_cambio: alerta_cambio,
             alerta_datos: alerta_datos,
@@ -2759,6 +2867,7 @@ app.post('/folio', function(req, res){
 			vendedorArray: vendedorArray,
 			dir: dir,
             indexref: indexref,
+			indexref2: indexref2,
 			folio: folio,
             alerta_cambio: alerta_cambio,
             alerta_datos: alerta_datos,
@@ -2838,6 +2947,7 @@ app.post("/tiempo/entrega", function(req, res){
 			vendedorArray: vendedorArray,
 			dir: dir,
             indexref: indexref,
+			indexref2: indexref2,
 			folio: folio,
             alerta_cambio: alerta_cambio,
             alerta_datos: alerta_datos,

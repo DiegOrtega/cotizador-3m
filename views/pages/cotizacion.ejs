@@ -7,7 +7,12 @@
 	
 </head>
 	
-<body class="subfondo">
+<body class="fondo subfondo" onload="myFunction()">
+    
+    <div id="loader"></div>
+    
+    <div style="display:none;" id="myDiv" class="animate-bottom">
+    
     <%prod_agregados.forEach(function(producto2, index){	
     if(producto2.descuento > 30){ %>
         <div class="alert alert-danger alert-dismissible fade show" role="alert" >
@@ -578,12 +583,25 @@
             <p>ctrl + p en <strong>Windows</strong> </p>
             <p>cmd + p en <strong>Apple</strong> </p>
     </div>
-
+    </div>
 
 </body>
 </html>
 
 <script>
+
+			var myVar;
+
+			function myFunction() {
+				myVar = setTimeout(showPage, 1);
+			}
+
+			function showPage() {
+			  document.getElementById("loader").style.display = "none";
+			  document.getElementById("myDiv").style.display = "block";
+			}
+		
+		
 </script>
 
 <% include ../partials/3m_refs.ejs %>

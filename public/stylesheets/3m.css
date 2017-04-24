@@ -155,6 +155,7 @@
 #floating_alert2 {
     width: 500px;
     position: fixed;
+    
     top: 300px;
     right: 450px;
     z-index: 5000;

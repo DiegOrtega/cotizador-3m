@@ -46,10 +46,21 @@
 				
 			</div>
 		</div>
+        
 
 	</div>
 	
-	<br>
+    <div class="row">
+            <div class="col-lg-12" style="margin:20px;">
+            <h6 class="centro" >
+                <a href="http://www.ail.com.mx" style="color:red">www.ail.com.mx</a>
+				Cafetal 368. Col. Granjas 	México, Iztacalco. CDMX 
+                (55)6223-0858 || (55)2235-5565 
+            </h6>
+            </div>
+        </div>
+    
+	
 	
     <div class="container centro" style="margin:0 auto;">
         <div class="row">
@@ -59,13 +70,14 @@
 					<div class="container-fluid">
 						<div class="row">
 							<div class="col-lg-12" style="text-align:center;">
-								<h3><img src="/img/user.png" class="thumbnail" style="height:30px;"> Cliente</h3>
+								<!-- <h3> Cliente</h3> -->
 							</div>
 						</div>
 					</div>
 					
 					<tbody>
 						<tr class="">
+                            <th></th>
 							<th class="" >Nombre</th>
 							<th class="">Empresa</th>
 							<th class="">Teléfono</th>
@@ -73,11 +85,14 @@
 						</tr>
 						
 						<tr class="">
+                            <th><img src="/img/user.png" class="thumbnail" style="height:30px;"> Cliente</th>
 							<td class=""><%=nombre%></td>
 							<td class=""><%=empresa%></td>
 							<td class=""><%=telefono%></td>
 							<td class=""><%=mail%> </td>
 						</tr>
+                        
+                       
 					</tbody>
 					
 				</table>
@@ -97,7 +112,7 @@
 
 						<thead class="">
 							<tr class="">
-								<th colspan="14" class="celda-centro" ><h2><i class="fa fa-dropbox thumbnail" aria-hidden="true"></i> Productos Agregados a Cotización</h2></th>
+								<th colspan="14" class="celda-centro" ><h2><i class="fa fa-cube thumbnail" aria-hidden="true"></i> Productos Agregados a Cotización</h2></th>
 							</tr>
 							<tr>
 								<th colspan="14" ><h5 style="text-align: center;" >Tipo de cambio $<%= tipo_cambio %> MXN</h5></th>
@@ -312,7 +327,7 @@
 									<%= producto2.cantidad%>
 									</td>
 									<td>
-										<img src="<%=dir[index]%>" style="max-height:50px;" >
+										<img src="<%=dir[index]%>" style="max-height:50px; " >
 									</td>
 									<td>
 										<%=producto2.nombre%>
@@ -401,8 +416,7 @@
 									<div class="container-fluid">
 										<div class="row">
 											<div class="col-lg-12" style="text-align:center;">
-												<h3><img src="/img/vendedor.png" style="height:30px; padding:0px;" class="thumbnai"> 
-												Vendedor</h3>
+												
 											</div>
 										</div>
 									</div>
@@ -410,6 +424,7 @@
 							</tr>
 						</thead>	
 							<tr class="">
+                                <th></th>
 								<th class="">
 									Vendedor
 								</th>
@@ -431,6 +446,9 @@
 							</tr>
 					<tbody>	
 						<tr class="">
+                            <td><img src="/img/vendedor.png" style="height:30px; padding:0px;" class="thumbnai">  
+                            Vendedor
+                            </td>
 							<td class="">
 								<%=vendedor%>
 							</td>
@@ -475,19 +493,16 @@
 			<table class="table centro"> 
 				<thead >
 					<tr>
-						<th colspan="3" style="text-align:center; margin: 0 auto;"><h4>Artículos Innovadores Leo, S.A. de C.V.</h4></th>
+						<th colspan="4" style="text-align:center; margin: 0 auto;"><h4>Información de Pago de Artículos Innovadores Leo, S.A. de C.V.</h4></th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>Banco</td>
-						<td>Cuenta</td>
-						<td>Clabe</td>
-					</tr>
+					
 					<tr>
 						<td><img src="/img/Bancomer.png" style="height:75px;"></td>
-						<td>184605934</td>
-						<td>012180001846059342</td>
+						<td>Cuenta 184605934</td>
+						<td>Clabe 012180001846059342</td>
+                        <td>RFC AIL110112P34</td>
 					</tr>
 				</tbody>
 			</table>
@@ -544,7 +559,7 @@
 				  	<h2><i class="fa fa-globe" aria-hidden="true"></i><a href="http://www.ail.com.mx" 	style="color:red;" target="_blank"> www.ail.com.mx</a></h2>
 				  	<h3><i class="fa fa-map-marker" aria-hidden="true"></i> Cafetal 368. Col. Granjas 	México, Iztacalco. CDMX</h3>
 				  	<h3><i class="fa fa-phone" aria-hidden="true"></i> (55)6223-0858 || (55)2235-5565  </h3>
-					<h3><i class="fa fa-facebook-square" aria-hidden="true"></i> @ArticulosInnLeo</h3>
+					<h3><a href="https://www.facebook.com/leo.articulos" style="color:#3b5998;" target="_blank"><i class="fa fa-facebook-square" aria-hidden="true" href=""></i> @ArticulosInnLeo</a></h3>
 					<h3><i class="fa fa-twitter" aria-hidden="true"></i> @leo.articulos</h3>
 				</blockquote>
 			  </div>
